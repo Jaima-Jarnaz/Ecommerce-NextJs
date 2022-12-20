@@ -1,0 +1,27 @@
+//Flex
+// Flexbox
+@mixin displayFlex($direction: null, $jusContent: null, $alignment: null) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $jusContent;
+  align-items: $alignment;
+}
+
+///Responsive devices
+@mixin pc() {
+  @media only screen and (min-width: $WIDTH-PC) {
+    @content;
+  }
+}
+
+@mixin tab() {
+  @media only screen and (max-width: ($WIDTH-SMALL-PC - 1)) and (min-width: $WIDTH-TAB) {
+    @content;
+  }
+}
+
+@mixin sp() {
+  @media only screen and (max-width: ($WIDTH-TAB - 1)) and (min-width: $WIDTH-SPL) {
+    @content;
+  }
+}
