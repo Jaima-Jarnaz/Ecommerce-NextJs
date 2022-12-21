@@ -1,11 +1,10 @@
-import Button from "../../components/atoms/button";
+import Cards from "../../components/organisms/cards";
+import Container from "../../components/atoms/container";
 const ProductsList = () => {
   return (
-    <section>
-      <span className="list">All products</span>
-      <Button>Click</Button>
-      <h1>Hello Everyone</h1>
-    </section>
+    <Container>
+      <Cards />
+    </Container>
   );
 };
 

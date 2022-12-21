@@ -3,20 +3,35 @@ import Link from "next/link";
 const Header = () => {
   return (
     <header className="o-header">
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/products">Products</Link>
-        </li>
-        <li>
-          <Link href="/cart">Cart</Link>
-        </li>
-        <li>
-          <Link href="/signin">Sign In</Link>
-        </li>
-      </ul>
+      <nav className="o-header__navbar">
+        <a className="o-header__brand" href="#">
+          Fashionava
+        </a>
+        <div className="o-header__navbarCollapse">
+          <ul className="o-header__navbarNav">
+            <li className="o-header__navItem">
+              <Link href="/" className="o-header__navLink">
+                Home
+              </Link>
+            </li>
+            <li className="o-header__navItem">
+              <Link href="/products" className="o-header__navLink">
+                Products
+              </Link>
+            </li>
+            <li className="o-header__navItem">
+              <Link href="/cart" className="o-header__navLink">
+                Cart
+              </Link>
+            </li>
+            <li className="o-header__navItem">
+              <Link href="/signin" className="o-header__navLink">
+                Sign In
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 };

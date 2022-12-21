@@ -1,5 +1,30 @@
 .o-header {
   width: 100%;
-  height: 50px;
+  max-height: 80px;
   background-color: $color-primary;
+
+  &__navbar {
+    @include displayFlex(row, space-between, center);
+    padding: 0px 40px;
+  }
+
+  &__brand {
+    font-size: 30px;
+    font-weight: 400;
+    font-style: italic;
+    color: $color-white;
+  }
+
+  &__navbarNav {
+    list-style: none;
+  }
+
+  &__navItem {
+    display: inline-block;
+    margin: 12px;
+  }
+  &__navLink {
+    font-size: 18px;
+    color: $color-white;
+  }
 }

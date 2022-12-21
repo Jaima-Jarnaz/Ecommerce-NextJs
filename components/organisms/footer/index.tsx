@@ -1,7 +1,8 @@
+import Text from "../../atoms/text";
 const Footer = () => {
   return (
-    <footer>
-      <h2>Created by Jaima Jarnaz</h2>
+    <footer className="o-footer">
+      <Text>Created by Jaima Jarnaz</Text>
     </footer>
   );
 };
