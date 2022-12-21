@@ -1,3 +1,6 @@
 .o-cards {
-  @include displayFlex(column, space-between, center);
+  @include displayFlex(row, center, null);
+  column-gap: 25px;
+  flex-wrap: wrap;
+  row-gap: 25px;
 }

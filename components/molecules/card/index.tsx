@@ -11,7 +11,7 @@ export type CardProps = {
 export const Card: React.FC<CardProps> = ({ src, title, description }) => {
   return (
     <div className="m-card">
-      <Image src={src} alt="Picture of the author" width={280} height={300} />
+      <Image src={src} alt="Picture of the author" width={250} height={250} />
       <div className="m-card__content">
         <h5 className="m-card__title">{title}</h5>
         <Text>{description}</Text>
