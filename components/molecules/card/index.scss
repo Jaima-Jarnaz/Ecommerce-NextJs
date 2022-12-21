@@ -1,13 +1,10 @@
 .m-card {
   width: 20%;
   min-height: 300px;
-  padding: 25px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  &__image {
-    width: 100%;
-    height: 300px;
-  }
+  padding: 18px;
+  box-shadow: $color-box-shadow-primary 0px 1px 2px 0px,
+    $color-box-shadow-secondary 0px 1px 3px 1px;
+
   &__content {
     margin-top: 12px;
   }

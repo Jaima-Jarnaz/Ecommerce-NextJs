@@ -1,0 +1,3 @@
+.o-cards {
+  @include displayFlex(column, space-between, center);
+}

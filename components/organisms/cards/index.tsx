@@ -1,9 +1,21 @@
-import Card from "../../molecules/card";
+import { Card, CardProps } from "../../molecules/card";
 
-const Cards = () => {
+export interface CardsProps {
+  productData: CardProps[];
+}
+const Cards: React.FC<CardsProps> = ({ productData }) => {
   return (
     <section className="o-cards">
-      <Card />
+      {productData.map((item, index) => {
+        return (
+          <Card
+            src={item.src}
+            title={item.title}
+            description={item.description}
+            key={index}
+          />
+        );
+      })}
     </section>
   );
 };

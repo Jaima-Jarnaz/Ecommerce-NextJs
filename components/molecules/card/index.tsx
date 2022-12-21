@@ -1,29 +1,24 @@
 import Text from "../../atoms/text";
 import Image from "next/image";
 import Button from "../../atoms/button";
-import headphone from "../../../public/headphone.jpeg";
 
-export interface CardProps {
+export type CardProps = {
   src: string;
-}
+  title: string;
+  description: string;
+};
 
-const Card = () => {
+export const Card: React.FC<CardProps> = ({ src, title, description }) => {
   return (
     <div className="m-card">
-      <Image
-        src={headphone}
-        className="m-card__image"
-        alt="Picture of the author"
-      />
+      <Image src={src} alt="Picture of the author" width={280} height={300} />
       <div className="m-card__content">
-        <h5 className="m-card__title">Card title</h5>
-        <Text>Product quality is very good.</Text>
+        <h5 className="m-card__title">{title}</h5>
+        <Text>{description}</Text>
         <div className="m-card__button">
-          <Button>Add to card</Button>
+          <Button>Add To Card</Button>
         </div>
       </div>
     </div>
   );
 };
-
-export default Card;
