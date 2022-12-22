@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 function initDB() {
   if (mongoose.connections[0].readyState) {
-    console.log("alredy connected");
+    console.log("already connected");
     return;
   }
   mongoose.connect(process.env.DATABASE_URL, {
@@ -14,7 +14,7 @@ function initDB() {
   });
 
   mongoose.connection.on("error", (err) => {
-    console.log("Error occured", err);
+    console.log("Error occurred", err);
   });
 }
 
