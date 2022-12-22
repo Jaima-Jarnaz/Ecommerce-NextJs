@@ -1,4 +1,23 @@
 .a-container {
+  $root: &;
   margin-top: 30px;
   margin-bottom: 30px;
+
+  &--300 {
+    width: 300px;
+  }
+
+  &--400 {
+    width: 400px;
+  }
+
+  &--center {
+    text-align: center;
+  }
+
+  &--flex {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 }

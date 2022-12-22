@@ -1,0 +1,11 @@
+.a-input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  box-shadow: $color-box-shadow-primary 0px 1px 2px 0px,
+    $color-box-shadow-secondary 0px 1px 3px 1px;
+  border-radius: 8px;
+  &__label {
+    font-size: 16px;
+  }
+}

@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { mapModifiers } from "../../../helpers/libs/utils";
 
 const Header = () => {
   return (
-    <header className="o-header">
+    <header className={mapModifiers("o-header")}>
       <nav className="o-header__navbar">
         <a className="o-header__brand" href="#">
           Fashionava
@@ -25,7 +26,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/signin" className="o-header__navLink">
+              <Link href="/auth/signin" className="o-header__navLink">
                 Sign In
               </Link>
             </li>

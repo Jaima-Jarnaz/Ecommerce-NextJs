@@ -1,7 +1,7 @@
 .o-header {
+  $root: &;
   width: 100%;
   max-height: 80px;
-  //background-color: $color-primary;
   background: $color-gradient-primary;
 
   &__navbar {
@@ -27,5 +27,11 @@
   &__navLink {
     font-size: 18px;
     color: $color-white;
+  }
+
+  &--active {
+    #{$root}__navItem {
+      opacity: 0.7;
+    }
   }
 }
