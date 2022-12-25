@@ -1,9 +1,13 @@
-import Input from "../../../components/atoms/input";
-import Container from "../../../components/atoms/container";
+import Input from "@/components/atoms/input";
+import Container from "@/components/atoms/container";
+import Heading from "@/components/atoms/heading";
+
 const Signin = () => {
   return (
-    <Container width="400" display="flex">
-      <h3>Sign In</h3>
+    <Container width="400" margin="middle">
+      <Container>
+        <Heading tag="h4">Sign In</Heading>
+      </Container>
       <Input type="email" label="Email" />
       <Input type="password" label="Password" />
     </Container>

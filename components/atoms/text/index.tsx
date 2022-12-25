@@ -1,8 +1,13 @@
+import { mapModifiers } from "helpers/libs/utils";
 export interface TextProps {
   children: React.ReactNode;
+  fontSize?: "18" | "16" | "14" | "12";
+  fontWeight?: "bold";
 }
-const Text: React.FC<TextProps> = ({ children }) => {
-  return <p className="a-text">{children}</p>;
+const Text: React.FC<TextProps> = ({ children, fontSize, fontWeight }) => {
+  return (
+    <p className={mapModifiers("a-text", fontSize, fontWeight)}>{children}</p>
+  );
 };
 
 export default Text;

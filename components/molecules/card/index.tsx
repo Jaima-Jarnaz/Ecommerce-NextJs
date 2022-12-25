@@ -1,23 +1,36 @@
-import Text from "../../atoms/text";
+import Text from "@/components/atoms/text";
 import Image from "next/image";
-import Button from "../../atoms/button";
-
+import Button from "@/components/atoms/button";
+import Heading from "@/components/atoms/heading";
 export type CardProps = {
-  src: string;
   title: string;
   description: string;
+  alt: string;
+  src: string;
+  price: number;
 };
 
-export const Card: React.FC<CardProps> = ({ src, title, description }) => {
+export const Card: React.FC<CardProps> = ({
+  src,
+  title,
+  description,
+  alt,
+  price,
+}) => {
   return (
     <div className="m-card">
-      <Image src={src} alt="Picture of the author" width={250} height={250} />
-      <div className="m-card__content">
-        <h5 className="m-card__title">{title}</h5>
-        <Text>{description}</Text>
-        <div className="m-card__button">
-          <Button>Add To Card</Button>
-        </div>
+      <div className="m-card__img">
+        <Image src={src} alt={alt} width={250} height={250} />
+      </div>
+      <Heading tag="h5" fontSize="16" alignment="left">
+        {title}
+      </Heading>
+      <Text fontSize="14">{description}</Text>
+      <Text fontSize="16" fontWeight="bold">
+        {price}
+      </Text>
+      <div className="m-card__button">
+        <Button>Add To Card</Button>
       </div>
     </div>
   );

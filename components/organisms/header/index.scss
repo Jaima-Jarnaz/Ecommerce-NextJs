@@ -2,7 +2,9 @@
   $root: &;
   width: 100%;
   max-height: 80px;
-  background: $color-gradient-primary;
+  background-color: $color-white;
+  color: $color-deep-purple;
+  border-bottom: 1px solid $color-plum;
 
   &__navbar {
     @include displayFlex(row, space-between, center);
@@ -13,7 +15,7 @@
     font-size: 30px;
     font-weight: 400;
     font-style: italic;
-    color: $color-white;
+    color: $color-deep-purple;
   }
 
   &__navbarNav {
@@ -26,7 +28,7 @@
   }
   &__navLink {
     font-size: 18px;
-    color: $color-white;
+    color: $color-deep-purple;
   }
 
   &--active {

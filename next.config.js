@@ -3,6 +3,15 @@
 const sassGlobImporter = require("node-sass-glob-importer");
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+      },
+    ],
+  },
   sassOptions: { importer: sassGlobImporter() },
 };
 

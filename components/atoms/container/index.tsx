@@ -5,6 +5,7 @@ export interface ContainerProps {
   alignment?: "center" | "left";
   display?: "flex";
   children: React.ReactNode;
+  margin?: "auto" | "middle";
 }
 const Container: React.FC<ContainerProps> = ({
   children,
@@ -12,6 +13,7 @@ const Container: React.FC<ContainerProps> = ({
   width,
   alignment,
   display,
+  margin,
 }) => {
   return (
     <section
@@ -20,7 +22,8 @@ const Container: React.FC<ContainerProps> = ({
         padding,
         width,
         alignment,
-        display
+        display,
+        margin
       )}
     >
       {children}

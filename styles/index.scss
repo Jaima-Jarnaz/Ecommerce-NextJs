@@ -2,7 +2,8 @@
 @import "./colors";
 @import "./mixins";
 @import "./_sizes";
-@import "components/**/**/*.scss";
+@import "./variables";
 @import "components/atoms/**/*.scss";
+@import "components/molecules/**/*.scss";
 @import "components/organisms/**/*.scss";
 @import "pages/**/*.scss";

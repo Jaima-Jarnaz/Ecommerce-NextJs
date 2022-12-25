@@ -15,7 +15,7 @@ const Input: React.FC<InputProps> = ({
   id,
 }) => {
   return (
-    <>
+    <div className="a-input">
       {label ? (
         <label className="a-input__label" htmlFor={id}>
           {label}
@@ -24,14 +24,14 @@ const Input: React.FC<InputProps> = ({
         ""
       )}
       <input
-        className="a-input"
+        className="a-input__input"
         type={type}
         placeholder={placeholder}
         name={name}
       >
         {children}
       </input>
-    </>
+    </div>
   );
 };
 
