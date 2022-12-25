@@ -1,6 +1,6 @@
 import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
-import { PRODUCT_DATA } from "@settings/settings";
+import baseUrl from "helpers/baseUrl";
 
 const ProductsList = ({ products, isSuccess, message }: any) => {
   console.log(products);
@@ -14,7 +14,7 @@ const ProductsList = ({ products, isSuccess, message }: any) => {
 export default ProductsList;
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/products");
+  const res = await fetch(`${baseUrl}/api/products`);
   const data = await res.json();
   return {
     props: {

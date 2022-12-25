@@ -3,10 +3,13 @@ $color-white: #ffffff;
 $color-deep-purple: #60317a;
 $color-plum: #cdaee0;
 $color-black: #080101;
+$color-gray: #504949;
 
 //gradient color
 $color-gradient-primary: linear-gradient(to right, #bdafc6, #846fc2);
+$color-gradient-secondary: linear-gradient(to right, #522e6a, #846fc2);
 
 //box-shadow
 $color-box-shadow-primary: rgba(60, 64, 67, 0.3);
 $color-box-shadow-secondary: rgba(60, 64, 67, 0.15);
+$color-box-shadow-tertiary: rgba(0, 0, 0, 0.08);

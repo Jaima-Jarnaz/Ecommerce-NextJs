@@ -1,0 +1,10 @@
+.p-productDetails {
+  max-width: 800px;
+  @include displayFlex(null, center, center);
+  column-gap: 70px;
+
+  &__contents {
+    @include displayFlex(column, null, null);
+    row-gap: 20px;
+  }
+}
