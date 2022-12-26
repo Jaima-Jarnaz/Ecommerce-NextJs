@@ -1,22 +1,33 @@
-import { Card, CardProps } from "../../molecules/card";
-import camera from "../../../public/camera.jpg";
+import { Card } from "@/components/molecules/card";
+
+export type CardDataTypes = {
+  _id: string;
+  title: string;
+  description: string;
+  alt: string;
+  src: string;
+  price: number;
+  imageUrl: { id: number; url: string };
+};
 
 export interface CardsProps {
-  productData: CardProps[];
+  productData: CardDataTypes[];
 }
 const Cards: React.FC<CardsProps> = ({ productData }) => {
   return (
     <section className="o-cards">
       {productData &&
         productData.map((item, index: number) => {
+          const src = item.imageUrl.url;
           return (
             <Card
-              src={item.imageUrl ? item.imageUrl.url : camera}
+              src={src}
               title={item.title}
               description={item.description}
               key={index}
               alt={item.alt ? item.alt : "Product image"}
               price={item.price}
+              id={item._id}
             />
           );
         })}

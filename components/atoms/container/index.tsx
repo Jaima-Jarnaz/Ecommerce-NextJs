@@ -1,5 +1,6 @@
 import { mapModifiers } from "../../../helpers/libs/utils";
 export interface ContainerProps {
+  type?: "shadow";
   padding?: "30" | "40";
   width?: "300" | "400";
   alignment?: "center" | "left";
@@ -14,6 +15,7 @@ const Container: React.FC<ContainerProps> = ({
   alignment,
   display,
   margin,
+  type,
 }) => {
   return (
     <section
@@ -23,7 +25,8 @@ const Container: React.FC<ContainerProps> = ({
         width,
         alignment,
         display,
-        margin
+        margin,
+        type
       )}
     >
       {children}

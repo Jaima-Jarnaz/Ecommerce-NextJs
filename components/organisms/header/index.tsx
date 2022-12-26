@@ -5,9 +5,9 @@ const Header = () => {
   return (
     <header className={mapModifiers("o-header")}>
       <nav className="o-header__navbar">
-        <a className="o-header__brand" href="#">
+        <Link className="o-header__brand" href="/">
           Fashionava
-        </a>
+        </Link>
         <div className="o-header__navbarCollapse">
           <ul className="o-header__navbarNav">
             <li className="o-header__navItem">

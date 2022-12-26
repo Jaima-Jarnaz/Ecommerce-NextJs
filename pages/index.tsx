@@ -31,7 +31,6 @@ export async function getStaticProps() {
   const data = await res.json();
   return {
     props: {
-      isSuccess: true,
       message: "Successfully found data",
       products: data,
     },
