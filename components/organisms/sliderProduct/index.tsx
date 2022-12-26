@@ -3,14 +3,17 @@ import { CardDataTypes } from "@/components/organisms/cards";
 import Slider from "react-slick";
 
 export interface SliderProductProps {
-  productData: CardDataTypes[];
+  product: CardDataTypes[];
 }
-const SliderProduct: React.FC<SliderProductProps> = ({ productData }) => {
+const SliderProduct: React.FC<SliderProductProps> = ({ product }: any) => {
   var settings = {
     dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
+    infinite: true,
+    autoplay: true,
+    speed: 4000,
+    autoplaySpeed: 4000,
+    cssEase: "linear",
+    slidesToShow: 5,
     slidesToScroll: 4,
     initialSlide: 0,
     responsive: [
@@ -43,8 +46,8 @@ const SliderProduct: React.FC<SliderProductProps> = ({ productData }) => {
   return (
     <section className="o-slider">
       <Slider {...settings}>
-        {productData &&
-          productData.map((item, index: number) => {
+        {product &&
+          product.map((item: any, index: number) => {
             const src = item.imageUrl.url;
 
             return (

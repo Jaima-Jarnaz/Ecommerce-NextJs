@@ -7,4 +7,9 @@
     @include displayFlex(column, null, null);
     row-gap: 20px;
   }
+
+  &__image {
+    border: 1px solid $color-plum;
+    border-radius: 5px;
+  }
 }

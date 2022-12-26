@@ -4,6 +4,7 @@ import Container from "@/components/atoms/container";
 import Image from "next/image";
 import Heading from "@/components/atoms/heading";
 import banner1 from "@/assets/banner-1.jpg";
+import baseUrl from "helpers/baseUrl";
 
 const Home = ({ products }: any) => {
   return (
@@ -27,7 +28,7 @@ const Home = ({ products }: any) => {
 export default Home;
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/products");
+  const res = await fetch(`${baseUrl}/api/products`);
   const data = await res.json();
   return {
     props: {
