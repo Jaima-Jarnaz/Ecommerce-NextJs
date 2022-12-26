@@ -5,11 +5,18 @@ import Image from "next/image";
 import Heading from "@/components/atoms/heading";
 import banner1 from "@/assets/banner-1.jpg";
 import baseUrl from "helpers/baseUrl";
+import Categories from "@/components/molecules/categories";
 
 const Home = ({ products }: any) => {
   return (
     <div>
       <Carousel />
+      <Container>
+        <Heading tag="h4">Categories</Heading>
+      </Container>
+      <Container display="flex">
+        <Categories />
+      </Container>
       <Container>
         <Heading tag="h4">Top Selling Products</Heading>
       </Container>

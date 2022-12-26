@@ -30,6 +30,11 @@ const Header = () => {
                 Sign In
               </Link>
             </li>
+            <li className="o-header__navItem">
+              <Link href="/admin" className="o-header__navLink">
+                Admin
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

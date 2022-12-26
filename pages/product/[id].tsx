@@ -6,11 +6,40 @@ import Button from "@/components/atoms/button";
 import Image from "next/image";
 import baseUrl from "helpers/baseUrl";
 import Heading from "@/components/atoms/heading";
-import SliderProduct from "@/components/organisms/sliderProduct";
+import Sliders from "@/components/organisms/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Card } from "@/components/molecules/card";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
+//let i: number = 1;
 
 const Product = ({ product, products }: any) => {
+  const router = useRouter();
+
+  const [count, setCount] = useState<number>(1);
+  const [price, setPrice] = useState<number>(product.price);
+
+  const incrementHandler = (price: number) => {
+    //i = i + 1;
+    //price = price * count;
+    setCount((prev) => prev + 1);
+  };
+
+  const decrementHandler = (price: number) => {
+    if (count === 1) {
+      setCount(1);
+      console.log(count);
+      return;
+    }
+    setCount((prev) => prev - 1);
+  };
+
+  useEffect(() => {
+    setPrice((price) => price * count);
+  }, [count]);
+
   return (
     <Container>
       <Container display="flex">
@@ -26,10 +55,29 @@ const Product = ({ product, products }: any) => {
             <Heading tag="h4" fontSize="20" alignment="left">
               {product.title}
             </Heading>
-            <Text fontSize="18" color="deep-purple">
-              {product.price}
-            </Text>
             <Text color="gray">{product.description}</Text>
+            <Text fontSize="18" color="deep-purple">
+              {price}
+            </Text>
+            <span>
+              <Button
+                type="primary"
+                onClick={() => {
+                  incrementHandler(product.price);
+                }}
+              >
+                +
+              </Button>
+              <span className="p-productDetails__text">{count}</span>
+              <Button
+                type="primary"
+                onClick={() => {
+                  decrementHandler(product.price);
+                }}
+              >
+                -
+              </Button>
+            </span>
             <Button>Add To Card</Button>
             <Button>Buy Now</Button>
           </div>
@@ -39,7 +87,24 @@ const Product = ({ product, products }: any) => {
         <Heading tag="h4">Related Products</Heading>
       </Container>
       <Container>
-        <SliderProduct product={products} />
+        <Sliders>
+          {products &&
+            products.map((item: any, index: number) => {
+              const src = item.imageUrl.url;
+
+              return (
+                <Card
+                  src={src}
+                  title={item.title}
+                  description={item.description}
+                  key={index}
+                  alt={item.alt ? item.alt : "Product image"}
+                  price={item.price}
+                  id={item._id}
+                />
+              );
+            })}
+        </Sliders>
       </Container>
     </Container>
   );

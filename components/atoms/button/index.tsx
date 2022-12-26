@@ -1,9 +1,16 @@
+import { mapModifiers } from "helpers/libs/utils";
 export interface ButtonProps {
   children: React.ReactNode;
+  type?: "primary";
+  onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ children }) => {
-  return <button className="a-button">{children}</button>;
+const Button: React.FC<ButtonProps> = ({ children, type, onClick }) => {
+  return (
+    <button className={mapModifiers("a-button", type)} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

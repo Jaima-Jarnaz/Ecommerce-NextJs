@@ -1,11 +1,9 @@
-import { Card } from "@/components/molecules/card";
-import { CardDataTypes } from "@/components/organisms/cards";
 import Slider from "react-slick";
 
 export interface SliderProductProps {
-  product: CardDataTypes[];
+  children: React.ReactNode;
 }
-const SliderProduct: React.FC<SliderProductProps> = ({ product }: any) => {
+const Sliders: React.FC<SliderProductProps> = ({ children }) => {
   var settings = {
     dots: true,
     infinite: true,
@@ -45,26 +43,9 @@ const SliderProduct: React.FC<SliderProductProps> = ({ product }: any) => {
   };
   return (
     <section className="o-slider">
-      <Slider {...settings}>
-        {product &&
-          product.map((item: any, index: number) => {
-            const src = item.imageUrl.url;
-
-            return (
-              <Card
-                src={src}
-                title={item.title}
-                description={item.description}
-                key={index}
-                alt={item.alt ? item.alt : "Product image"}
-                price={item.price}
-                id={item._id}
-              />
-            );
-          })}
-      </Slider>
+      <Slider {...settings}>{children}</Slider>
     </section>
   );
 };
 
-export default SliderProduct;
+export default Sliders;
