@@ -4,7 +4,7 @@ import Heading from "@/components/atoms/heading";
 
 const Signin = () => {
   return (
-    <Container width="400" margin="middle" type="shadow" padding="30">
+    <Container width="400" margin="middle" type="withShadow" padding="30">
       <Container>
         <Heading tag="h4">Sign In</Heading>
       </Container>

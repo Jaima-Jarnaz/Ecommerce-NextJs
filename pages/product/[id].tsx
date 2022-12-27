@@ -19,26 +19,18 @@ const Product = ({ product, products }: any) => {
   const router = useRouter();
 
   const [count, setCount] = useState<number>(1);
-  const [price, setPrice] = useState<number>(product.price);
 
-  const incrementHandler = (price: number) => {
-    //i = i + 1;
-    //price = price * count;
+  const incrementHandler = () => {
     setCount((prev) => prev + 1);
+    console.log(count);
   };
 
-  const decrementHandler = (price: number) => {
+  const decrementHandler = () => {
     if (count === 1) {
-      setCount(1);
-      console.log(count);
-      return;
+      return setCount(1);
     }
     setCount((prev) => prev - 1);
   };
-
-  useEffect(() => {
-    setPrice((price) => price * count);
-  }, [count]);
 
   return (
     <Container>
@@ -57,24 +49,14 @@ const Product = ({ product, products }: any) => {
             </Heading>
             <Text color="gray">{product.description}</Text>
             <Text fontSize="18" color="deep-purple">
-              {price}
+              {product.price * count}
             </Text>
             <span>
-              <Button
-                type="primary"
-                onClick={() => {
-                  incrementHandler(product.price);
-                }}
-              >
+              <Button type="primary" onClick={incrementHandler}>
                 +
               </Button>
               <span className="p-productDetails__text">{count}</span>
-              <Button
-                type="primary"
-                onClick={() => {
-                  decrementHandler(product.price);
-                }}
-              >
+              <Button type="primary" onClick={decrementHandler}>
                 -
               </Button>
             </span>

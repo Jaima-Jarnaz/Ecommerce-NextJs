@@ -1,0 +1,37 @@
+.o-sidebar {
+  height: 100%;
+  width: 230px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 150px;
+  background: $color-gradient-dark;
+  &__navItem {
+    display: block;
+    margin: 50px 20px;
+  }
+  &__navLink {
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-white;
+    position: relative;
+    &::after {
+      content: "";
+      width: 0px;
+      height: 3px;
+      background-color: $color-white;
+      position: absolute;
+      top: 30px;
+      left: 0;
+      display: none;
+      transition: all 0.5s ease-out;
+    }
+
+    &:hover {
+      &::after {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

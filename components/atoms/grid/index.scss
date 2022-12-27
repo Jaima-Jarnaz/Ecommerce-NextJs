@@ -1,0 +1,19 @@
+.a-grid {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+
+  $base-width: 1000px;
+
+  &--grid1 {
+    width: calc(($base-width - 72px) / 3);
+  }
+
+  &--grid2 {
+    width: calc(($base-width - 42px) / 2);
+  }
+
+  &--grid3 {
+    width: calc(($base-width - 65px) / 3);
+  }
+}
