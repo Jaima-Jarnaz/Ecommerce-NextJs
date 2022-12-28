@@ -1,8 +1,12 @@
 .a-section {
   padding: 40px;
-  margin: 55px;
+  margin: 35px;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 
   border-radius: 8px;
+
+  &--30 {
+    padding: 10px 20px;
+  }
 }

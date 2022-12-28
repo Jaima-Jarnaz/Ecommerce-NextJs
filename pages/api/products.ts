@@ -35,7 +35,7 @@ const getallProducts = async (req: NextApiRequest, res: NextApiResponse) => {
 const saveProduct = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, price, description, imageUrl } = req.body;
   try {
-    if (!name || !price || !description || !imageUrl) {
+    if (!name || !price || !description) {
       return res.status(422).json({ error: "Please add all the fields" });
     }
     const product = await new Product({
