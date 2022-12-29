@@ -6,14 +6,15 @@ import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
 import Container from "@/components/atoms/container";
-import { useForm } from "react-hook-form";
+import baseUrl from "helpers/baseUrl";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 
 const Admin = () => {
   const { register, handleSubmit } = useForm();
   const [products, setProducts] = useState();
-  const onSubmit = async (data: any) => {
-    //e.preventDefault();
+  const onSubmit: any = async (data: Object, e: Event) => {
+    e.preventDefault();
 
     const datas = data;
     console.log(datas);
@@ -25,7 +26,7 @@ const Admin = () => {
     const options = {
       method: "POST",
       headers: {
-        "Content-type": "applications/json",
+        "Content-Type": "application/json",
       },
       body: jsonData,
     };
@@ -34,7 +35,7 @@ const Admin = () => {
 
     const result = await res.json();
     console.log(result);
-    alert(`Is this your full name: ${result}`);
+    alert(`Is this your full name: ${result.name}`);
   };
 
   return (
