@@ -9,6 +9,7 @@ import Container from "@/components/atoms/container";
 import baseUrl from "helpers/baseUrl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import AdminHeader from "@/components/organisms/adminHeader";
 
 const Admin = () => {
   const { register, handleSubmit } = useForm();
@@ -40,11 +41,8 @@ const Admin = () => {
 
   return (
     <>
-      <Section padding="30">
-        <Grid type="grid2">
-          <Input type="text" placeholder="Search" name="search" />
-        </Grid>
-      </Section>
+      <AdminHeader />
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Section>
           <SplitField>
