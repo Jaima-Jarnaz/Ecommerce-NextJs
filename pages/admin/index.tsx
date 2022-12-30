@@ -10,6 +10,7 @@ import baseUrl from "helpers/baseUrl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import AdminHeader from "@/components/organisms/adminHeader";
+import Heading from "@/components/atoms/heading";
 
 const Admin = () => {
   const { register, handleSubmit } = useForm();
@@ -42,7 +43,11 @@ const Admin = () => {
   return (
     <>
       <AdminHeader />
-
+      <Section>
+        <Heading tag="h1" fontSize="28" alignment="left">
+          Create Product
+        </Heading>
+      </Section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Section>
           <SplitField>
@@ -58,10 +63,13 @@ const Admin = () => {
             </Grid>
           </SplitField>
           <SplitField>
-            <Grid type="grid2">
+            <Grid type="grid1">
+              <Input type="text" label="Color" {...register("color")} />
+            </Grid>
+            <Grid type="grid1">
               <Input type="number" label="Price" {...register("price")} />
             </Grid>
-            <Grid type="grid2">
+            <Grid type="grid1">
               <Input type="file" label="Image" {...register("imageUrl")} />
             </Grid>
           </SplitField>

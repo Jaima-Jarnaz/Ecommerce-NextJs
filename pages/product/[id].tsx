@@ -76,7 +76,7 @@ const Product = ({ product, products }: any) => {
 
               return (
                 <Card
-                  src={src}
+                  src={src ? src : ""}
                   title={item.title}
                   description={item.description}
                   key={index}

@@ -1,0 +1,46 @@
+.a-icon {
+  display: inline-block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  $icons: (
+    //icon-list
+    "search"
+  );
+
+  @mixin icon-shape($icon-name) {
+    &--#{$icon-name} {
+      background-image: url("~/assets/icons/#{$icon-name}.svg");
+    }
+  }
+
+  @mixin icon-size($icon-name, $pc, $sp) {
+    &--#{$icon-name} {
+      width: $pc;
+      height: $pc;
+
+      @include sp() {
+        width: $sp;
+        height: $sp;
+      }
+    }
+  }
+
+  @mixin icon($name, $pc, $sp) {
+    @include icon-shape($name);
+    @include icon-size($name, $pc, $sp);
+  }
+
+  @include icon("search", 24px, 24px)
+    //--------Can use this method as well for icon------------
+    // @each $icon-name in $icons {
+    //   &--#{$icon-name} {
+    //     background: url("~/assets/icons/#{$icon-name}.svg");
+    //     background-position: center;
+    //     background-repeat: no-repeat;
+    //     background-size: contain;
+    //   }
+    // }
+;
+}
