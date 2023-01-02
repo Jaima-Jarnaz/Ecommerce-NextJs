@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Card } from "@/components/molecules/card";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import camera from "public/camera.jpg";
 
 //let i: number = 1;
 
@@ -72,11 +73,11 @@ const Product = ({ product, products }: any) => {
         <Sliders>
           {products &&
             products.map((item: any, index: number) => {
-              const src = item.imageUrl.url;
+              const src = item.imageUrl ? item.imageUrl.url : camera;
 
               return (
                 <Card
-                  src={src ? src : ""}
+                  src={src}
                   title={item.title}
                   description={item.description}
                   key={index}

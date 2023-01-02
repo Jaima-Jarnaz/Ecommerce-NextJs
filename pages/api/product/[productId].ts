@@ -35,7 +35,7 @@ const deleteProduct = async (req: NextApiRequest, res: NextApiResponse) => {
     const product = await Product.findByIdAndDelete({ _id: productId });
     res.status(200).json({
       isSuccess: true,
-      message: "Successfully Delete product data",
+      message: "Successfully Deleted product data",
       product,
     });
   } catch (err) {

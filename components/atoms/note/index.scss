@@ -1,8 +1,15 @@
 .a-note {
-  width: 30%;
+  width: 100%;
   padding: 20px;
+  color: $color-white;
+  background-color: $color-gray;
+  text-align: center;
 
   &--green {
-    color: green;
+    background-color: $color-primary;
+  }
+
+  &--danger {
+    background-color: $color-red;
   }
 }

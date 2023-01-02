@@ -32,15 +32,19 @@
     @include icon-size($name, $pc, $sp);
   }
 
-  @include icon("search", 24px, 24px)
-    //--------Can use this method as well for icon------------
-    // @each $icon-name in $icons {
-    //   &--#{$icon-name} {
-    //     background: url("~/assets/icons/#{$icon-name}.svg");
-    //     background-position: center;
-    //     background-repeat: no-repeat;
-    //     background-size: contain;
-    //   }
-    // }
-;
+  //declare icons
+  @include icon("search", 24px, 24px);
+  @include icon("edit", 16px, 16px);
+  @include icon("delete", 16px, 16px);
+  @include icon("cross", 16px, 16px);
+
+  //--------Can use this method as well for icon------------
+  // @each $icon-name in $icons {
+  //   &--#{$icon-name} {
+  //     background: url("~/assets/icons/#{$icon-name}.svg");
+  //     background-position: center;
+  //     background-repeat: no-repeat;
+  //     background-size: contain;
+  //   }
+  // }
 }

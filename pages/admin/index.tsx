@@ -5,22 +5,25 @@ import Grid from "@/components/atoms/grid";
 import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
-import Container from "@/components/atoms/container";
-import baseUrl from "helpers/baseUrl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import AdminHeader from "@/components/organisms/adminHeader";
 import Heading from "@/components/atoms/heading";
-
+import { Note } from "@/components/atoms/note/index.";
 const Admin = () => {
   const { register, handleSubmit } = useForm();
+  const [message, setMessage] = useState("");
   const [products, setProducts] = useState();
-  const onSubmit: any = async (data: Object, e: Event) => {
+  const onSubmit: any = async (data: any, e: Event) => {
     e.preventDefault();
 
-    const datas = data;
-    console.log(datas);
-    const jsonData = JSON.stringify(datas);
+    console.log("data.imageUrl", data.imageUrl[0]);
+    const imageUrl = await imageUpload(data.imageUrl[0]);
+    const dataObj = {
+      ...data,
+      imageUrl: { id: imageUrl.public_id, url: imageUrl.url },
+    };
+
+    const jsonData = JSON.stringify(dataObj);
     console.log("json data", jsonData);
 
     const endpoint = "/api/products";
@@ -36,13 +39,31 @@ const Admin = () => {
     const res = await fetch(endpoint, options);
 
     const result = await res.json();
+    setMessage(result.message);
     console.log(result);
-    alert(`Is this your full name: ${result.name}`);
+  };
+
+  //image upload ......
+  const imageUpload = async (data2: any) => {
+    const data = new FormData();
+    data.append("file", data2);
+    data.append("upload_preset", "myStore");
+    data.append("cloud_name", "dgtz6af7c");
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dgtz6af7c/image/upload",
+
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const res2 = await res.json();
+    return res2;
   };
 
   return (
     <>
-      <AdminHeader />
+      {message ? <Note color="green">{message}</Note> : ""}
       <Section>
         <Heading tag="h1" fontSize="28" alignment="left">
           Create Product

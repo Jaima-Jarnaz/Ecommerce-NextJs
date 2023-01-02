@@ -1,3 +1,3 @@
-const IconList = ["search"] as const;
+const IconList = ["search", "delete", "edit", "cross"] as const;
 
 export type IconType = typeof IconList[number];
