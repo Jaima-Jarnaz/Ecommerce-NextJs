@@ -21,7 +21,7 @@ ViewProducts.getLayout = function getLayout(page: ReactElement) {
 };
 export default ViewProducts;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   //get all products
   const res = await fetch(`${baseUrl}/api/products`);
   const data = await res.json();

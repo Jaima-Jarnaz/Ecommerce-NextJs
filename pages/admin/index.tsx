@@ -46,6 +46,7 @@ const Admin = () => {
   //image upload ......
   const imageUpload = async (data2: any) => {
     const data = new FormData();
+    console.log("data", data);
     data.append("file", data2);
     data.append("upload_preset", "myStore");
     data.append("cloud_name", "dgtz6af7c");

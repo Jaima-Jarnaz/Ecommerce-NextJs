@@ -21,6 +21,7 @@ export const Card: React.FC<CardProps> = ({
   price,
   id,
 }) => {
+  const blurDataURL = "";
   return (
     <div className="m-card">
       <div className="m-card__img">
