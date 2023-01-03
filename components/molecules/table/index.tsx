@@ -66,7 +66,7 @@ export const Table: React.FC<TableProps> = ({ body }) => {
                       className="m-table__action"
                       onClick={() => {
                         setOpen(!open);
-                        //deleteHandler(item._id);
+                        deleteHandler(item._id);
                       }}
                     >
                       <Icon iconName="delete" />

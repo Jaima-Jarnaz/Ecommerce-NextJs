@@ -12,11 +12,9 @@ import { Note } from "@/components/atoms/note/index.";
 const Admin = () => {
   const { register, handleSubmit } = useForm();
   const [message, setMessage] = useState("");
-  const [products, setProducts] = useState();
   const onSubmit: any = async (data: any, e: Event) => {
     e.preventDefault();
 
-    console.log("data.imageUrl", data.imageUrl[0]);
     const imageUrl = await imageUpload(data.imageUrl[0]);
     const dataObj = {
       ...data,
@@ -24,7 +22,6 @@ const Admin = () => {
     };
 
     const jsonData = JSON.stringify(dataObj);
-    console.log("json data", jsonData);
 
     const endpoint = "/api/products";
 
@@ -46,7 +43,6 @@ const Admin = () => {
   //image upload ......
   const imageUpload = async (data2: any) => {
     const data = new FormData();
-    console.log("data", data);
     data.append("file", data2);
     data.append("upload_preset", "myStore");
     data.append("cloud_name", "dgtz6af7c");

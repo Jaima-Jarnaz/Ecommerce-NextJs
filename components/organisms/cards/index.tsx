@@ -7,7 +7,7 @@ export type CardDataTypes = {
   alt: string;
   src: string;
   price: number;
-  imageUrl: { id: number; url: string };
+  imageUrl: { id: string; url: string };
 };
 
 export interface CardsProps {
@@ -28,6 +28,7 @@ const Cards: React.FC<CardsProps> = ({ productData }) => {
               alt={item.alt ? item.alt : "Product image"}
               price={item.price}
               id={item._id}
+              imageUrl={item.imageUrl}
             />
           );
         })}
