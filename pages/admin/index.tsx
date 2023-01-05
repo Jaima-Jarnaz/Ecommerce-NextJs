@@ -1,17 +1,18 @@
 import AdminLayout from "templates/adminLayout";
 import { Input } from "@/components/atoms/input";
-import { ReactElement, use } from "react";
+import { ReactElement, use, useEffect } from "react";
 import Grid from "@/components/atoms/grid";
 import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 const Admin = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
   const [message, setMessage] = useState("");
+
   const onSubmit: any = async (data: any, e: Event) => {
     e.preventDefault();
 
@@ -37,7 +38,8 @@ const Admin = () => {
 
     const result = await res.json();
     setMessage(result.message);
-    console.log(result);
+    if (result.isSuccess) {
+    }
   };
 
   //image upload ......
@@ -57,6 +59,12 @@ const Admin = () => {
     const res2 = await res.json();
     return res2;
   };
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ name: "", color: "", price: "", imageUrl: "", description: "" });
+    }
+  }, [formState.isSubmitSuccessful, reset]);
 
   return (
     <>

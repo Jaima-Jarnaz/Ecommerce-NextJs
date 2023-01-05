@@ -44,7 +44,13 @@ const saveProduct = async (req: NextApiRequest, res: NextApiResponse) => {
       description,
       imageUrl,
     }).save();
-    res.status(201).json({ message: "Product added successfully..", product });
+    res
+      .status(201)
+      .json({
+        isSuccess: true,
+        message: "Product added successfully..",
+        product,
+      });
   } catch (err) {
     res.status(500).json({ error: "internal server error" });
     console.log(err);

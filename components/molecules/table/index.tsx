@@ -2,7 +2,7 @@ import { BODY } from "./tables";
 import Icon from "@/components/atoms/icon";
 import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@/components/molecules/modal";
 
 export type TableProps = {
@@ -11,24 +11,43 @@ export type TableProps = {
 };
 export const Table: React.FC<TableProps> = ({ body }) => {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string>("");
+  const [clicked, setClicked] = useState(false);
 
-  const deleteHandler = async (id: number) => {
-    // delete single product
-    const res = await fetch(`${baseUrl}/api/product/${id}`, {
-      method: "DELETE",
-    });
-    await res.json();
-    router.push("/admin/products");
+  const confirmDeleteHandler = async (id: string) => {
+    setOpenModal(true);
+    if (!id == undefined) {
+      setDeleteId(id);
+      setClicked(true);
+    }
   };
+
+  const deleteHandler = async () => {
+    try {
+      console.log();
+      const res = await fetch(`${baseUrl}/api/product/${deleteId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res;
+      console.log(data);
+      if (data) {
+        setOpenModal(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const cancelHandler = () => {
+    setOpenModal(false);
+  };
+
   return (
     <div className="m-table">
-      {open ? (
-        <Modal
-          onClick={() => {
-            //deleteHandler(item._id);
-          }}
-        >
+      {openModal ? (
+        <Modal cancelHandler={cancelHandler} deleteHandler={deleteHandler}>
           Are you sure you want to delete?
         </Modal>
       ) : (
@@ -65,8 +84,8 @@ export const Table: React.FC<TableProps> = ({ body }) => {
                     <span
                       className="m-table__action"
                       onClick={() => {
-                        setOpen(!open);
-                        deleteHandler(item._id);
+                        setOpenModal(!openModal);
+                        confirmDeleteHandler(item._id);
                       }}
                     >
                       <Icon iconName="delete" />
