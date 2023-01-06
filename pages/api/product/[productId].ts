@@ -43,4 +43,38 @@ const deleteProduct = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
+//Update product
+// const updateProduct = async (req: NextApiRequest, res: NextApiResponse) => {
+
+//   //const { name, price, description, imageUrl } = req.body;
+//   try {
+
+//     // if (!name || !price || !description) {
+//     //   return res.status(422).json({ error: "Please add all the fields" });
+//     // }
+
+//   const { productId } = req.query;
+//   const productUpdate= await Product.findByIdAndUpdate( _id: productId ,{
+//     name:, price, description, imageUrl
+
+//   });
+//     const product = await new Product({
+//       name,
+//       price,
+//       description,
+//       imageUrl,
+//     }).save();
+//     res
+//       .status(201)
+//       .json({
+//         isSuccess: true,
+//         message: "Product added successfully..",
+//         product,
+//       });
+//   } catch (err) {
+//     res.status(500).json({ error: "internal server error" });
+//     console.log(err);
+//   }
+// };
+
 export default handler;

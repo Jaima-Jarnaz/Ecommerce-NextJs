@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/molecules/modal";
+import { Note } from "@/components/atoms/note/index.";
 
 export type TableProps = {
   children?: React.ReactNode;
@@ -12,29 +13,23 @@ export type TableProps = {
 export const Table: React.FC<TableProps> = ({ body }) => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [deleteId, setDeleteId] = useState<string>("");
-  const [clicked, setClicked] = useState(false);
 
   const confirmDeleteHandler = async (id: string) => {
     setOpenModal(true);
-    if (!id == undefined) {
-      setDeleteId(id);
-      setClicked(true);
-    }
+    setDeleteId(id);
   };
 
   const deleteHandler = async () => {
     try {
-      console.log();
       const res = await fetch(`${baseUrl}/api/product/${deleteId}`, {
         method: "DELETE",
       });
-
-      const data = await res;
-      console.log(data);
-      if (data) {
-        setOpenModal(false);
-      }
+      await res.json();
+      setOpenModal(false);
+      setIsSuccess(true);
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +41,8 @@ export const Table: React.FC<TableProps> = ({ body }) => {
 
   return (
     <div className="m-table">
+      {isSuccess ? <Note color="danger">Product has been deleted</Note> : ""}
+
       {openModal ? (
         <Modal cancelHandler={cancelHandler} deleteHandler={deleteHandler}>
           Are you sure you want to delete?
@@ -53,6 +50,7 @@ export const Table: React.FC<TableProps> = ({ body }) => {
       ) : (
         ""
       )}
+
       <table className="m-table__table">
         <thead className="m-table__heading">
           <tr>
