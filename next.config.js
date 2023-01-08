@@ -12,7 +12,7 @@ const nextConfig = {
     // path prefix for Image Optimization API, useful with `loader`
     path: "/_next/image",
     // loader can be 'default', 'imgix', 'cloudinary', 'akamai', or 'custom'
-    loader: "default",
+    loader: "cloudinary",
     // file with `export default function loader({src, width, quality})`
     loaderFile: "",
     // disable static imports for image files
