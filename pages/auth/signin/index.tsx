@@ -1,4 +1,4 @@
-import Input from "@/components/atoms/input";
+import { Input } from "@/components/atoms/input";
 import Container from "@/components/atoms/container";
 import Heading from "@/components/atoms/heading";
 

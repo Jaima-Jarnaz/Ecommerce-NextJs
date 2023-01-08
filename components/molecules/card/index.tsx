@@ -11,7 +11,6 @@ export type CardProps = {
   alt: string;
   src: string;
   price: number;
-  imageUrl: { id: string; url: string };
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -21,7 +20,6 @@ export const Card: React.FC<CardProps> = ({
   alt,
   price,
   id,
-  imageUrl,
 }) => {
   return (
     <div className="m-card">

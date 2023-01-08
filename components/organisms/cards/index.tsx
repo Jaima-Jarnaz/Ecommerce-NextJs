@@ -2,7 +2,7 @@ import { Card } from "@/components/molecules/card";
 
 export type CardDataTypes = {
   _id: string;
-  title: string;
+  name: string;
   description: string;
   alt: string;
   src: string;
@@ -22,13 +22,12 @@ const Cards: React.FC<CardsProps> = ({ productData }) => {
           return (
             <Card
               src={src}
-              title={item.title}
+              title={item.name}
               description={item.description}
               key={index}
               alt={item.alt ? item.alt : "Product image"}
               price={item.price}
               id={item._id}
-              imageUrl={item.imageUrl}
             />
           );
         })}

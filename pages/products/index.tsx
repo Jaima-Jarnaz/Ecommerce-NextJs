@@ -1,9 +1,8 @@
 import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
 import baseUrl from "helpers/baseUrl";
-import { CardDataTypes } from "@/components/molecules/card";
 
-const ProductsList = ({ products }: CardDataTypes) => {
+const ProductsList = ({ products }: any) => {
   return (
     <Container>
       <Cards productData={products} />

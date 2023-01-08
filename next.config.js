@@ -1,8 +1,9 @@
-// /** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 
 const sassGlobImporter = require("node-sass-glob-importer");
 const nextConfig = {
   reactStrictMode: true,
+  basePath: "",
   images: {
     domains: ["res.cloudinary.com"],
     // remotePatterns: [
