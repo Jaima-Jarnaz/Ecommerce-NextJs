@@ -18,9 +18,9 @@ permissions:
   id-token: write
 
 # Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+# concurrency:
+#   group: "pages"
+#   cancel-in-progress: true
 
 jobs:
   # Build job
@@ -43,11 +43,13 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: GitHub Pages action
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3.9.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: dist/e-commerce
-          enable_jekyll: true
+
+      # - name: GitHub Pages action
+      #   if: success()
+      #   uses: peaceiris/actions-gh-pages@v3.9.1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     personal_token: ${{ secrets.PERSONAL_TOKEN }}
+      #     publish_dir: dist/e-commerce
+      #     enable_jekyll: true
+

@@ -1,0 +1,28 @@
+.a-custom-input {
+  margin-bottom: $margin-14;
+  @include displayFlex(column);
+  padding: 14px;
+  width: 100%;
+
+  &__label {
+    font-size: 16px;
+    color: $color-deep-purple;
+    font-weight: 400;
+  }
+
+  &__input {
+    padding: 16px;
+    border: none;
+    box-shadow: $color-box-shadow-primary 0px 1px 2px 0px,
+      $color-box-shadow-secondary 0px 1px 3px 1px;
+    border-radius: 8px;
+    margin-top: $margin-16;
+    outline: none;
+    font-size: 18px;
+    color: $color-deep-purple;
+
+    &:focus {
+      border: 1px solid $color-plum;
+    }
+  }
+}

@@ -76,7 +76,12 @@ export const Table: React.FC<TableProps> = ({ body }) => {
                   <td className="m-table__content">Green</td>
 
                   <td>
-                    <span className="m-table__action">
+                    <span
+                      className="m-table__action"
+                      onClick={() => {
+                        router.push(`/admin/${item._id}`);
+                      }}
+                    >
                       <Icon iconName="edit" />
                     </span>
                     <span

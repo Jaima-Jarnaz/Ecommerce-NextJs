@@ -1,4 +1,5 @@
 import { Card } from "@/components/molecules/card";
+import banner from "@/assets/banner-1.jpg";
 
 export type CardDataTypes = {
   _id: string;
@@ -18,7 +19,8 @@ const Cards: React.FC<CardsProps> = ({ productData }) => {
     <section className="o-cards">
       {productData &&
         productData.map((item, index: number) => {
-          const src = item.imageUrl.url;
+          const src = item.imageUrl ? item.imageUrl.url : banner;
+
           return (
             <Card
               src={src}

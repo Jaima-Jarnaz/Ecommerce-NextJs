@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
+
 const Admin = () => {
   const { register, handleSubmit, reset, formState } = useForm();
   const [message, setMessage] = useState("");
