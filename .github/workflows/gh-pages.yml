@@ -43,6 +43,7 @@ jobs:
       - name: Build
         run: yarn build
 
+
       # - name: GitHub Pages action
       #   if: success()
       #   uses: peaceiris/actions-gh-pages@v3.9.1
@@ -51,3 +52,4 @@ jobs:
       #     personal_token: ${{ secrets.PERSONAL_TOKEN }}
       #     publish_dir: dist/e-commerce
       #     enable_jekyll: true
+
