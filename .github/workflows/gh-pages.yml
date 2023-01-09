@@ -30,10 +30,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
       - name: Set up node.js
         uses: actions/setup-node@v3.3.0
         with:
@@ -53,4 +50,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist/e-commerce
           enable_jekyll: true
-
