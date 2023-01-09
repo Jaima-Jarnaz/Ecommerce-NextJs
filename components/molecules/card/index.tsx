@@ -1,5 +1,5 @@
 import Text from "@/components/atoms/text";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Button from "@/components/atoms/button";
 import Heading from "@/components/atoms/heading";
 import Link from "next/link";
@@ -9,7 +9,7 @@ export type CardProps = {
   title: string;
   description: string;
   alt: string;
-  src: string;
+  src: string | StaticImageData;
   price: number;
 };
 

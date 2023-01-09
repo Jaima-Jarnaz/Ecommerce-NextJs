@@ -10,16 +10,21 @@ import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
+import Image, { StaticImageData } from "next/image";
+import camera from "public/camera.jpg";
+
+type Image_URL = {
+  id: string;
+  url: string;
+};
 
 const Admin = () => {
   const [message, setMessage] = useState("");
-  const [update, setUpdate] = useState(false);
-  const [data, setData] = useState<any>({});
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<any>();
+  const [image, setImage] = useState<string | StaticImageData>();
 
   const router = useRouter();
   const { pid } = router.query;
@@ -27,13 +32,15 @@ const Admin = () => {
   const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
 
-    const image = await imageUpload(imageUrl[0]);
+    const image = await imageUpload(imageUrl);
     const dataObj = {
       name,
       description,
       price,
       imageUrl: { id: image.public_id, url: image.url },
     };
+
+    console.log("dataObj", dataObj);
 
     const jsonData = JSON.stringify(dataObj);
 
@@ -77,16 +84,16 @@ const Admin = () => {
     const fetchData = async (pid: any) => {
       const res = await fetch(`${baseUrl}/api/product/${pid}`);
       const { product } = await res.json();
-      setData(product);
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
-      setImageUrl(product.imageUrl[1]);
+      if (product.imageUrl) {
+        setImage(product.imageUrl.url);
+      }
     };
 
     if (pid) {
       fetchData(pid);
-      setUpdate(true);
     }
   }, [pid]);
 
@@ -141,10 +148,18 @@ const Admin = () => {
                 type="file"
                 label="Image"
                 name="imageUrl"
-                value={imageUrl}
                 handleChange={(e: any) => {
-                  setImageUrl(e.target.value);
+                  setImageUrl(e.target.files[0]);
                 }}
+              />
+            </Grid>
+            <Grid type="grid1">
+              <Image
+                src={image ? image : camera}
+                width={125}
+                height={125}
+                alt="image"
+                style={{ margin: "50px", borderRadius: "12px" }}
               />
             </Grid>
           </SplitField>
