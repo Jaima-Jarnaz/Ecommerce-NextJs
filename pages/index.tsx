@@ -32,7 +32,18 @@ const Home = ({ products }: any) => {
 
 export default Home;
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
+//   const res = await fetch(`${baseUrl}/api/products`);
+//   const data = await res.json();
+//   return {
+//     props: {
+//       message: "Successfully found data",
+//       products: data,
+//     },
+//   };
+// }
+
+export async function getServerSideProps() {
   const res = await fetch(`${baseUrl}/api/products`);
   const data = await res.json();
   return {
