@@ -1,11 +1,10 @@
 import AdminLayout from "templates/adminLayout";
-import { Input } from "@/components/atoms/input";
-import { ReactElement, use, useEffect } from "react";
+import CustomInput from "@/components/atoms/custom-input";
+import { ReactElement, useEffect } from "react";
 import Grid from "@/components/atoms/grid";
 import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
@@ -13,28 +12,35 @@ import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
 
 const Admin = () => {
-  const { register, handleSubmit, reset, formState } = useForm();
   const [message, setMessage] = useState("");
+  const [update, setUpdate] = useState(false);
   const [data, setData] = useState<any>({});
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const router = useRouter();
   const { pid } = router.query;
 
-  const onSubmit: any = async (data: any, e: Event) => {
+  const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
 
-    const imageUrl = await imageUpload(data.imageUrl[0]);
+    const image = await imageUpload(imageUrl[0]);
     const dataObj = {
-      ...data,
-      imageUrl: { id: imageUrl.public_id, url: imageUrl.url },
+      name,
+      description,
+      price,
+      imageUrl: { id: image.public_id, url: image.url },
     };
 
     const jsonData = JSON.stringify(dataObj);
 
-    const endpoint = "/api/products";
+    const endpoint = `${baseUrl}/api/product/${pid}`;
 
     const options = {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -68,20 +74,19 @@ const Admin = () => {
   };
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset({ name: "", color: "", price: "", imageUrl: "", description: "" });
-    }
-  }, [formState.isSubmitSuccessful, reset]);
-
-  useEffect(() => {
     const fetchData = async (pid: any) => {
       const res = await fetch(`${baseUrl}/api/product/${pid}`);
       const { product } = await res.json();
       setData(product);
+      setName(product.name);
+      setDescription(product.description);
+      setPrice(product.price);
+      setImageUrl(product.imageUrl[1]);
     };
 
     if (pid) {
       fetchData(pid);
+      setUpdate(true);
     }
   }, [pid]);
 
@@ -90,56 +95,60 @@ const Admin = () => {
       {message ? <Note color="green">{message}</Note> : ""}
       <Section>
         <Heading tag="h1" fontSize="28" alignment="left">
-          Create Product
+          Update Product
         </Heading>
       </Section>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Section>
           <SplitField>
             <Grid type="grid2">
-              <Input
+              <CustomInput
                 type="text"
                 label="Product Name"
-                {...register("name")}
-                value={data.name}
+                name="name"
+                value={name}
+                handleChange={(e: any) => {
+                  setName(e.target.value);
+                }}
               />
             </Grid>
             <Grid type="grid2">
-              <Input
+              <CustomInput
                 type="text"
                 label="Description"
-                {...register("description")}
-                value={data.description}
+                name="description"
+                value={description}
+                handleChange={(e: any) => {
+                  setDescription(e.target.value);
+                }}
               />
             </Grid>
           </SplitField>
           <SplitField>
             <Grid type="grid1">
-              <Input
-                type="text"
-                label="Color"
-                {...register("color")}
-                value="green"
-              />
-            </Grid>
-            <Grid type="grid1">
-              <Input
+              <CustomInput
                 type="number"
                 label="Price"
-                {...register("price")}
-                value={data.price}
+                name="price"
+                value={price}
+                handleChange={(e: any) => {
+                  setPrice(e.target.value);
+                }}
               />
             </Grid>
             <Grid type="grid1">
-              <Input
+              <CustomInput
                 type="file"
                 label="Image"
-                {...register("imageUrl")}
-                value={data.imageUrl}
+                name="imageUrl"
+                value={imageUrl}
+                handleChange={(e: any) => {
+                  setImageUrl(e.target.value);
+                }}
               />
             </Grid>
           </SplitField>
-          <Button>SUBMIT</Button>
+          <Button>Update</Button>
         </Section>
       </form>
     </>
