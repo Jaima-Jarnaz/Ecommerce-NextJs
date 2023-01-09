@@ -10,6 +10,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "DELETE":
       await deleteProduct(req, res);
       break;
+
+    case "PUT":
+      await updateProduct(req, res);
+      break;
   }
 };
 
@@ -44,37 +48,22 @@ const deleteProduct = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 //Update product
-// const updateProduct = async (req: NextApiRequest, res: NextApiResponse) => {
-
-//   //const { name, price, description, imageUrl } = req.body;
-//   try {
-
-//     // if (!name || !price || !description) {
-//     //   return res.status(422).json({ error: "Please add all the fields" });
-//     // }
-
-//   const { productId } = req.query;
-//   const productUpdate= await Product.findByIdAndUpdate( _id: productId ,{
-//     name:, price, description, imageUrl
-
-//   });
-//     const product = await new Product({
-//       name,
-//       price,
-//       description,
-//       imageUrl,
-//     }).save();
-//     res
-//       .status(201)
-//       .json({
-//         isSuccess: true,
-//         message: "Product added successfully..",
-//         product,
-//       });
-//   } catch (err) {
-//     res.status(500).json({ error: "internal server error" });
-//     console.log(err);
-//   }
-// };
+const updateProduct = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const { productId } = req.query;
+    const productUpdate = await Product.findByIdAndUpdate(productId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(201).json({
+      isSuccess: true,
+      message: "Product updated successfully..",
+      productUpdate,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "internal server error" });
+    console.log(err);
+  }
+};
 
 export default handler;

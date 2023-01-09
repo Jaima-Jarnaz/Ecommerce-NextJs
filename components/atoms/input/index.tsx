@@ -8,10 +8,11 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   id?: string;
   ref?: React.Ref<HTMLInputElement>;
+  value?: any;
 }
 
 export const Input: React.FC<InputProps> = forwardRef(
-  ({ type, placeholder, children, name, label, id, ...props }, ref) => {
+  ({ type, placeholder, children, name, label, id, value, ...props }, ref) => {
     return (
       <div className="a-input">
         {label ? (
@@ -28,6 +29,7 @@ export const Input: React.FC<InputProps> = forwardRef(
           name={name}
           {...props}
           ref={ref}
+          value={value}
         />
       </div>
     );

@@ -10,10 +10,15 @@ import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 import { useRouter } from "next/router";
+import baseUrl from "helpers/baseUrl";
 
 const Admin = () => {
   const { register, handleSubmit, reset, formState } = useForm();
   const [message, setMessage] = useState("");
+  const [data, setData] = useState<any>({});
+
+  const router = useRouter();
+  const { pid } = router.query;
 
   const onSubmit: any = async (data: any, e: Event) => {
     e.preventDefault();
@@ -68,6 +73,18 @@ const Admin = () => {
     }
   }, [formState.isSubmitSuccessful, reset]);
 
+  useEffect(() => {
+    const fetchData = async (pid: any) => {
+      const res = await fetch(`${baseUrl}/api/product/${pid}`);
+      const { product } = await res.json();
+      setData(product);
+    };
+
+    if (pid) {
+      fetchData(pid);
+    }
+  }, [pid]);
+
   return (
     <>
       {message ? <Note color="green">{message}</Note> : ""}
@@ -80,25 +97,46 @@ const Admin = () => {
         <Section>
           <SplitField>
             <Grid type="grid2">
-              <Input type="text" label="Product Name" {...register("name")} />
+              <Input
+                type="text"
+                label="Product Name"
+                {...register("name")}
+                value={data.name}
+              />
             </Grid>
             <Grid type="grid2">
               <Input
                 type="text"
                 label="Description"
                 {...register("description")}
+                value={data.description}
               />
             </Grid>
           </SplitField>
           <SplitField>
             <Grid type="grid1">
-              <Input type="text" label="Color" {...register("color")} />
+              <Input
+                type="text"
+                label="Color"
+                {...register("color")}
+                value="green"
+              />
             </Grid>
             <Grid type="grid1">
-              <Input type="number" label="Price" {...register("price")} />
+              <Input
+                type="number"
+                label="Price"
+                {...register("price")}
+                value={data.price}
+              />
             </Grid>
             <Grid type="grid1">
-              <Input type="file" label="Image" {...register("imageUrl")} />
+              <Input
+                type="file"
+                label="Image"
+                {...register("imageUrl")}
+                value={data.imageUrl}
+              />
             </Grid>
           </SplitField>
           <Button>SUBMIT</Button>
