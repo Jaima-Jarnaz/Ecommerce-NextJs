@@ -72,7 +72,7 @@ const Admin = () => {
       {message ? <Note color="green">{message}</Note> : ""}
       <Section>
         <Heading tag="h1" fontSize="28" alignment="left">
-          Create Product
+          Create Single Product
         </Heading>
       </Section>
       <form onSubmit={handleSubmit(onSubmit)}>
