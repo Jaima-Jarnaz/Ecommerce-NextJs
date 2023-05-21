@@ -23,13 +23,12 @@ export default ViewProducts;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   //get all products
-  const res = await fetch(`${baseUrl}/api/products`);
+  const res = await fetch(`${baseUrl}/products/all`);
   const data = await res.json();
 
   return {
     props: {
-      message: "Successfully found data",
-      products: data,
+      products: data.products,
     },
   };
 };

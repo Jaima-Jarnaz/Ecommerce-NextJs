@@ -46,12 +46,11 @@ export default Home;
 // }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${baseUrl}/api/products`);
+  const res = await fetch(`${baseUrl}/products/all`);
   const data = await res.json();
   return {
     props: {
-      message: "Successfully found data",
-      products: data,
+      products: data.products,
     },
   };
 }

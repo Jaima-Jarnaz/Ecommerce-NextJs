@@ -44,7 +44,7 @@ const Admin = () => {
 
     const jsonData = JSON.stringify(dataObj);
 
-    const endpoint = `${baseUrl}/api/product/${pid}`;
+    const endpoint = `${baseUrl}/products/${pid}`;
 
     const options = {
       method: "PUT",
@@ -82,7 +82,7 @@ const Admin = () => {
 
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(`${baseUrl}/api/product/${pid}`);
+      const res = await fetch(`${baseUrl}/products/${pid}`);
       const { product } = await res.json();
       setName(product.name);
       setDescription(product.description);

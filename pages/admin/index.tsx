@@ -25,7 +25,7 @@ const Admin = () => {
 
     const jsonData = JSON.stringify(dataObj);
 
-    const endpoint = "/api/products";
+    const endpoint = "/products";
 
     const options = {
       method: "POST",
