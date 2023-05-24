@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
 import Image, { StaticImageData } from "next/image";
 import camera from "public/camera.jpg";
+import imageUpload from 'helpers/imageUpload'
+
 
 type Image_URL = {
   id: string;
@@ -21,31 +23,52 @@ type Image_URL = {
 const Admin = () => {
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
+  const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [imageUrl, setImageUrl] = useState<any>();
+  const [dataUrl, setDataUrl] = useState<any>();
+
   const [image, setImage] = useState<string | StaticImageData>();
 
   const router = useRouter();
   const { pid } = router.query;
 
+
+  useEffect(() => {
+    let isMounted = true; // Flag to track if the component is still mounted
+    const imageUploadData=async()=>{
+      const image = await imageUpload(imageUrl);
+      if (isMounted) {
+        setDataUrl(image);
+      }
+    }
+    imageUploadData()
+  
+    // Cleanup function
+    return () => {
+      isMounted = false; // Update the flag to indicate the component is unmounted
+    };
+  }, [imageUrl])
+  
+
   const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
 
-    const image = await imageUpload(imageUrl);
+    //const image = await imageUpload(imageUrl);
+    // if(dataUrl){
+      
+
+    // }
+    console.log('dataUrl',dataUrl)
     const dataObj = {
       name,
       description,
       price,
-      imageUrl: { id: image.public_id, url: image.url },
+      imageUrl: { id: dataUrl.public_id, url: dataUrl.url },
     };
 
-    console.log("dataObj", dataObj);
-
     const jsonData = JSON.stringify(dataObj);
-
-    const endpoint = `${baseUrl}/products/${pid}`;
-
     const options = {
       method: "PUT",
       headers: {
@@ -54,39 +77,26 @@ const Admin = () => {
       body: jsonData,
     };
 
-    const res = await fetch(endpoint, options);
-
+    const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`, options);
     const result = await res.json();
     setMessage(result.message);
     if (result.isSuccess) {
     }
   };
 
-  //image upload ......
-  const imageUpload = async (data2: any) => {
-    const data = new FormData();
-    data.append("file", data2);
-    data.append("upload_preset", "myStore");
-    data.append("cloud_name", "dgtz6af7c");
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dgtz6af7c/image/upload",
-
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-    const res2 = await res.json();
-    return res2;
-  };
 
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(`${baseUrl}/products/${pid}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${pid}`);
       const { product } = await res.json();
+      console.log(product)
+      console.log('product.imageUrl.url',product.imageUrl)
+
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
+      setColor(product.color);
+
       if (product.imageUrl) {
         setImage(product.imageUrl.url);
       }
@@ -145,6 +155,20 @@ const Admin = () => {
             </Grid>
             <Grid type="grid1">
               <CustomInput
+                type="text"
+                label="Color"
+                name="color"
+                value={color}
+                handleChange={(e: any) => {
+                  setColor(e.target.value);
+                }}
+              />
+            </Grid>
+            
+          </SplitField>
+          <SplitField>
+          <Grid type="grid1">
+              <CustomInput
                 type="file"
                 label="Image"
                 name="imageUrl"
@@ -162,6 +186,7 @@ const Admin = () => {
                 style={{ margin: "50px", borderRadius: "12px" }}
               />
             </Grid>
+            
           </SplitField>
           <Button>Update</Button>
         </Section>
