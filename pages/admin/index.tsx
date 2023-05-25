@@ -1,6 +1,6 @@
 import AdminLayout from "templates/adminLayout";
 import { Input } from "@/components/atoms/input";
-import { ReactElement, use, useEffect } from "react";
+import { ReactElement,useEffect } from "react";
 import Grid from "@/components/atoms/grid";
 import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
+import imageUpload from "helpers/imageUpload";
 
 const Admin = () => {
   const { register, handleSubmit, reset, formState } = useForm();
@@ -16,7 +17,6 @@ const Admin = () => {
 
   const onSubmit: any = async (data: any, e: Event) => {
     e.preventDefault();
-
     const imageUrl = await imageUpload(data.imageUrl[0]);
     const dataObj = {
       ...data,
@@ -24,9 +24,6 @@ const Admin = () => {
     };
 
     const jsonData = JSON.stringify(dataObj);
-
-    const endpoint = "/products";
-
     const options = {
       method: "POST",
       headers: {
@@ -34,32 +31,11 @@ const Admin = () => {
       },
       body: jsonData,
     };
-
-    const res = await fetch(endpoint, options);
-
-    const result = await res.json();
+    const product = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_CREATE_API}`, options)
+    const result = await product.json();
     setMessage(result.message);
-    if (result.isSuccess) {
-    }
   };
 
-  //image upload ......
-  const imageUpload = async (data2: any) => {
-    const data = new FormData();
-    data.append("file", data2);
-    data.append("upload_preset", "myStore");
-    data.append("cloud_name", "dgtz6af7c");
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dgtz6af7c/image/upload",
-
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-    const res2 = await res.json();
-    return res2;
-  };
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
