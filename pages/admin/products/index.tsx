@@ -1,7 +1,7 @@
 import { Table } from "@/components/molecules/table";
 import AdminLayout from "templates/adminLayout";
 import Section from "@/components/atoms/section";
-import { ReactElement, use } from "react";
+import { ReactElement } from "react";
 import baseUrl from "helpers/baseUrl";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";

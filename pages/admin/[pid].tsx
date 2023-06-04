@@ -12,8 +12,7 @@ import { useRouter } from "next/router";
 import baseUrl from "helpers/baseUrl";
 import Image, { StaticImageData } from "next/image";
 import camera from "public/camera.jpg";
-import imageUpload from 'helpers/imageUpload'
-
+import imageUpload from "helpers/imageUpload";
 
 type Image_URL = {
   id: string;
@@ -29,43 +28,50 @@ const Admin = () => {
   const [imageUrl, setImageUrl] = useState<any>();
   const [dataUrl, setDataUrl] = useState<any>();
 
-  const [image, setImage] = useState<string | StaticImageData>();
+  const [image, setImage] = useState<any>();
+  const [imagePublicId, setImagePublicId] = useState<any>();
+
+  const [imageChanged, setImageChanged] = useState(false);
+  //const [imageFile, setImageFile] = useState<any>();
 
   const router = useRouter();
   const { pid } = router.query;
-
-
+  let imageFile: any;
   useEffect(() => {
     let isMounted = true; // Flag to track if the component is still mounted
-    const imageUploadData=async()=>{
-      const image = await imageUpload(imageUrl);
+    const imageUploadData = async () => {
+      const imageView = await imageUpload(imageUrl);
       if (isMounted) {
-        setDataUrl(image);
+        setDataUrl(imageView);
+        console.log("from useffect", imageView);
+        setImageChanged(true);
       }
-    }
-    imageUploadData()
-  
+    };
+    imageUploadData();
+
     // Cleanup function
     return () => {
       isMounted = false; // Update the flag to indicate the component is unmounted
     };
-  }, [imageUrl])
-  
+  }, [imageUrl]);
 
+  //Form submit handler for Update product details
   const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
 
     //const image = await imageUpload(imageUrl);
     // if(dataUrl){
-      
 
     // }
-    console.log('dataUrl',dataUrl)
+    const imageFileData = imageFileGenerate();
+    console.log("imageFileData from handler", imageFileData);
+
     const dataObj = {
       name,
       description,
       price,
-      imageUrl: { id: dataUrl.public_id, url: dataUrl.url },
+      color,
+      imageFileData,
     };
 
     const jsonData = JSON.stringify(dataObj);
@@ -77,21 +83,43 @@ const Admin = () => {
       body: jsonData,
     };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`, options);
+    //API for update product details
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`,
+      options
+    );
     const result = await res.json();
     setMessage(result.message);
     if (result.isSuccess) {
     }
   };
 
+  const imageFileGenerate = () => {
+    if (imageChanged) {
+      console.log("imageFileGenerate state", imageChanged);
+      imageFile = {
+        id: dataUrl.public_id,
+        url: dataUrl.secure_url,
+      };
+      console.log("from function", imageFile);
+      return imageFile;
+    } else {
+      imageFile = {
+        id: imagePublicId,
+        url: image,
+      };
+      return imageFile;
+    }
+  };
 
+  // Fetch single product details
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${pid}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${pid}`
+      );
       const { product } = await res.json();
-      console.log(product)
-      console.log('product.imageUrl.url',product.imageUrl)
-
+      console.log("product", product);
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
@@ -99,6 +127,7 @@ const Admin = () => {
 
       if (product.imageUrl) {
         setImage(product.imageUrl.url);
+        setImagePublicId(product.imageUrl.id);
       }
     };
 
@@ -164,10 +193,9 @@ const Admin = () => {
                 }}
               />
             </Grid>
-            
           </SplitField>
           <SplitField>
-          <Grid type="grid1">
+            <Grid type="grid1">
               <CustomInput
                 type="file"
                 label="Image"
@@ -179,14 +207,13 @@ const Admin = () => {
             </Grid>
             <Grid type="grid1">
               <Image
-                src={image ? image : camera}
+                src={image}
                 width={125}
                 height={125}
                 alt="image"
                 style={{ margin: "50px", borderRadius: "12px" }}
               />
             </Grid>
-            
           </SplitField>
           <Button>Update</Button>
         </Section>
