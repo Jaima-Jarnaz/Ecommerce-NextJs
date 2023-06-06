@@ -36,7 +36,7 @@ const Admin = () => {
       description,
       price,
       color,
-      imageUrl: { id: imageFile.public_id, url: imageFile.secure_url },
+      imageUrl: { public_id: imageFile.public_id, url: imageFile.secure_url },
     };
 
     //Create new product
@@ -126,7 +126,7 @@ const Admin = () => {
               />
             </Grid>
           </SplitField>
-          <Button type="submit">SUBMIT</Button>
+          <Button>SUBMIT</Button>
         </Section>
       </form>
     </>

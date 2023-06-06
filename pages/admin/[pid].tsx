@@ -9,15 +9,9 @@ import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 import { useRouter } from "next/router";
-import baseUrl from "helpers/baseUrl";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import camera from "public/camera.jpg";
 import imageUpload from "helpers/imageUpload";
-
-type Image_URL = {
-  id: string;
-  url: string;
-};
 
 const Admin = () => {
   const [message, setMessage] = useState("");
@@ -25,56 +19,64 @@ const Admin = () => {
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState<any>();
-  const [dataUrl, setDataUrl] = useState<any>();
 
+  //Storing image data from database
   const [image, setImage] = useState<any>();
   const [imagePublicId, setImagePublicId] = useState<any>();
 
-  const [imageChanged, setImageChanged] = useState(false);
-  //const [imageFile, setImageFile] = useState<any>();
+  //Storing updated image data
+  const [dataUrl, setDataUrl] = useState<any>();
+  const [updatedImageUrl, setUpdatedImageUrl] = useState<any>();
 
   const router = useRouter();
   const { pid } = router.query;
-  let imageFile: any;
   useEffect(() => {
     let isMounted = true; // Flag to track if the component is still mounted
     const imageUploadData = async () => {
-      const imageView = await imageUpload(imageUrl);
+      const imageView = await imageUpload(updatedImageUrl);
       if (isMounted) {
         setDataUrl(imageView);
-        console.log("from useffect", imageView);
-        setImageChanged(true);
       }
     };
     imageUploadData();
 
     // Cleanup function
     return () => {
-      isMounted = false; // Update the flag to indicate the component is unmounted
+      isMounted = false;
+      // Update the flag to indicate the component is unmounted
     };
-  }, [imageUrl]);
+  }, [updatedImageUrl]);
 
   //Form submit handler for Update product details
   const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
 
-    //const image = await imageUpload(imageUrl);
-    // if(dataUrl){
+    let imageFile;
 
-    // }
-    const imageFileData = imageFileGenerate();
-    console.log("imageFileData from handler", imageFileData);
+    //Checking image file updated or not
+    if (dataUrl.error) {
+      imageFile = {
+        public_id: imagePublicId,
+        url: image,
+      };
+    } else {
+      imageFile = {
+        public_id: dataUrl.public_id,
+        url: dataUrl.secure_url,
+      };
+    }
 
+    //All updated form data
     const dataObj = {
       name,
       description,
       price,
       color,
-      imageFileData,
+      imageUrl: imageFile,
     };
 
     const jsonData = JSON.stringify(dataObj);
+    console.log(jsonData);
     const options = {
       method: "PUT",
       headers: {
@@ -84,31 +86,16 @@ const Admin = () => {
     };
 
     //API for update product details
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`,
-      options
-    );
-    const result = await res.json();
-    setMessage(result.message);
-    if (result.isSuccess) {
-    }
-  };
-
-  const imageFileGenerate = () => {
-    if (imageChanged) {
-      console.log("imageFileGenerate state", imageChanged);
-      imageFile = {
-        id: dataUrl.public_id,
-        url: dataUrl.secure_url,
-      };
-      console.log("from function", imageFile);
-      return imageFile;
-    } else {
-      imageFile = {
-        id: imagePublicId,
-        url: image,
-      };
-      return imageFile;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`,
+        options
+      );
+      const result = await res.json();
+      console.log(result);
+      setMessage(result.message);
+    } catch (error) {
+      console.error("here is the error", error);
     }
   };
 
@@ -127,7 +114,7 @@ const Admin = () => {
 
       if (product.imageUrl) {
         setImage(product.imageUrl.url);
-        setImagePublicId(product.imageUrl.id);
+        setImagePublicId(product.imageUrl.public_id);
       }
     };
 
@@ -199,9 +186,9 @@ const Admin = () => {
               <CustomInput
                 type="file"
                 label="Image"
-                name="imageUrl"
+                name="image"
                 handleChange={(e: any) => {
-                  setImageUrl(e.target.files[0]);
+                  setUpdatedImageUrl(e.target.files[0]);
                 }}
               />
             </Grid>
