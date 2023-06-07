@@ -1,12 +1,18 @@
 import headphone from "../public/headphone.jpeg";
 import camera from "../public/camera.jpg";
-import beautyProduct from "assets/beauty_products.jpeg";
-import desktops from "assets/desktops.jpeg";
-import phones from "assets/phones.png";
+import beautyProduct from "assets/beauty.webp";
+import desktops from "assets/computers.jpg";
+import phones from "assets/mobile.jpeg";
+import bags from "assets/bags.jpeg";
+import watches from "assets/watches.jpeg";
+import apples from "assets/apple-products.jpeg";
 
 export const IMAGES = [
+  { img: apples, title: "Apple products" },
   { img: beautyProduct, title: "Beauty Product" },
   { img: desktops, title: "Desktops" },
+  { img: bags, title: "Bags" },
+  { img: watches, title: "Watches" },
   { img: phones, title: "Phones" },
 ];
 

@@ -1,43 +1,13 @@
 .m-categories {
-  width: 550px;
-  //height: 230px;
-  // @include displayFlex(column, center, center);
-  // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-  //   rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  margin: auto;
+  width: 1000px;
 }
-.swiper_container {
-  height: 70rem;
-  padding: 2rem 0;
-  position: relative;
-}
-
 .swiper-slider {
-  width: 37rem;
-  height: 42rem;
   position: relative;
+  flex-shrink: unset !important;
 }
 
 .swiper-slider-img {
-  width: 37rem;
-  height: 42rem;
   border-radius: 2rem;
   object-fit: cover;
 }
-
-// .swiper {
-//   width: 100%;
-//   padding-top: 50px;
-//   padding-bottom: 50px;
-// }
-
-// .swiper-slide {
-//   background-position: center;
-//   background-size: cover;
-//   width: 300px;
-//   height: 300px;
-// }
-
-// .swiper-slide img {
-//   display: block;
-//   width: 100%;
-// }
