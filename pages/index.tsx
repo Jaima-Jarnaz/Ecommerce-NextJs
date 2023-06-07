@@ -14,7 +14,7 @@ const Home = ({ products }: any) => {
       <Container>
         <Heading tag="h4">Categories</Heading>
       </Container>
-      <Container display="flex">
+      <Container>
         <Categories />
       </Container>
       <Container>
