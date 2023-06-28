@@ -26,8 +26,8 @@ const Header = () => {
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/auth/signin" className="o-header__navLink">
-                Sign In
+              <Link href="/auth/signup" className="o-header__navLink">
+                Sign UP
               </Link>
             </li>
             <li className="o-header__navItem">
