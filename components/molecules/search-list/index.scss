@@ -1,0 +1,11 @@
+.m-search-list {
+  margin: 8px;
+  padding: 0;
+  &__contents {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    cursor: pointer;
+  }
+}

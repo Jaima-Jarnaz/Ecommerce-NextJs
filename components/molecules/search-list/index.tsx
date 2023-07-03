@@ -18,25 +18,30 @@ export interface SearchListProps {
 export const SearchList: React.FC<SearchListProps> = ({ searchResult }) => {
   return (
     <ul className="m-search-list">
-      {searchResult.map((item, index) => {
-        return (
-          <li key={index}>
-            <Link href={`products/${item._id}`}>
-              <Heading tag="h5" fontSize="16" alignment="left">
-                {item.name}
-              </Heading>
-              <Text fontSize="14">{item.description}</Text>
-
-              <Image
-                src={item.imageUrl.url}
-                alt={item.name}
-                width={50}
-                height={50}
-              />
+      {searchResult.length > 0 ? (
+        searchResult.map((item, index) => {
+          return (
+            <Link href={`products/${item._id}`} key={index}>
+              <li className="m-search-list__contents">
+                <Heading tag="h5" fontSize="16" alignment="left">
+                  {item.name}
+                </Heading>
+                <Text fontSize="16">{item.description}</Text>
+                <Image
+                  src={item.imageUrl.url}
+                  alt={item.name}
+                  width={40}
+                  height={40}
+                />
+              </li>
             </Link>
-          </li>
-        );
-      })}
+          );
+        })
+      ) : (
+        <>
+          <p>no data</p>
+        </>
+      )}
     </ul>
   );
 };
