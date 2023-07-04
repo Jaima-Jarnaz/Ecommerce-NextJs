@@ -6,8 +6,14 @@ import Heading from "@/components/atoms/heading";
 import banner1 from "@/assets/banner-1.jpg";
 import baseUrl from "helpers/baseUrl";
 import Categories from "@/components/molecules/categories";
+import Button from "@/components/atoms/button";
+import { useRouter } from "next/router";
 
 const Home = ({ products }: any) => {
+  const router = useRouter();
+  const browseMoreHandler = () => {
+    router.push("/products/filters");
+  };
   return (
     <div>
       <Carousel />
@@ -23,6 +29,10 @@ const Home = ({ products }: any) => {
 
       <Container>
         <Cards productData={products} />
+      </Container>
+
+      <Container alignment="center">
+        <Button onClick={browseMoreHandler}>Browse more</Button>
       </Container>
 
       <Container>
