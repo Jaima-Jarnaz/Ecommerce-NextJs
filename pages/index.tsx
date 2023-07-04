@@ -3,7 +3,7 @@ import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
 import Image from "next/image";
 import Heading from "@/components/atoms/heading";
-import banner1 from "@/assets/banner-1.jpg";
+import banner1 from "@/assets/banner-6.png";
 import baseUrl from "helpers/baseUrl";
 import Categories from "@/components/molecules/categories";
 import Button from "@/components/atoms/button";
