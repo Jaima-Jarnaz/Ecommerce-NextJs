@@ -24,14 +24,14 @@ const FilteredProductsList = ({ products }: any) => {
 
   // Filter for price range , brand
   const filterHandler = (
-    minNum: string | undefined = "",
-    maxNum: string | undefined = "",
+    minNum: number | undefined = 0,
+    maxNum: number | undefined = 0,
     brandValue: string | undefined = ""
   ) => {
     if (minNum && maxNum) {
       const filteredProducts = products.filter((product: any) => {
         return (
-          product.price >= parseInt(minNum) && product.price <= parseInt(maxNum)
+          product.price >= minNum&& product.price <= maxNum
         );
       });
       setFilterData(filteredProducts);
