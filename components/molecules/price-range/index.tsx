@@ -1,25 +1,33 @@
 import Grid from "@/components/atoms/grid";
+import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import { ChangeEvent, useState } from "react";
 export interface PriceRangeTypes {
-  onDataChange: (min: string, max: string) => void;
+  onDataChange: (min: number, max: number) => void;
 }
 const PriceRange = ({ onDataChange }: PriceRangeTypes) => {
-  const [minNum, setMinNum] = useState<string>("");
-  const [maxNum, setMaxNum] = useState<string>("");
+  const [minNum, setMinNum] = useState<number | undefined>();
+  const [maxNum, setMaxNum] = useState<number | undefined>();
+  const [maxNumError, setMaxNumError] = useState(false);
+  const [minNumError, setMinNumError] = useState(false);
 
   // handler for click event
   const filterHandler = () => {
-    onDataChange(minNum, maxNum); //calling function which is declared in parent component
+    if (maxNum && minNum && maxNum < minNum) {
+      setMaxNumError(true);
+    } else {
+      setMinNumError(true);
+    }
+    onDataChange(minNum || 0, maxNum || 0); //calling function which is declared in parent component
   };
 
   const resetHandler = () => {
-    setMinNum("");
-    setMaxNum("");
+    setMinNum(undefined);
+    setMaxNum(undefined);
   };
 
   return (
-    <div className="m-price-range">
+    <section className="m-price-range">
       <div className="m-price-range__content">
         <h5>Price Range</h5>
         <button onClick={resetHandler}>Reset</button>
@@ -30,26 +38,30 @@ const PriceRange = ({ onDataChange }: PriceRangeTypes) => {
             className="m-price-range__input"
             name="minValue"
             placeholder="Minimum number"
-            value={minNum}
+            value={minNum !== undefined ? minNum : ""}
             type="number"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setMinNum(e.target.value)
+              setMinNum(parseInt(e.target.value))
             }
           />
           <input
             className="m-price-range__input"
             name="maxValue"
             placeholder="Maximum number"
-            value={maxNum}
+            value={maxNum !== undefined ? maxNum : ""}
             type="number"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setMaxNum(e.target.value)
+              setMaxNum(parseInt(e.target.value))
             }
           />
           <button onClick={filterHandler}>Filter</button>
         </Grid>
       </SplitField>
-    </div>
+      {maxNumError
+        ? "Maximum number should be greater then minimum number"
+        : ""}
+      {minNumError ? "Minimum number should be less then maximum number" : ""}
+    </section>
   );
 };
 
