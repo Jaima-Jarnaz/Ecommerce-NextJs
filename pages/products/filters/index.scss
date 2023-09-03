@@ -1,7 +1,11 @@
 .p-filters {
   display: flex;
   padding: 30px;
+  gap: 40px;
   &__filter-nav {
     width: 25%;
+  }
+  .m-brand-filter {
+    margin-top: 20px;
   }
 }

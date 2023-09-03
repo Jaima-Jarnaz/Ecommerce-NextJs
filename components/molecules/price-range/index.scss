@@ -1,8 +1,15 @@
 .m-price-range {
+  h5 {
+    padding-bottom: 8px;
+  }
   &__input {
-    padding: 8px;
+    padding: 6px;
     border: 1px solid $color-purple;
     outline: none;
     margin: 2px;
+  }
+  &__error {
+    color: $color-error-red;
+    font-size: 12px;
   }
 }
