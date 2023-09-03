@@ -30,9 +30,7 @@ const FilteredProductsList = ({ products }: any) => {
   ) => {
     if (minNum && maxNum) {
       const filteredProducts = products.filter((product: any) => {
-        return (
-          product.price >= minNum&& product.price <= maxNum
-        );
+        return product.price >= minNum && product.price <= maxNum;
       });
       setFilterData(filteredProducts);
     } else if (brandValue) {

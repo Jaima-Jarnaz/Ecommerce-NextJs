@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import Heading from "@/components/atoms/heading";
 
 export type Option = {
   value: string;
@@ -21,7 +22,9 @@ export const BrandFilter = ({ onOptionDataChange, options }: BrandTypes) => {
   return (
     <div className="m-brand-filter">
       <div className="m-brand-filter__content">
-        <h5>Brand</h5>
+        <Heading tag="h5" fontSize="16" alignment="left">
+          Brand
+        </Heading>
       </div>
       {options.map((option, index) => {
         return (

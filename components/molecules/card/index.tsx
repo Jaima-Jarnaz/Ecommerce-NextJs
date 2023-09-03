@@ -36,7 +36,7 @@ export const Card: React.FC<CardProps> = ({
         {price}
       </Text>
       <div className="m-card__button">
-        <Button>Add To Card</Button>
+        <Button type="primary">Add To Card</Button>
       </div>
     </div>
   );

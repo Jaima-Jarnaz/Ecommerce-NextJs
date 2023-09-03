@@ -1,7 +1,7 @@
 import { mapModifiers } from "helpers/libs/utils";
 export interface ButtonProps {
   children: React.ReactNode;
-  type?: "primary";
+  type: "primary" | "secondary" | "ternary" | "small";
   onClick?: () => void;
 }
 
