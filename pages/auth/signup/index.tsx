@@ -144,7 +144,7 @@ const SignUp = () => {
         {validationErrors.confirmPassword && (
           <Note color="danger">{validationErrors.confirmPassword}</Note>
         )}
-        <Button>SUBMIT</Button>
+        <Button type="primary">SUBMIT</Button>
       </form>
     </Container>
   );

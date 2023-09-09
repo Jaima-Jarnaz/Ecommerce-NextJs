@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
+import { CartProvider } from "../contexts/card/cardContext";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Layout from "../templates/layout";
@@ -15,11 +16,13 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   if (Component.getLayout) {
-    return Component.getLayout(<Component {...pageProps} />);
+    return Component.getLayout(<Component {...pageProps} />); //admin layout
   }
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <CartProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </CartProvider>
   );
 }
