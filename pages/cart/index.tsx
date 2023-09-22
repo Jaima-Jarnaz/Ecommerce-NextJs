@@ -1,7 +1,18 @@
 import { useState, useContext } from "react";
 import { CartContext } from "contexts/card/cardContext";
+import CustomInput from "@/components/atoms/custom-input";
+import Grid from "@/components/atoms/grid";
+import Section from "@/components/atoms/section";
+import SplitField from "@/components/atoms/splitField";
+import Button from "@/components/atoms/button";
+import Heading from "@/components/atoms/heading";
 const Cart = ({ products }: any) => {
   const [quantity, setQuantity] = useState(0);
+  const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
 
   const { cartItems }: any = useContext(CartContext);
 
@@ -13,18 +24,22 @@ const Cart = ({ products }: any) => {
   });
 
   const incrementHandler = () => {
-    setQuantity(quantity + 1);
+    setQuantity((prevQ) => prevQ + 1);
   };
 
   const decrementHandler = () => {
     setQuantity(quantity - 1);
+  };
+
+  const handleSubmit = () => {
+    console.log("done");
   };
   return (
     <div className="p-cart">
       <table className="p-cart__table">
         <thead className="p-cart__heading">
           <tr>
-            <th className="p-cart__content">#</th>
+            <th>#</th>
             <th>Image</th>
             <th>Name</th>
             <th>Price</th>
@@ -38,18 +53,24 @@ const Cart = ({ products }: any) => {
             cartProducts.map((item: any, index: number) => {
               return (
                 <tr key={index} className="p-cart__content">
-                  <td className="p-cart__content">{++index}</td>
-                  <td className="p-cart__content">
+                  <td>{++index}</td>
+                  <td>
                     <img src={item.imageUrl.url} />
                   </td>
-                  <td className="p-cart__content">{item.name}</td>
-                  <td className="p-cart__content">{item.price}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
                   <td>
-                    <button onClick={incrementHandler}>+</button>
+                    <button
+                      onClick={() => {
+                        incrementHandler();
+                      }}
+                    >
+                      +
+                    </button>
                     {quantity}
                     <button onClick={decrementHandler}>-</button>
                   </td>
-                  <td> {item.price * quantity}</td>
+                  <td> {item.price}</td>
 
                   {/* <td>
                     <span
@@ -75,6 +96,64 @@ const Cart = ({ products }: any) => {
             })}
         </tbody>
       </table>
+
+      <div>
+        <h3>Delivery Address</h3>
+        <form onSubmit={handleSubmit}>
+          <Section>
+            <SplitField>
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
+                  label="Name"
+                  name="name"
+                  value={name}
+                  handleChange={(e: any) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
+                  label="Phone Number"
+                  name="phone"
+                  value={phone}
+                  handleChange={(e: any) => {
+                    setPhone(e.target.value);
+                  }}
+                />
+              </Grid>
+            </SplitField>
+            <SplitField>
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="Address"
+                  name="priaddressce"
+                  value={address}
+                  handleChange={(e: any) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="City"
+                  name="city"
+                  value={city}
+                  handleChange={(e: any) => {
+                    setCity(e.target.value);
+                  }}
+                />
+              </Grid>
+            </SplitField>
+
+            <Button type="primary">Update</Button>
+          </Section>
+        </form>
+      </div>
     </div>
   );
 };

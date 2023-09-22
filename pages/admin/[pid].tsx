@@ -202,7 +202,7 @@ const Admin = () => {
               />
             </Grid>
           </SplitField>
-          <Button>Update</Button>
+          <Button type="primary">Update</Button>
         </Section>
       </form>
     </>
