@@ -3,6 +3,8 @@ import Image, { StaticImageData } from "next/image";
 import Button from "@/components/atoms/button";
 import Heading from "@/components/atoms/heading";
 import Link from "next/link";
+import { CartContext } from "../../../contexts/card/cardContext";
+import { useContext } from "react";
 
 export type CardProps = {
   id: string;
@@ -21,6 +23,23 @@ export const Card: React.FC<CardProps> = ({
   price,
   id,
 }) => {
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    // Handle the case where the context is undefined (optional)
+    return (
+      <div className="m-card">
+        <p>Cart context is not available.</p>
+      </div>
+    );
+  }
+
+  const { setItemsCount, itemsCount, addToCart }: any = useContext(CartContext);
+  const handleClick = (id: string) => {
+    console.log(itemsCount);
+    addToCart(id);
+    setItemsCount(itemsCount + 1);
+  };
   return (
     <div className="m-card">
       <div className="m-card__img">
@@ -36,7 +55,9 @@ export const Card: React.FC<CardProps> = ({
         {price}
       </Text>
       <div className="m-card__button">
-        <Button type="primary">Add To Card</Button>
+        <Button type="primary" onClick={() => handleClick(id)}>
+          Add To Card
+        </Button>
       </div>
     </div>
   );

@@ -1,0 +1,33 @@
+.t-layout {
+  &__main {
+    position: relative;
+  }
+
+  &__add-to-card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: $color-purple;
+    top: 55px;
+    right: 0;
+    width: 70px;
+    height: 65px;
+    z-index: $z-index-add-to-card;
+    cursor: pointer;
+  }
+
+  &__add-to-card-content {
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    background-color: $color-white;
+    width: 25px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    padding-bottom: 6px;
+    color: $color-deep-purple;
+    font-weight: 700;
+  }
+}

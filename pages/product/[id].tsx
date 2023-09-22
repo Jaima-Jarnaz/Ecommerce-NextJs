@@ -61,8 +61,8 @@ const Product = ({ product, products }: any) => {
                 -
               </Button>
             </span>
-            <Button>Add To Card</Button>
-            <Button>Buy Now</Button>
+            <Button type="primary">Add To Card</Button>
+            <Button type="primary">Buy Now</Button>
           </div>
         </section>
       </Container>
@@ -142,7 +142,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       message: "Successfully found requested product data",
       product: data.product,
-      products,
+      products: products.products,
     },
   };
 };
