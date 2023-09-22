@@ -32,7 +32,9 @@ const Home = ({ products }: any) => {
       </Container>
 
       <Container alignment="center">
-        <Button onClick={browseMoreHandler}>Browse more</Button>
+        <Button type="primary" onClick={browseMoreHandler}>
+          Browse more
+        </Button>
       </Container>
 
       <Container>
