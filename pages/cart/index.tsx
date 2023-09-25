@@ -1,30 +1,25 @@
 import { useState, useContext } from "react";
 import { CartContext } from "contexts/card/cardContext";
-import CustomInput from "@/components/atoms/custom-input";
-import Grid from "@/components/atoms/grid";
-import Section from "@/components/atoms/section";
-import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
-import Heading from "@/components/atoms/heading";
-const Cart = ({ products }: any) => {
-  const [quantity, setQuantity] = useState(0);
-  const [message, setMessage] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+import Link from "next/link";
+import { CHECKOUT_URL } from "helpers/constants";
 
-  const { cartItems }: any = useContext(CartContext);
+const Cart = ({ products }: any) => {
+  // let quantityCount = 1;
+  const [quantity, setQuantity] = useState(0);
+  const [quantityCount, setquantityCount] = useState(1);
+
+  const { cartItems, updateCartItemQuantity }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
-    console.log("all products", product);
-    console.log("cartItems", cartItems);
+    // console.log("all products", product);
+    // console.log("cartItems", cartItems);
 
     return cartItems.some((cartItem: any) => cartItem === product._id);
   });
 
-  const incrementHandler = () => {
-    setQuantity((prevQ) => prevQ + 1);
+  const incrementHandler = (productId: string) => {
+    updateCartItemQuantity(productId, (cartItems[productId] || 0) + 1);
   };
 
   const decrementHandler = () => {
@@ -36,6 +31,7 @@ const Cart = ({ products }: any) => {
   };
   return (
     <div className="p-cart">
+      <h3 className="p-cart__heading">Cart Information</h3>
       <table className="p-cart__table">
         <thead className="p-cart__heading">
           <tr>
@@ -45,7 +41,6 @@ const Cart = ({ products }: any) => {
             <th>Price</th>
             <th>Quantity</th>
             <th>Unit Price</th>
-            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -62,12 +57,12 @@ const Cart = ({ products }: any) => {
                   <td>
                     <button
                       onClick={() => {
-                        incrementHandler();
+                        incrementHandler(item._id);
                       }}
                     >
                       +
                     </button>
-                    {quantity}
+                    {quantityCount}
                     <button onClick={decrementHandler}>-</button>
                   </td>
                   <td> {item.price}</td>
@@ -96,63 +91,38 @@ const Cart = ({ products }: any) => {
             })}
         </tbody>
       </table>
+      <div className="p-cart__bottom-content">
+        <ul className="p-cart__price-contents">
+          <li className="p-cart__price-contents-item">
+            <span className="p-cart__price-contents-item-title">Subtotal</span>
+            <span className="p-cart__price-contents-item-price">tk 100</span>
+          </li>
+          <li className="p-cart__price-contents-item">
+            <span>Shipping Charge</span>
+            <span>tk 200</span>
+          </li>
+          <li className="p-cart__price-contents-item">
+            <span>Including Discount</span>
+            <span>tk 10</span>
+          </li>
+        </ul>
 
-      <div>
-        <h3>Delivery Address</h3>
-        <form onSubmit={handleSubmit}>
-          <Section>
-            <SplitField>
-              <Grid type="grid2">
-                <CustomInput
-                  type="text"
-                  label="Name"
-                  name="name"
-                  value={name}
-                  handleChange={(e: any) => {
-                    setName(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid type="grid2">
-                <CustomInput
-                  type="text"
-                  label="Phone Number"
-                  name="phone"
-                  value={phone}
-                  handleChange={(e: any) => {
-                    setPhone(e.target.value);
-                  }}
-                />
-              </Grid>
-            </SplitField>
-            <SplitField>
-              <Grid type="grid1">
-                <CustomInput
-                  type="text"
-                  label="Address"
-                  name="priaddressce"
-                  value={address}
-                  handleChange={(e: any) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </Grid>
-              <Grid type="grid1">
-                <CustomInput
-                  type="text"
-                  label="City"
-                  name="city"
-                  value={city}
-                  handleChange={(e: any) => {
-                    setCity(e.target.value);
-                  }}
-                />
-              </Grid>
-            </SplitField>
+        <ul className="p-cart__content-total-price">
+          <li className="p-cart__price-contents-item ">
+            <span className="p-cart__total-cost-level">Total cost</span>
+            <span className="p-cart__total-cost">tk 1200</span>
+          </li>
+        </ul>
+      </div>
 
-            <Button type="primary">Update</Button>
-          </Section>
-        </form>
+      <div className="p-cart__button-container">
+        <div className="p-cart__double-buttons">
+          <Button type="primary">Continue shopping</Button>
+          <Button type="primary">Clear Cart</Button>
+        </div>
+        <Link href={CHECKOUT_URL}>
+          <Button type="primary">Procced to checkout</Button>
+        </Link>
       </div>
     </div>
   );

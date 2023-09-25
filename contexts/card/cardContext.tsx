@@ -20,13 +20,31 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const addToCart = (items: any) => {
     setCartItems([...cartItems, items]);
   };
-  console.log("cartItems", cartItems);
+
+  const updateCartItemQuantity = (productID: string, quantity: number) => {
+    // Ensure the quantity is not negative
+    if (quantity < 0) {
+      quantity = 0;
+    }
+
+    // Update the cartItems state with the new quantity for the product
+    setCartItems((cartItems: any) => ({
+      ...cartItems,
+      [productID]: quantity,
+    }));
+
+    console.log(
+      "Update the cartItems state with the new quantity for the product",
+      cartItems
+    );
+  };
 
   const value = {
     cartItems,
     addToCart,
     itemsCount,
     setItemsCount,
+    updateCartItemQuantity,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
