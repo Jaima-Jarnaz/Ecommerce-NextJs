@@ -5,26 +5,24 @@ import Link from "next/link";
 import { CHECKOUT_URL } from "helpers/constants";
 
 const Cart = ({ products }: any) => {
-  // let quantityCount = 1;
-  const [quantity, setQuantity] = useState(0);
+  //  const [quantity, setQuantity] = useState(1);
   const [quantityCount, setquantityCount] = useState(1);
 
   const { cartItems, updateCartItemQuantity }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
     // console.log("all products", product);
-    // console.log("cartItems", cartItems);
-
-    return cartItems.some((cartItem: any) => cartItem === product._id);
+    console.log("cartItems", cartItems);
+    return cartItems.some((item: any) => item.productId === product._id);
   });
 
-  const incrementHandler = (productId: string) => {
-    updateCartItemQuantity(productId, (cartItems[productId] || 0) + 1);
+  const incrementHandler = (productId: string, quantity: number) => {
+    console.log("cartProducts", cartProducts);
+
+    updateCartItemQuantity(productId, quantity);
   };
 
-  const decrementHandler = () => {
-    setQuantity(quantity - 1);
-  };
+  const decrementHandler = () => {};
 
   const handleSubmit = () => {
     console.log("done");
@@ -57,12 +55,12 @@ const Cart = ({ products }: any) => {
                   <td>
                     <button
                       onClick={() => {
-                        incrementHandler(item._id);
+                        incrementHandler(item._id, item.quantity);
                       }}
                     >
                       +
                     </button>
-                    {quantityCount}
+                    {item.quantity}
                     <button onClick={decrementHandler}>-</button>
                   </td>
                   <td> {item.price}</td>
