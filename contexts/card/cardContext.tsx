@@ -1,40 +1,46 @@
 import React, { useState, createContext, useEffect } from "react";
 
+// Define the props for the CartProvider component
 export interface CartProviderProps {
   children: React.ReactNode;
 }
 
+// Define the structure of a cart item
 export interface CartItem {
   productId: any;
   quantity: number;
 }
 
+// Define the structure of the CartContext
 export interface CartContextType {
-  cartItems: CartItem[];
-  addToCart: (product: any) => void;
-  itemsCount: number;
-  setItemsCount: React.Dispatch<React.SetStateAction<number>>;
+  cartItems: CartItem[]; // Array to store cart items
+  addToCart: (product: any) => void; // Function to add a product to the cart
+  itemsCount: number; // Total count of items in the cart
+  setItemsCount: React.Dispatch<React.SetStateAction<number>>; // Function to update the items count
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined); // Provide a default value or type
+// Create the CartContext with an initial undefined value
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// Define the CartProvider component
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>();
-  const [itemsCount, setItemsCount] = useState(0);
+  // Define the state variables
+  const [cartItems, setCartItems] = useState<CartItem[]>([]); // Cart items
+  const [itemsCount, setItemsCount] = useState(0); // Total count of items
 
-  const LOCAL_STORAGE_KEY = "cartItems"; // Define a key for local storage
+  // Define a key for local storage
+  const LOCAL_STORAGE_KEY = "cartItems";
 
   // Load cart items from local storage when the provider initializes
   useEffect(() => {
-    const storedCartItems = localStorage.getItem(LOCAL_STORAGE_KEY);
+    // Retrieve cart items from local storage or initialize as an empty array
+    const storedCartItems = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEY) || "[]"
+    );
 
-    if (storedCartItems !== null && storedCartItems !== undefined) {
-      const data = JSON.parse(storedCartItems);
-      console.log("storedCartItems", data);
-
-      setCartItems([{ ...cartItems, data }]);
-    } else {
-      setCartItems([]);
+    // Check if there are stored cart items
+    if (storedCartItems.length > 0) {
+      setCartItems(storedCartItems);
     }
   }, []);
 
@@ -43,72 +49,42 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // Function to add a product to the cart
   const addToCart = (productToAdd: any) => {
     const existingCartItem = cartItems.find(
       (item) => item.productId === productToAdd._id
     );
 
     if (existingCartItem) {
+      // If the product is already in the cart, update its quantity
       updateCartItemQuantity(
         existingCartItem.productId,
         existingCartItem.quantity + 1
       );
     } else {
+      // If the product is not in the cart, add it as a new item
       setCartItems([...cartItems, { productId: productToAdd, quantity: 1 }]);
     }
   };
 
+  // Function to update the quantity of a cart item
   const updateCartItemQuantity = (productId: string, quantity: number) => {
     if (quantity < 0) {
       quantity = 0;
     }
 
     setCartItems((prevCartItems) =>
-      prevCartItems.map((item) =>
-        item.productId === productId ? { ...item, quantity } : item
-      )
+      prevCartItems.map((item) => {
+        console.log("productId", productId, "quantity", quantity);
+
+        return item.productId === productId ? { ...item, quantity } : item;
+      })
     );
   };
 
-  // const addToCart = (productToAdd: any) => {
-  //   // Check if the product is already in the cart
-  //   const existingCartItem = cartItems.find(
-  //     (item) => item.productId === productToAdd._id
-  //   );
-  //   // If the product is already in the cart, update its quantity
-  //   if (existingCartItem) {
-  //     updateCartItemQuantity(
-  //       existingCartItem.productId,
-  //       existingCartItem.quantity + 1
-  //     );
-  //   } else {
-  //     console.log("addto card", cartItems);
+  console.log("data", cartItems);
 
-  //     // If the product is not in the cart, add it as a new item
-  //     setCartItems([...cartItems, { productId: productToAdd, quantity: 1 }]);
-  //     console.log("addto card2", cartItems);
-  //   }
-  // };
-
-  // const updateCartItemQuantity = (productID: string, quantity: number) => {
-  //   // Ensure the quantity is not negative
-  //   if (quantity < 0) {
-  //     quantity = 0;
-  //   }
-
-  //   // Update the cartItems state with the new quantity for the product
-  //   setCartItems((prevCartItems: any) =>
-  //     prevCartItems.map((item: any) => {
-  //       item === productID ? { ...item, quantity } : item;
-  //     })
-  //   );
-
-  //   console.log(
-  //     "Update the cartItems state with the new quantity for the product",
-  //     cartItems
-  //   );
-  // };
-
+  // Create the context value
   const value = {
     cartItems,
     addToCart,
@@ -117,7 +93,9 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     updateCartItemQuantity,
   };
 
+  // Provide the CartContext value to the children components
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
+// Export the CartProvider and CartContext
 export { CartProvider, CartContext };

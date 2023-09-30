@@ -12,13 +12,11 @@ const Cart = ({ products }: any) => {
 
   const cartProducts = products.filter((product: any) => {
     // console.log("all products", product);
-    console.log("cartItems", cartItems);
+    //console.log("cartItems", cartItems);
     return cartItems.some((item: any) => item.productId === product._id);
   });
 
   const incrementHandler = (productId: string, quantity: number) => {
-    console.log("cartProducts", cartProducts);
-
     updateCartItemQuantity(productId, quantity);
   };
 
