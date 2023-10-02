@@ -126,7 +126,7 @@ const Admin = () => {
               />
             </Grid>
           </SplitField>
-          <Button>SUBMIT</Button>
+          <Button type="primary">SUBMIT</Button>
         </Section>
       </form>
     </>

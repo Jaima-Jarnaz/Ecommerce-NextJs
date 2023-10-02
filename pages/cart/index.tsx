@@ -1,36 +1,42 @@
 import { useState, useContext } from "react";
 import { CartContext } from "contexts/card/cardContext";
-const Cart = ({ products }: any) => {
-  const [quantity, setQuantity] = useState(0);
+import Button from "@/components/atoms/button";
+import Link from "next/link";
+import { CHECKOUT_URL } from "helpers/constants";
 
-  const { cartItems }: any = useContext(CartContext);
+const Cart = ({ products }: any) => {
+  //  const [quantity, setQuantity] = useState(1);
+  const [quantityCount, setquantityCount] = useState(1);
+
+  const { cartItems, updateCartItemQuantity }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
-    console.log("all products", product);
-    console.log("cartItems", cartItems);
-
-    return cartItems.some((cartItem: any) => cartItem === product._id);
+    // console.log("all products", product);
+    //console.log("cartItems", cartItems);
+    return cartItems.some((item: any) => item.productId === product._id);
   });
 
-  const incrementHandler = () => {
-    setQuantity(quantity + 1);
+  const incrementHandler = (productId: string, quantity: number) => {
+    updateCartItemQuantity(productId, quantity);
   };
 
-  const decrementHandler = () => {
-    setQuantity(quantity - 1);
+  const decrementHandler = () => {};
+
+  const handleSubmit = () => {
+    console.log("done");
   };
   return (
     <div className="p-cart">
+      <h3 className="p-cart__heading">Cart Information</h3>
       <table className="p-cart__table">
         <thead className="p-cart__heading">
           <tr>
-            <th className="p-cart__content">#</th>
+            <th>#</th>
             <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Unit Price</th>
-            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -38,18 +44,24 @@ const Cart = ({ products }: any) => {
             cartProducts.map((item: any, index: number) => {
               return (
                 <tr key={index} className="p-cart__content">
-                  <td className="p-cart__content">{++index}</td>
-                  <td className="p-cart__content">
+                  <td>{++index}</td>
+                  <td>
                     <img src={item.imageUrl.url} />
                   </td>
-                  <td className="p-cart__content">{item.name}</td>
-                  <td className="p-cart__content">{item.price}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
                   <td>
-                    <button onClick={incrementHandler}>+</button>
-                    {quantity}
+                    <button
+                      onClick={() => {
+                        incrementHandler(item._id, item.quantity);
+                      }}
+                    >
+                      +
+                    </button>
+                    {item.quantity}
                     <button onClick={decrementHandler}>-</button>
                   </td>
-                  <td> {item.price * quantity}</td>
+                  <td> {item.price}</td>
 
                   {/* <td>
                     <span
@@ -75,6 +87,39 @@ const Cart = ({ products }: any) => {
             })}
         </tbody>
       </table>
+      <div className="p-cart__bottom-content">
+        <ul className="p-cart__price-contents">
+          <li className="p-cart__price-contents-item">
+            <span className="p-cart__price-contents-item-title">Subtotal</span>
+            <span className="p-cart__price-contents-item-price">tk 100</span>
+          </li>
+          <li className="p-cart__price-contents-item">
+            <span>Shipping Charge</span>
+            <span>tk 200</span>
+          </li>
+          <li className="p-cart__price-contents-item">
+            <span>Including Discount</span>
+            <span>tk 10</span>
+          </li>
+        </ul>
+
+        <ul className="p-cart__content-total-price">
+          <li className="p-cart__price-contents-item ">
+            <span className="p-cart__total-cost-level">Total cost</span>
+            <span className="p-cart__total-cost">tk 1200</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="p-cart__button-container">
+        <div className="p-cart__double-buttons">
+          <Button type="primary">Continue shopping</Button>
+          <Button type="primary">Clear Cart</Button>
+        </div>
+        <Link href={CHECKOUT_URL}>
+          <Button type="primary">Procced to checkout</Button>
+        </Link>
+      </div>
     </div>
   );
 };

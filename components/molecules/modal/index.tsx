@@ -27,9 +27,13 @@ export const Modal: React.FC<ModalProps> = ({
         {children}
         <div className="m-modal__comboButtons">
           <span className="m-modal__button">
-            <Button onClick={onClose}>Cancel</Button>
+            <Button type="primary" onClick={onClose}>
+              Cancel
+            </Button>
           </span>
-          <Button onClick={onDelete}>Yes</Button>
+          <Button type="primary" onClick={onDelete}>
+            Yes
+          </Button>
         </div>
       </div>
     </div>

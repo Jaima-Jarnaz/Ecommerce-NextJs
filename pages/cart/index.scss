@@ -1,12 +1,97 @@
 .p-cart {
   padding: 30px;
+
+  &__heading {
+    font-size: 16px;
+    font-weight: bold;
+    color: $color-purple;
+    padding-bottom: 20px;
+  }
   &__table {
+    border-collapse: collapse;
+    width: 95%;
     padding: 20px;
-    background-color: $color-light-white;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    background-color: $color-white;
+    box-shadow: $color-box-shadow-card;
   }
   td img {
+    width: 120px;
+    height: 120px;
+  }
+
+  tr th {
     width: 100px;
-    height: 100px;
+  }
+
+  th,
+  td {
+    text-align: center;
+    padding: 8px;
+  }
+
+  th {
+    background-color: $color-light-white;
+  }
+
+  tr:nth-child(even) {
+    background-color: $color-light-white;
+  }
+
+  &__content {
+    width: 100px;
+  }
+
+  &__bottom-content {
+    margin-top: 20px;
+    width: 93%;
+    padding: 12px;
+    border: 1px solid $color-purple;
+    align-items: end;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &::before {
+      content: "";
+      width: 70%;
+      height: 1px;
+      background-color: $color-purple;
+      position: absolute;
+      bottom: 65px;
+    }
+  }
+
+  &__price-contents {
+    font-size: 16px;
+  }
+  &__price-contents-item {
+    display: flex;
+    gap: 20px;
+    min-width: 240px;
+    justify-content: space-between;
+  }
+
+  &__price-contents-item-title {
+    flex: 1;
+  }
+
+  &__total-cost-level,
+  &__total-cost {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &__button-container {
+    margin-top: 30px;
+    width: 93%;
+    padding: 18px;
+    background-color: $color-light-white;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__double-buttons {
+    display: flex;
+    gap: 10px;
   }
 }
