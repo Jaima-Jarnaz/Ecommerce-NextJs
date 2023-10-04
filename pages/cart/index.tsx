@@ -5,9 +5,7 @@ import Link from "next/link";
 import { CHECKOUT_URL } from "helpers/constants";
 
 const Cart = ({ products }: any) => {
-  //  const [quantity, setQuantity] = useState(1);
-  const [quantityCount, setquantityCount] = useState(1);
-
+  let subTotal = 0;
   const { cartItems, updateCartItemQuantity }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
@@ -42,6 +40,10 @@ const Cart = ({ products }: any) => {
         <tbody>
           {cartProducts &&
             cartProducts.map((item: any, index: number) => {
+              {
+                subTotal = subTotal + item.quantity * item.price;
+              }
+
               return (
                 <tr key={index} className="p-cart__content">
                   <td>{++index}</td>
@@ -61,7 +63,7 @@ const Cart = ({ products }: any) => {
                     {item.quantity}
                     <button onClick={decrementHandler}>-</button>
                   </td>
-                  <td> {item.price}</td>
+                  <td>{item.quantity * item.price}</td>
 
                   {/* <td>
                     <span
@@ -89,17 +91,23 @@ const Cart = ({ products }: any) => {
       </table>
       <div className="p-cart__bottom-content">
         <ul className="p-cart__price-contents">
+          <li>
+            <input className="p-cart__coupon-input" type="text" name="coupon" />
+            <button className="p-cart__coupon-button">Submit</button>
+          </li>
           <li className="p-cart__price-contents-item">
             <span className="p-cart__price-contents-item-title">Subtotal</span>
-            <span className="p-cart__price-contents-item-price">tk 100</span>
+            <span className="p-cart__price-contents-item-price">
+              tk {subTotal}
+            </span>
           </li>
           <li className="p-cart__price-contents-item">
             <span>Shipping Charge</span>
-            <span>tk 200</span>
+            <span>tk 50</span>
           </li>
           <li className="p-cart__price-contents-item">
             <span>Including Discount</span>
-            <span>tk 10</span>
+            <span>tk 0</span>
           </li>
         </ul>
 

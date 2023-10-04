@@ -37,6 +37,19 @@
     background-color: $color-light-white;
   }
 
+  &__coupon-input {
+    padding: 6px;
+    border: 1px solid $color-purple;
+  }
+
+  &__coupon-button {
+    margin-left: 5px;
+    padding: 6px;
+    color: $color-white;
+    background-color: $color-plum;
+    border: none;
+  }
+
   &__content {
     width: 100px;
   }
