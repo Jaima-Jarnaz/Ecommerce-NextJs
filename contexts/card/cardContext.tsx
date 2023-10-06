@@ -97,6 +97,7 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Create the context value
   const value = {
     cartItems,
+    setCartItems,
     addToCart,
     itemsCount,
     setItemsCount,

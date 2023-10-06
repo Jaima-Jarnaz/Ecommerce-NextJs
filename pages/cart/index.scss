@@ -107,4 +107,22 @@
     display: flex;
     gap: 10px;
   }
+  &__promo-code {
+    margin-right: 50px;
+  }
+
+  &__empty-cart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__cart-empty-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-monsoon;
+    padding-bottom: 30px;
+  }
 }
