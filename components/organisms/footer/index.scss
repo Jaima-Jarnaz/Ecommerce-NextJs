@@ -1,7 +1,72 @@
 .o-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  height: 80px;
+  height: 383px;
   background: $color-gradient-primary;
   text-align: center;
   color: $color-white;
+
+  &__contents {
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .a-text {
+    background-color: $color-deep-purple;
+    padding: 6px;
+  }
+
+  &__title {
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: $color-black;
+  }
+
+  &__contents-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  &__text-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    a {
+      text-decoration: none;
+      color: $color-white;
+    }
+  }
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__button {
+    padding: 20px;
+    background-color: $color-purple;
+    color: $color-white;
+    border: none;
+    outline: 1px solid $color-white;
+    font-size: 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 50%;
+      left: 54px;
+      background-color: $color-white;
+    }
+  }
 }

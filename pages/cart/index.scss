@@ -37,6 +37,19 @@
     background-color: $color-light-white;
   }
 
+  &__coupon-input {
+    padding: 6px;
+    border: 1px solid $color-purple;
+  }
+
+  &__coupon-button {
+    margin-left: 5px;
+    padding: 6px;
+    color: $color-white;
+    background-color: $color-plum;
+    border: none;
+  }
+
   &__content {
     width: 100px;
   }
@@ -93,5 +106,23 @@
   &__double-buttons {
     display: flex;
     gap: 10px;
+  }
+  &__promo-code {
+    margin-right: 50px;
+  }
+
+  &__empty-cart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__cart-empty-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-monsoon;
+    padding-bottom: 30px;
   }
 }

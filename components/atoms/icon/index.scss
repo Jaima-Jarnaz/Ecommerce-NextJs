@@ -38,6 +38,8 @@
   @include icon("delete", 16px, 16px);
   @include icon("cross", 16px, 16px);
   @include icon("add-to-card", 30px, 30px);
+  @include icon("call", 18px, 18px);
+  @include icon("location", 30px, 30px);
 
   //--------Can use this method as well for icon------------
   // @each $icon-name in $icons {

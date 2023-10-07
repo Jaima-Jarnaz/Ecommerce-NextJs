@@ -6,6 +6,9 @@ import phones from "assets/mobile.jpeg";
 import bags from "assets/bags.jpeg";
 import watches from "assets/watches.jpeg";
 import apples from "assets/apple-products.jpeg";
+import emptyCart from "assets/empty-cart.png";
+
+export const EMPTY_CART_IMAGE = emptyCart;
 
 export const IMAGES = [
   { img: apples, title: "Apple products" },

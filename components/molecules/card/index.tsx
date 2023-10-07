@@ -34,11 +34,11 @@ export const Card: React.FC<CardProps> = ({
     );
   }
 
+  const TOTAL_CART_ITEMS = "total_card_items";
+
   const { setItemsCount, itemsCount, addToCart }: any = useContext(CartContext);
   const handleClick = (id: string) => {
-    console.log(itemsCount);
     addToCart(id);
-    setItemsCount(itemsCount + 1);
   };
   return (
     <div className="m-card">
