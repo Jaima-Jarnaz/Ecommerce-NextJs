@@ -147,10 +147,12 @@ const Cart = ({ products }: any) => {
             ""
           )}
         </div>
-        {cartProducts.lenght > 0 && (
+        {cartProducts.length > 0 ? (
           <Link href={CHECKOUT_URL}>
-            <Button type="primary">Procced to checkout</Button>
+            <Button type="primary">Proceed to checkout</Button>
           </Link>
+        ) : (
+          ""
         )}
       </div>
     </div>

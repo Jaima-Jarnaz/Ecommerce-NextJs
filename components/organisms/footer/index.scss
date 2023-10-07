@@ -9,10 +9,9 @@
   color: $color-white;
 
   &__contents {
-    padding: 16px;
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-around;
   }
 
   .a-text {
@@ -24,5 +23,50 @@
     font-size: 20px;
     letter-spacing: 1px;
     font-weight: 500;
+    color: $color-black;
+  }
+
+  &__contents-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  &__text-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    a {
+      text-decoration: none;
+      color: $color-white;
+    }
+  }
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__button {
+    padding: 20px;
+    background-color: $color-purple;
+    color: $color-white;
+    border: none;
+    outline: 1px solid $color-white;
+    font-size: 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 50%;
+      left: 54px;
+      background-color: $color-white;
+    }
   }
 }
