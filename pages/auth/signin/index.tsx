@@ -8,27 +8,26 @@ import { FORM_DATA_TYPES } from "helpers/types";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-const SignUp = () => {
+const SignIn = () => {
   const router = useRouter();
 
   const [message, setMessage] = useState("");
 
   const initialState = {
-    name: "",
     email: "",
-    phone: "",
     password: "",
-    confirmPassword: "",
   };
 
-  const [formData, setFormData] = useState<FORM_DATA_TYPES>(initialState);
-  const [validationErrors, setValidationErrors] =
-    useState<FORM_DATA_TYPES>(initialState);
+  // Define a key for local storage
+  const USER_LOCAL_STORAGE_KEY = "user";
+
+  const [formData, setFormData] = useState<any>(initialState);
+  const [validationErrors, setValidationErrors] = useState<any>(initialState);
   const [error, setError] = useState(false);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -40,15 +39,10 @@ const SignUp = () => {
     //perform validation errors
     let errors: any = {};
 
-    if (formData.name.trim() === "") {
-      errors.name = "Name is required";
-    }
     if (formData.email.trim() === "") {
       errors.email = "Email is required";
     }
-    if (formData.phone.trim() === "") {
-      errors.phone = "Phone number is required";
-    }
+
     if (formData.password.trim() === "") {
       errors.password = "Password is required";
     }
@@ -69,7 +63,7 @@ const SignUp = () => {
           body: jsonData,
         };
         const user = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_CREATE_API}`,
+          `${process.env.NEXT_PUBLIC_USER_LOGIN_API}`,
           options
         );
         const result = await user.json();
@@ -80,8 +74,19 @@ const SignUp = () => {
 
           // Reset the form state
           setFormData(initialState);
+
           setValidationErrors(initialState);
-          router.push("/auth/signin");
+
+          //set data into local storage
+          const userData = {
+            email: result.data.email,
+            phone: result.data.phone,
+          };
+          localStorage.setItem(
+            USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(userData)
+          );
+          // router.push("/auth/signin");
         } else {
           setError(true);
         }
@@ -92,22 +97,12 @@ const SignUp = () => {
   };
   return (
     <Container width="400" margin="middle" type="withShadow" padding="30">
-      {message ? <Note color={error ? "danger" : "green"}>{message}</Note> : ""}
+      {/* {message ? <Note color={error ? "danger" : "green"}>{message}</Note> : ""} */}
 
       <Container>
-        <Heading tag="h4">Sign Up</Heading>
+        <Heading tag="h4">Sign In</Heading>
       </Container>
       <form onSubmit={handleSubmit}>
-        <CustomInput
-          type="text"
-          label="Name"
-          name="name"
-          handleChange={handleInputChange}
-          value={formData.name}
-        />
-        {validationErrors.name && (
-          <Note color="danger">{validationErrors.name}</Note>
-        )}
         <CustomInput
           type="email"
           label="Email"
@@ -119,39 +114,20 @@ const SignUp = () => {
           <Note color="danger">{validationErrors.email}</Note>
         )}
         <CustomInput
-          type="number"
-          label="Phone"
-          name="phone"
+          type="password"
+          label="Password"
+          name="Password"
           handleChange={handleInputChange}
           value={formData.phone}
         />
-        {validationErrors.phone && (
+        {/* {validationErrors.phone && (
           <Note color="danger">{validationErrors.phone}</Note>
-        )}
-        <CustomInput
-          type="password"
-          label="Password"
-          name="password"
-          handleChange={handleInputChange}
-          value={formData.password}
-        />
-        {validationErrors.password && (
-          <Note color="danger">{validationErrors.password}</Note>
-        )}
-        <CustomInput
-          type="password"
-          label="Confirm Password"
-          name="confirmPassword"
-          handleChange={handleInputChange}
-          value={formData.confirmPassword}
-        />
-        {validationErrors.confirmPassword && (
-          <Note color="danger">{validationErrors.confirmPassword}</Note>
-        )}
+        )} */}
+
         <Button type="primary">SUBMIT</Button>
       </form>
     </Container>
   );
 };
 
-export default SignUp;
+export default SignIn;
