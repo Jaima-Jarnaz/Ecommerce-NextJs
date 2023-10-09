@@ -39,10 +39,11 @@ const SignIn = () => {
     //perform validation errors
     let errors: any = {};
 
+    console.log(formData);
+
     if (formData.email.trim() === "") {
       errors.email = "Email is required";
     }
-
     if (formData.password.trim() === "") {
       errors.password = "Password is required";
     }
@@ -81,7 +82,10 @@ const SignIn = () => {
           const userData = {
             email: result.data.email,
             phone: result.data.phone,
+            token: result.data.token,
           };
+
+          console.log(userData);
           localStorage.setItem(
             USER_LOCAL_STORAGE_KEY,
             JSON.stringify(userData)
@@ -97,7 +101,7 @@ const SignIn = () => {
   };
   return (
     <Container width="400" margin="middle" type="withShadow" padding="30">
-      {/* {message ? <Note color={error ? "danger" : "green"}>{message}</Note> : ""} */}
+      {message ? <Note color={error ? "danger" : "green"}>{message}</Note> : ""}
 
       <Container>
         <Heading tag="h4">Sign In</Heading>
@@ -118,11 +122,11 @@ const SignIn = () => {
           label="Password"
           name="Password"
           handleChange={handleInputChange}
-          value={formData.phone}
+          value={formData.password}
         />
-        {/* {validationErrors.phone && (
-          <Note color="danger">{validationErrors.phone}</Note>
-        )} */}
+        {validationErrors.password && (
+          <Note color="danger">{validationErrors.password}</Note>
+        )}
 
         <Button type="primary">SUBMIT</Button>
       </form>

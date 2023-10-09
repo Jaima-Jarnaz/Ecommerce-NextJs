@@ -5,8 +5,11 @@ import Link from "next/link";
 import { CHECKOUT_URL, PRODUCTS_URL } from "helpers/constants";
 import { EMPTY_CART_IMAGE } from "settings/settings";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Cart = ({ products }: any) => {
+  const router = useRouter();
+
   let subTotal = 0;
   let discountAmount = 20;
   let shippingCharge = 0;
@@ -33,7 +36,8 @@ const Cart = ({ products }: any) => {
   };
 
   const proceedToCheckout = () => {
-    console.log(localStorage.getItem("token"));
+    console.log("token", localStorage.getItem("token"));
+    router.push("/auth/signin");
   };
   return (
     <div className="p-cart">
