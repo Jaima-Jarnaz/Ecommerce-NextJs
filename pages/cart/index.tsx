@@ -31,6 +31,10 @@ const Cart = ({ products }: any) => {
     setCartItems([]);
     setItemsCount(0);
   };
+
+  const proceedToCheckout = () => {
+    console.log(localStorage.getItem("token"));
+  };
   return (
     <div className="p-cart">
       <h3 className="p-cart__heading">Cart Information</h3>
@@ -148,9 +152,9 @@ const Cart = ({ products }: any) => {
           )}
         </div>
         {cartProducts.length > 0 ? (
-          <Link href={CHECKOUT_URL}>
-            <Button type="primary">Proceed to checkout</Button>
-          </Link>
+          <Button type="primary" onClick={proceedToCheckout}>
+            Proceed to checkout
+          </Button>
         ) : (
           ""
         )}
