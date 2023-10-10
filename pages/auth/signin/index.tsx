@@ -25,6 +25,9 @@ const SignIn = () => {
   const [validationErrors, setValidationErrors] = useState<any>(initialState);
   const [error, setError] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassowrd] = useState("");
+
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData: any) => ({
@@ -36,15 +39,20 @@ const SignIn = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    const formData = {
+      email,
+      password,
+    };
+
     //perform validation errors
     let errors: any = {};
 
     console.log(formData);
 
-    if (formData.email.trim() === "") {
+    if (email.trim() === "") {
       errors.email = "Email is required";
     }
-    if (formData.password.trim() === "") {
+    if (password.trim() === "") {
       errors.password = "Password is required";
     }
 
@@ -111,8 +119,10 @@ const SignIn = () => {
           type="email"
           label="Email"
           name="email"
-          handleChange={handleInputChange}
-          value={formData.email}
+          handleChange={(e: any) => {
+            setEmail(e.target.value);
+          }}
+          value={email}
         />
         {validationErrors.email && (
           <Note color="danger">{validationErrors.email}</Note>
@@ -121,8 +131,10 @@ const SignIn = () => {
           type="password"
           label="Password"
           name="Password"
-          handleChange={handleInputChange}
-          value={formData.password}
+          handleChange={(e: any) => {
+            setPassowrd(e.target.value);
+          }}
+          value={password}
         />
         {validationErrors.password && (
           <Note color="danger">{validationErrors.password}</Note>
