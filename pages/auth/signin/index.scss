@@ -1,0 +1,10 @@
+.p-signin {
+  &__passoword-input {
+    position: relative;
+  }
+  &__forgot-password {
+    position: absolute;
+    bottom: -15px;
+    right: 0;
+  }
+}

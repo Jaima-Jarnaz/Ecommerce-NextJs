@@ -7,7 +7,8 @@ import Heading from "@/components/atoms/heading";
 import { FORM_DATA_TYPES } from "helpers/types";
 import { useState } from "react";
 import { useRouter } from "next/router";
-
+import Link from "next/link";
+import { SIGNUP_URL } from "helpers/constants";
 const SignIn = () => {
   const router = useRouter();
 
@@ -47,8 +48,6 @@ const SignIn = () => {
     //perform validation errors
     let errors: any = {};
 
-    console.log(formData);
-
     if (email.trim() === "") {
       errors.email = "Email is required";
     }
@@ -62,7 +61,6 @@ const SignIn = () => {
     } else {
       //Create new user registration logic
       try {
-        console.log(formData);
         const jsonData = JSON.stringify(formData);
         const options = {
           method: "POST",
@@ -81,9 +79,6 @@ const SignIn = () => {
         if (result.success === true) {
           setError(false);
 
-          // Reset the form state
-          setFormData(initialState);
-
           setValidationErrors(initialState);
 
           //set data into local storage
@@ -93,7 +88,6 @@ const SignIn = () => {
             token: result.data.token,
           };
 
-          console.log(userData);
           localStorage.setItem(
             USER_LOCAL_STORAGE_KEY,
             JSON.stringify(userData)
@@ -108,41 +102,51 @@ const SignIn = () => {
     }
   };
   return (
-    <Container width="400" margin="middle" type="withShadow" padding="30">
-      {message ? <Note color={error ? "danger" : "green"}>{message}</Note> : ""}
+    <div className="p-signin">
+      <Container width="400" margin="middle" type="withShadow" padding="30">
+        {message ? (
+          <Note color={error ? "danger" : "green"}>{message}</Note>
+        ) : (
+          ""
+        )}
+        <Container>
+          <Heading tag="h4">Sign In</Heading>
+        </Container>
+        <form onSubmit={handleSubmit}>
+          <CustomInput
+            type="email"
+            label="Email"
+            name="email"
+            handleChange={(e: any) => {
+              setEmail(e.target.value);
+            }}
+            value={email}
+          />
+          {validationErrors.email && (
+            <Note color="danger">{validationErrors.email}</Note>
+          )}
+          <div className="p-signin__passoword-input">
+            <CustomInput
+              type="password"
+              label="Password"
+              name="Password"
+              handleChange={(e: any) => {
+                setPassowrd(e.target.value);
+              }}
+              value={password}
+            />
+            {validationErrors.password && (
+              <Note color="danger">{validationErrors.password}</Note>
+            )}
+            <span className="p-signin__forgot-password">
+              <Link href={SIGNUP_URL}>forgot password?</Link>
+            </span>
+          </div>
 
-      <Container>
-        <Heading tag="h4">Sign In</Heading>
+          <Button type="primary">SUBMIT</Button>
+        </form>
       </Container>
-      <form onSubmit={handleSubmit}>
-        <CustomInput
-          type="email"
-          label="Email"
-          name="email"
-          handleChange={(e: any) => {
-            setEmail(e.target.value);
-          }}
-          value={email}
-        />
-        {validationErrors.email && (
-          <Note color="danger">{validationErrors.email}</Note>
-        )}
-        <CustomInput
-          type="password"
-          label="Password"
-          name="Password"
-          handleChange={(e: any) => {
-            setPassowrd(e.target.value);
-          }}
-          value={password}
-        />
-        {validationErrors.password && (
-          <Note color="danger">{validationErrors.password}</Note>
-        )}
-
-        <Button type="primary">SUBMIT</Button>
-      </form>
-    </Container>
+    </div>
   );
 };
 
