@@ -13,7 +13,7 @@ const ProductsList = ({ products }: any) => {
 export default ProductsList;
 
 export async function getServerSideProps() {
-  const res = await fetch(`${baseUrl}/products/all`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
   const data = await res.json();
 
   return {

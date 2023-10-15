@@ -1,7 +1,53 @@
 import Link from "next/link";
 import { mapModifiers } from "../../../helpers/libs/utils";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    // Check if storedUser is not null and not an empty string
+    if (storedUser && storedUser !== "") {
+      try {
+        const user = JSON.parse(storedUser);
+        if (user.token) {
+          setUserLoggedIn(true);
+        } else {
+          setUserLoggedIn(false);
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    } else {
+      setUserLoggedIn(false);
+    }
+  }, []);
+
+  const signOutHandler = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_USER_SIGNOUT_API}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+      console.log("Logout successful");
+      localStorage.clear();
+
+      setUserLoggedIn(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <header className={mapModifiers("o-header")}>
       <nav className="o-header__navbar">
@@ -21,14 +67,25 @@ const Header = () => {
               </Link>
             </li>
             <li className="o-header__navItem">
+              <Link href="/categories" className="o-header__navLink">
+                Categories
+              </Link>
+            </li>
+            <li className="o-header__navItem">
               <Link href="/cart" className="o-header__navLink">
                 Cart
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/auth/signup" className="o-header__navLink">
-                Sign UP
-              </Link>
+              {!userLoggedIn ? (
+                <Link href="/auth/signup" className="o-header__navLink">
+                  Sign Up
+                </Link>
+              ) : (
+                <span className="o-header__navLink" onClick={signOutHandler}>
+                  Sign Out
+                </span>
+              )}
             </li>
             <li className="o-header__navItem">
               <Link href="/admin" className="o-header__navLink">
