@@ -1,24 +1,15 @@
 import Link from "next/link";
 import { mapModifiers } from "../../../helpers/libs/utils";
 import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
 
 const Header = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const token = getCookie("access_token");
 
-    // Check if storedUser is not null and not an empty string
-    if (storedUser && storedUser !== "") {
-      try {
-        const user = JSON.parse(storedUser);
-        if (user.token) {
-          setUserLoggedIn(true);
-        } else {
-          setUserLoggedIn(false);
-        }
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
+    if (token) {
+      setUserLoggedIn(true);
     } else {
       setUserLoggedIn(false);
     }

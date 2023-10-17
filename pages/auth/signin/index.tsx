@@ -1,4 +1,5 @@
 import { Input } from "@/components/atoms/input";
+import { setCookie } from "cookies-next";
 import CustomInput from "@/components/atoms/custom-input";
 import Button from "@/components/atoms/button";
 import { Note } from "@/components/atoms/note/index.";
@@ -55,11 +56,11 @@ const SignIn = () => {
       errors.password = "Password is required";
     }
 
-    // Checking errors length
+    //---------Checking errors length----------
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
     } else {
-      //Create new user registration logic
+      //-------Create new user registration logic-------------
       try {
         const jsonData = JSON.stringify(formData);
         const options = {
@@ -81,18 +82,22 @@ const SignIn = () => {
 
           setValidationErrors(initialState);
 
-          //set data into local storage
+          //---------set data into local storage---------
           const userData = {
             email: result.data.email,
             phone: result.data.phone,
-            token: result.data.token,
           };
 
           localStorage.setItem(
             USER_LOCAL_STORAGE_KEY,
             JSON.stringify(userData)
           );
-          // router.push("/auth/signin");
+
+          //--------set token into localstorage----------
+          const token = result.data.token;
+          setCookie("access_token", token);
+
+          window.location.reload();
         } else {
           setError(true);
         }
