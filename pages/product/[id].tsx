@@ -131,11 +131,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
 
   //Get single product details
-  const res = await fetch(`${baseUrl}/products/${params?.id}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${params?.id}`
+  );
   const data = await res.json();
 
   //Get all products
-  const response = await fetch(`${baseUrl}/products/all`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`
+  );
   const products = await response.json();
 
   return {

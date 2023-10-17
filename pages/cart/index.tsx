@@ -2,11 +2,14 @@ import { useState, useContext } from "react";
 import { CartContext } from "contexts/card/cardContext";
 import Button from "@/components/atoms/button";
 import Link from "next/link";
-import { CHECKOUT_URL, PRODUCTS_URL } from "helpers/constants";
+import { PRODUCTS_URL, SIGNIN_URL, CHECKOUT_URL } from "helpers/constants";
 import { EMPTY_CART_IMAGE } from "settings/settings";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Cart = ({ products }: any) => {
+  const router = useRouter();
+
   let subTotal = 0;
   let discountAmount = 20;
   let shippingCharge = 0;
@@ -30,6 +33,16 @@ const Cart = ({ products }: any) => {
   const removeAllCartItems = () => {
     setCartItems([]);
     setItemsCount(0);
+  };
+
+  const proceedToCheckout = () => {
+    const token = localStorage.getItem("user") || "";
+
+    if (token) {
+      router.push(CHECKOUT_URL);
+    } else {
+      router.push(SIGNIN_URL);
+    }
   };
   return (
     <div className="p-cart">
@@ -148,9 +161,9 @@ const Cart = ({ products }: any) => {
           )}
         </div>
         {cartProducts.length > 0 ? (
-          <Link href={CHECKOUT_URL}>
-            <Button type="primary">Proceed to checkout</Button>
-          </Link>
+          <Button type="primary" onClick={proceedToCheckout}>
+            Proceed to checkout
+          </Button>
         ) : (
           ""
         )}
