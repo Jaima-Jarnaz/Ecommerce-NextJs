@@ -1,12 +1,17 @@
 import React from "react";
 import Select from "react-select";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+type CustomSelectOptions = { value: string | number; label: string | number };
+export interface CustomSelectProps {
+  options: CustomSelectOptions[];
+}
 
-const CustomSelect = () => <Select options={options} />;
+const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => (
+  <Select
+    className="a-custom-select__container"
+    classNamePrefix="a-custom-select"
+    options={options}
+  />
+);
 
 export default CustomSelect;

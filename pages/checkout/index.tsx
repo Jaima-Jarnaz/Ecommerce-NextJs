@@ -7,6 +7,9 @@ import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
 import Heading from "@/components/atoms/heading";
 import CustomSelect from "@/components/atoms/select/inde";
+import Image from "next/image";
+import { IMAGES_DATA } from "@settings/settings";
+import Link from "next/link";
 const Checkout = ({ products }: any) => {
   const [quantity, setQuantity] = useState(0);
   const [message, setMessage] = useState("");
@@ -37,81 +40,179 @@ const Checkout = ({ products }: any) => {
   };
   return (
     <div className="p-checkout">
-      <div className="p-checkout__address">
-        <h3 className="p-checkout__heading">Delivery Address</h3>
-        <form onSubmit={handleSubmit}>
-          <SplitField>
-            <Grid type="grid2">
-              <CustomInput
-                type="text"
-                label="Name"
-                name="name"
-                value={name}
-                handleChange={(e: any) => {
-                  setName(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid type="grid2">
-              <CustomInput
-                type="number"
-                label="Phone Number"
-                name="phone"
-                value={phone}
-                handleChange={(e: any) => {
-                  setPhone(e.target.value);
-                }}
-              />
-            </Grid>
-          </SplitField>
+      <form onSubmit={handleSubmit}>
+        <div className="p-checkout__wrapper">
+          <div className="p-checkout__address">
+            <h3 className="p-checkout__heading">Delivery Address</h3>
+            <SplitField>
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
+                  label="Address"
+                  name="priaddressce"
+                  value={address}
+                  handleChange={(e: any) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </Grid>
 
-          <SplitField>
-            <Grid type="grid2">
-              <CustomInput
-                type="text"
-                label="Address"
-                name="priaddressce"
-                value={address}
-                handleChange={(e: any) => {
-                  setAddress(e.target.value);
-                }}
-              />
-            </Grid>
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="street"
+                  name="street"
+                  value={address}
+                  handleChange={(e: any) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </Grid>
+            </SplitField>
 
-            <Grid type="grid1">
-              <CustomInput
-                type="text"
-                label="street"
-                name="street"
-                value={address}
-                handleChange={(e: any) => {
-                  setAddress(e.target.value);
-                }}
-              />
-            </Grid>
-          </SplitField>
+            <SplitField>
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="City"
+                  name="city"
+                  value={city}
+                  handleChange={(e: any) => {
+                    setCity(e.target.value);
+                  }}
+                />
+              </Grid>
 
-          <SplitField>
-            <Grid type="grid1">
-              <CustomInput
-                type="text"
-                label="City"
-                name="city"
-                value={city}
-                handleChange={(e: any) => {
-                  setCity(e.target.value);
-                }}
-              />
-            </Grid>
+              <Grid type="grid1">
+                <CustomSelect
+                  options={[{ value: "heillo", label: "heee" }]}
+                ></CustomSelect>
+              </Grid>
+            </SplitField>
+          </div>
+          <div className="p-checkout__address">
+            <h3 className="p-checkout__heading">Order Details</h3>
+          </div>
+        </div>
 
-            <Grid type="grid1">
-              <CustomSelect></CustomSelect>
-            </Grid>
-          </SplitField>
+        <div className="p-checkout__wrapper">
+          <div className="p-checkout__bottom-content">
+            <h3 className="p-checkout__heading">Customer</h3>
+            <SplitField>
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
+                  label="Name"
+                  name="name"
+                  value={name}
+                  handleChange={(e: any) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid type="grid2">
+                <CustomInput
+                  type="number"
+                  label="Phone Number"
+                  name="phone"
+                  value={phone}
+                  handleChange={(e: any) => {
+                    setPhone(e.target.value);
+                  }}
+                />
+              </Grid>
+            </SplitField>
 
-          <Button type="primary">Update</Button>
-        </form>
-      </div>
+            <SplitField>
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
+                  label="Address"
+                  name="priaddressce"
+                  value={address}
+                  handleChange={(e: any) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </Grid>
+
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="street"
+                  name="street"
+                  value={address}
+                  handleChange={(e: any) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </Grid>
+            </SplitField>
+
+            <SplitField>
+              <Grid type="grid1">
+                <CustomInput
+                  type="text"
+                  label="City"
+                  name="city"
+                  value={city}
+                  handleChange={(e: any) => {
+                    setCity(e.target.value);
+                  }}
+                />
+              </Grid>
+
+              <Grid type="grid1">
+                <CustomSelect
+                  options={[{ value: "heillo", label: "heee" }]}
+                ></CustomSelect>
+              </Grid>
+            </SplitField>
+          </div>
+
+          <div className="p-checkout__bottom-content">
+            <h3 className="p-checkout__heading">Payment methods</h3>
+            <div className="p-checkout__payment-wrapper">
+              <Link href="">
+                <div className="p-checkout__content">
+                  <Image
+                    src={IMAGES_DATA.cod}
+                    width={80}
+                    height={80}
+                    alt="cash on delivery"
+                  />
+                  Cash on Delivery
+                </div>
+              </Link>
+              <Link href="">
+                <div className="p-checkout__content">
+                  <Image
+                    src={IMAGES_DATA.bkash}
+                    width={80}
+                    height={80}
+                    alt="bkash"
+                  />
+                  Bkash
+                </div>
+              </Link>
+              <Link href="">
+                <div className="p-checkout__content">
+                  <Image
+                    src={IMAGES_DATA.visaPayment}
+                    width={80}
+                    height={80}
+                    alt="visa/card"
+                  />
+                  Card/Mobile banking/NetBanking
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="p-checkout__button">
+          <Button type="primary">Place Order</Button>
+        </div>
+      </form>
     </div>
   );
 };

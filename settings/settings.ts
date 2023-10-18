@@ -7,6 +7,17 @@ import bags from "assets/bags.jpeg";
 import watches from "assets/watches.jpeg";
 import apples from "assets/apple-products.jpeg";
 import emptyCart from "assets/empty-cart.png";
+import bkash from "assets/bkash.svg";
+import cod from "assets/cod.png";
+import payment from "assets/payment.png";
+import visaPayment from "assets/credit-card.png";
+
+export const IMAGES_DATA = {
+  bkash,
+  cod,
+  payment,
+  visaPayment,
+};
 
 export const EMPTY_CART_IMAGE = emptyCart;
 
