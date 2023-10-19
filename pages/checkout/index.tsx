@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { CartContext } from "contexts/card/cardContext";
 import CustomInput from "@/components/atoms/custom-input";
 import Grid from "@/components/atoms/grid";
@@ -6,16 +6,19 @@ import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
 import Heading from "@/components/atoms/heading";
-import CustomSelect from "@/components/atoms/select/inde";
+import { CustomSelect, CustomSelectOptions } from "@/components/atoms/select";
 import Image from "next/image";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
-const Checkout = ({ products }: any) => {
+const Checkout = ({ products, cities, divisions }: any) => {
   const [quantity, setQuantity] = useState(0);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState<CustomSelectOptions>({
+    value: "",
+    label: "",
+  });
   const [address, setAddress] = useState("");
 
   const { cartItems }: any = useContext(CartContext);
@@ -25,6 +28,11 @@ const Checkout = ({ products }: any) => {
     console.log("cartItems", cartItems);
 
     return cartItems.some((cartItem: any) => cartItem === product._id);
+  });
+
+  useEffect(() => {
+    console.log(divisions, "divisions");
+    console.log(cities, "cities");
   });
 
   const incrementHandler = () => {
@@ -72,20 +80,17 @@ const Checkout = ({ products }: any) => {
 
             <SplitField>
               <Grid type="grid1">
-                <CustomInput
-                  type="text"
+                <CustomSelect
                   label="City"
-                  name="city"
-                  value={city}
-                  handleChange={(e: any) => {
-                    setCity(e.target.value);
-                  }}
-                />
+                  options={cities}
+                  onchange={(selectedOption: any) => setCity(selectedOption)}
+                ></CustomSelect>
               </Grid>
 
               <Grid type="grid1">
                 <CustomSelect
-                  options={[{ value: "heillo", label: "heee" }]}
+                  label="Division"
+                  options={divisions}
                 ></CustomSelect>
               </Grid>
             </SplitField>
@@ -151,20 +156,15 @@ const Checkout = ({ products }: any) => {
 
             <SplitField>
               <Grid type="grid1">
-                <CustomInput
-                  type="text"
-                  label="City"
-                  name="city"
-                  value={city}
-                  handleChange={(e: any) => {
-                    setCity(e.target.value);
-                  }}
-                />
+                <Grid type="grid1">
+                  <CustomSelect label="City" options={cities}></CustomSelect>
+                </Grid>
               </Grid>
 
               <Grid type="grid1">
                 <CustomSelect
-                  options={[{ value: "heillo", label: "heee" }]}
+                  label="Division"
+                  options={divisions}
                 ></CustomSelect>
               </Grid>
             </SplitField>
@@ -220,14 +220,67 @@ const Checkout = ({ products }: any) => {
 export default Checkout;
 
 export async function getServerSideProps() {
+  // Geonames API endpoint for searching cities in Bangladesh
+  const geonamesApiUrl = "http://api.geonames.org/searchJSON";
+
+  // Set your Geonames username and the country code for Bangladesh
+  const geonamesUsername = `${process.env.NEXT_PUBLIC_GEO_NAMES_USERNAME}`;
+  const countryCode = "BD"; // ISO 3166-1 country code for Bangladesh
+
+  // Define your query parameters
+  const queryParams = new URLSearchParams({
+    q: "*", // Query string (empty to get all cities)
+    country: countryCode,
+    username: geonamesUsername,
+  });
+
+  // Construct the full URL with query parameters
+
+  const fullUrl = `${geonamesApiUrl}?${queryParams.toString()}`;
+
+  // Make the Geonames API request
+  const geonamesResponse = await fetch(fullUrl);
+  const geonamesData = await geonamesResponse.json();
+
+  // Handle the response data, which contains information about cities in Bangladesh
+  const responseData = geonamesData.geonames;
+
+  const optionsCities: any = [];
+  const optionsDivisions: any = [];
+
+  const dublicateDivisions = new Set();
+  const dublicateCities = new Set();
+
+  responseData.forEach((item: any) => {
+    //---------Removing dublicate division values----------
+    if (!dublicateDivisions.has(item.adminName1)) {
+      optionsDivisions.push({
+        value: item.adminName1,
+        label: item.adminName1,
+      });
+      dublicateDivisions.add(item.adminName1);
+    }
+
+    //---------Removing dublicate cities values---------
+    if (!dublicateCities.has(item.name)) {
+      optionsCities.push({
+        value: item.name,
+        label: item.name,
+      });
+      dublicateCities.add(item.name);
+    }
+  });
+
+  //-----------Fecth all products---------------
   const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
   const data = await res.json();
 
   return {
     props: {
       isSuccess: true,
-      message: "Successfully found data",
       products: data.products,
+      cities: optionsCities || null, // Ensure cities is not undefined
+      divisions: optionsDivisions || null, // Ensure divisions is not undefined
     },
   };
 }
