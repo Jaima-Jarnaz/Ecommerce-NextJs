@@ -22,17 +22,13 @@ const Checkout = ({ products, cities, divisions }: any) => {
   const [address, setAddress] = useState("");
 
   const { cartItems }: any = useContext(CartContext);
+  const { totalProducts }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
-    console.log("all products", product);
-    console.log("cartItems", cartItems);
+    // console.log("all products", product);
+    console.log("totalProducts", totalProducts);
 
     return cartItems.some((cartItem: any) => cartItem === product._id);
-  });
-
-  useEffect(() => {
-    console.log(divisions, "divisions");
-    console.log(cities, "cities");
   });
 
   const incrementHandler = () => {
@@ -97,6 +93,12 @@ const Checkout = ({ products, cities, divisions }: any) => {
           </div>
           <div className="p-checkout__address">
             <h3 className="p-checkout__heading">Order Details</h3>
+            <div>
+              {totalProducts.prducts &&
+                totalProducts.products.map((product: any) => {
+                  return <div>{product.name}</div>;
+                })}
+            </div>
           </div>
         </div>
 
