@@ -52,7 +52,7 @@ const Cart = ({ products }: any) => {
     cartProductInfo.subTotal = subTotalProducts;
     cartProductInfo.total = total;
 
-    console.log("cartProductInfo", cartProductInfo);
+    console.log("cart page cartProductInfo", cartProductInfo);
 
     if (token) {
       setTotalProducts(cartProductInfo);

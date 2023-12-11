@@ -63,11 +63,14 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       localStorage.getItem(TOTAL_PRODUCTS) || "0"
     );
 
-    console.log("totalProducts typeof ", Object.keys(totalProducts).length);
-
     console.log("all data ", totalProducts);
 
-    if (totalProducts > 0) {
+    if (totalProducts.products.length !== 0) {
+      console.log(
+        "cart context totalProducts typeof ",
+        totalProducts.products.length
+      );
+
       setTotalProducts(totalProducts);
     }
 

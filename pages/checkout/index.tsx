@@ -10,7 +10,7 @@ import { CustomSelect, CustomSelectOptions } from "@/components/atoms/select";
 import Image from "next/image";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
-const Checkout = ({ products, cities, divisions }: any) => {
+const Checkout = ({ products }: any) => {
   const [quantity, setQuantity] = useState(0);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
@@ -19,14 +19,82 @@ const Checkout = ({ products, cities, divisions }: any) => {
     value: "",
     label: "",
   });
+
+  const [cities, setCities] = useState<any>([]);
+  const [divisions, setDivisions] = useState([]);
+
   const [address, setAddress] = useState("");
 
   const { cartItems }: any = useContext(CartContext);
   const { totalProducts }: any = useContext(CartContext);
 
+  useEffect(() => {
+    const geoNamesGenerate = async () => {
+      // Geonames API endpoint for searching cities in Bangladesh
+      const geonamesApiUrl = "http://api.geonames.org/searchJSON";
+
+      // Set your Geonames username and the country code for Bangladesh
+      const geonamesUsername = `${process.env.NEXT_PUBLIC_GEO_NAMES_USERNAME}`;
+      const countryCode = "BD"; // ISO 3166-1 country code for Bangladesh
+
+      // Define your query parameters
+      const queryParams = new URLSearchParams({
+        q: "*", // Query string (empty to get all cities)
+        country: countryCode,
+        username: geonamesUsername,
+      });
+
+      // Construct the full URL with query parameters
+
+      const fullUrl = `${geonamesApiUrl}?${queryParams.toString()}`;
+
+      // Make the Geonames API request
+      const geonamesResponse = await fetch(fullUrl);
+      const geonamesData = await geonamesResponse.json();
+
+      // Handle the response data, which contains information about cities in Bangladesh
+      const responseData = geonamesData.geonames;
+
+      return responseData;
+    };
+    geoNamesGenerate().then((data) => {
+      console.log("data", data);
+      const optionsCities: any = [];
+      const optionsDivisions: any = [];
+
+      const dublicateDivisions = new Set();
+      const dublicateCities = new Set();
+
+      data.forEach((item: any) => {
+        //---------Removing dublicate division values----------
+        if (!dublicateDivisions.has(item.adminName1)) {
+          optionsDivisions.push({
+            value: item.adminName1,
+            label: item.adminName1,
+          });
+          dublicateDivisions.add(item.adminName1);
+        }
+        console.log("optionsCities", optionsCities);
+
+        //---------Removing dublicate cities values---------
+        if (!dublicateCities.has(item.name)) {
+          optionsCities.push({
+            value: item.name,
+            label: item.name,
+          });
+          dublicateCities.add(item.name);
+        }
+      });
+
+      setCities(optionsCities);
+      // setOptionsDivisions(optionsDivisions);
+      setDivisions(optionsDivisions);
+    });
+  }, []);
+
   const cartProducts = products.filter((product: any) => {
     // console.log("all products", product);
-    console.log("totalProducts", totalProducts);
+    console.log("checkout page totalProducts", totalProducts);
 
     return cartItems.some((cartItem: any) => cartItem === product._id);
   });
@@ -87,6 +155,7 @@ const Checkout = ({ products, cities, divisions }: any) => {
                 <CustomSelect
                   label="Division"
                   options={divisions}
+                  onchange={(selectedOption: any) => setCity(selectedOption)}
                 ></CustomSelect>
               </Grid>
             </SplitField>
@@ -222,57 +291,6 @@ const Checkout = ({ products, cities, divisions }: any) => {
 export default Checkout;
 
 export async function getServerSideProps() {
-  // Geonames API endpoint for searching cities in Bangladesh
-  const geonamesApiUrl = "http://api.geonames.org/searchJSON";
-
-  // Set your Geonames username and the country code for Bangladesh
-  const geonamesUsername = `${process.env.NEXT_PUBLIC_GEO_NAMES_USERNAME}`;
-  const countryCode = "BD"; // ISO 3166-1 country code for Bangladesh
-
-  // Define your query parameters
-  const queryParams = new URLSearchParams({
-    q: "*", // Query string (empty to get all cities)
-    country: countryCode,
-    username: geonamesUsername,
-  });
-
-  // Construct the full URL with query parameters
-
-  const fullUrl = `${geonamesApiUrl}?${queryParams.toString()}`;
-
-  // Make the Geonames API request
-  const geonamesResponse = await fetch(fullUrl);
-  const geonamesData = await geonamesResponse.json();
-
-  // Handle the response data, which contains information about cities in Bangladesh
-  const responseData = geonamesData.geonames;
-
-  const optionsCities: any = [];
-  const optionsDivisions: any = [];
-
-  const dublicateDivisions = new Set();
-  const dublicateCities = new Set();
-
-  responseData.forEach((item: any) => {
-    //---------Removing dublicate division values----------
-    if (!dublicateDivisions.has(item.adminName1)) {
-      optionsDivisions.push({
-        value: item.adminName1,
-        label: item.adminName1,
-      });
-      dublicateDivisions.add(item.adminName1);
-    }
-
-    //---------Removing dublicate cities values---------
-    if (!dublicateCities.has(item.name)) {
-      optionsCities.push({
-        value: item.name,
-        label: item.name,
-      });
-      dublicateCities.add(item.name);
-    }
-  });
-
   //-----------Fecth all products---------------
   const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
   const data = await res.json();
@@ -281,8 +299,8 @@ export async function getServerSideProps() {
     props: {
       isSuccess: true,
       products: data.products,
-      cities: optionsCities || null, // Ensure cities is not undefined
-      divisions: optionsDivisions || null, // Ensure divisions is not undefined
+      //cities: optionsCities || null, // Ensure cities is not undefined
+      //divisions: optionsDivisions || null, // Ensure divisions is not undefined
     },
   };
 }
