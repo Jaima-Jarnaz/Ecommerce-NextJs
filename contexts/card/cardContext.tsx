@@ -60,18 +60,22 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     );
 
     const totalProducts = JSON.parse(
-      localStorage.getItem(TOTAL_PRODUCTS) || "0"
+      localStorage.getItem(TOTAL_PRODUCTS) || "{}"
     );
 
     console.log("all data ", totalProducts);
 
-    if (totalProducts.products.length !== 0) {
-      console.log(
-        "cart context totalProducts typeof ",
-        totalProducts.products.length
-      );
+    const localStorageKeys = Object.keys(localStorage);
 
-      setTotalProducts(totalProducts);
+    if (Object.keys(totalProducts).length !== 0) {
+      if (totalProducts.products.length !== 0) {
+        console.log(
+          "cart context totalProducts typeof ",
+          totalProducts.products.length
+        );
+
+        setTotalProducts(totalProducts);
+      }
     }
 
     if (totalCartItems > 0) {

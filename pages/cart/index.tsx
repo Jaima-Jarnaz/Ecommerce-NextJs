@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 
 const Cart = ({ products }: any) => {
   const router = useRouter();
-
   let subTotal = 0;
   let total = 0;
   let cartProductInfo: {
@@ -52,10 +51,12 @@ const Cart = ({ products }: any) => {
     cartProductInfo.subTotal = subTotalProducts;
     cartProductInfo.total = total;
 
-    console.log("cart page cartProductInfo", cartProductInfo);
+    //console.log("cart page cartProductInfo", cartProductInfo);
 
     if (token) {
       setTotalProducts(cartProductInfo);
+      console.log("cart page cartProductInfo", cartProductInfo);
+
       router.push(CHECKOUT_URL);
     } else {
       router.push(SIGNIN_URL);
@@ -156,8 +157,6 @@ const Cart = ({ products }: any) => {
             <li className="p-cart__price-contents-item ">
               <span className="p-cart__total-cost-level">Total cost</span>
               <span className="p-cart__total-cost">
-                tk
-                {subTotal - subTotal * (discountAmount / 100) + shippingCharge}
                 {
                   (total =
                     subTotal -

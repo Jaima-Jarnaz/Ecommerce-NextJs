@@ -1,6 +1,7 @@
 .p-checkout {
   padding: 20px;
-  &__address {
+  &__address,
+  &__orders {
     width: 50%;
     padding: 20px;
     margin-top: 20px;
@@ -18,7 +19,7 @@
     margin-top: 20px;
     box-shadow: $box-shadow-container;
     width: 50%;
-    padding: 20px;
+    padding: 20px 10px;
   }
 
   &__heading {
@@ -30,9 +31,9 @@
   &__payment-wrapper {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     justify-content: center;
-    padding: 30px 15px;
+    padding: 15px 10px;
   }
 
   &__content {
@@ -46,6 +47,19 @@
     box-shadow: $box-shadow-card-payment;
     text-align: center;
     cursor: pointer;
+  }
+  &__products-content {
+    padding: 10px 30px 20px;
+    margin-top: 10px;
+    box-shadow: $box-shadow-container;
+    background-color: $color-light-cream-purple;
+  }
+
+  &__product {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $color-purple;
+    padding: 10px 0;
   }
 
   &__button {

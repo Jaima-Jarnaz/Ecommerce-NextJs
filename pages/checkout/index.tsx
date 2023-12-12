@@ -11,22 +11,24 @@ import Image from "next/image";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
 const Checkout = ({ products }: any) => {
-  const [quantity, setQuantity] = useState(0);
   const [message, setMessage] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState<CustomSelectOptions>({
+  const [quantity, setQuantity] = useState(0);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [deliveryStreet, setDeliveryStreet] = useState("");
+  const [cities, setCities] = useState<any>([]);
+  const [divisions, setDivisions] = useState([]);
+
+  const [deliveryCity, setDeliveryCity] = useState({
+    value: "",
+    label: "",
+  });
+  const [deliveryDivisions, setDeliveryDivisions] = useState({
     value: "",
     label: "",
   });
 
-  const [cities, setCities] = useState<any>([]);
-  const [divisions, setDivisions] = useState([]);
-
-  const [address, setAddress] = useState("");
-
-  const { cartItems }: any = useContext(CartContext);
-  const { totalProducts }: any = useContext(CartContext);
+  //Context data
+  const { cartItems, totalProducts }: any = useContext(CartContext);
 
   useEffect(() => {
     const geoNamesGenerate = async () => {
@@ -58,7 +60,6 @@ const Checkout = ({ products }: any) => {
       return responseData;
     };
     geoNamesGenerate().then((data) => {
-      console.log("data", data);
       const optionsCities: any = [];
       const optionsDivisions: any = [];
 
@@ -74,7 +75,6 @@ const Checkout = ({ products }: any) => {
           });
           dublicateDivisions.add(item.adminName1);
         }
-        console.log("optionsCities", optionsCities);
 
         //---------Removing dublicate cities values---------
         if (!dublicateCities.has(item.name)) {
@@ -87,17 +87,9 @@ const Checkout = ({ products }: any) => {
       });
 
       setCities(optionsCities);
-      // setOptionsDivisions(optionsDivisions);
       setDivisions(optionsDivisions);
     });
   }, []);
-
-  const cartProducts = products.filter((product: any) => {
-    // console.log("all products", product);
-    console.log("checkout page totalProducts", totalProducts);
-
-    return cartItems.some((cartItem: any) => cartItem === product._id);
-  });
 
   const incrementHandler = () => {
     setQuantity((prevQ) => prevQ + 1);
@@ -107,8 +99,16 @@ const Checkout = ({ products }: any) => {
     setQuantity(quantity - 1);
   };
 
-  const handleSubmit = () => {
-    console.log("done");
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const checkoutData = {
+      deliveryAddress,
+      deliveryStreet,
+      deliveryCity,
+      deliveryDivisions,
+    };
+
+    console.log("done", checkoutData);
   };
   return (
     <div className="p-checkout">
@@ -121,10 +121,10 @@ const Checkout = ({ products }: any) => {
                 <CustomInput
                   type="text"
                   label="Address"
-                  name="priaddressce"
-                  value={address}
+                  name="deliveryaddress"
+                  value={deliveryAddress}
                   handleChange={(e: any) => {
-                    setAddress(e.target.value);
+                    setDeliveryAddress(e.target.value);
                   }}
                 />
               </Grid>
@@ -134,9 +134,9 @@ const Checkout = ({ products }: any) => {
                   type="text"
                   label="street"
                   name="street"
-                  value={address}
+                  value={deliveryStreet}
                   handleChange={(e: any) => {
-                    setAddress(e.target.value);
+                    setDeliveryStreet(e.target.value);
                   }}
                 />
               </Grid>
@@ -147,7 +147,9 @@ const Checkout = ({ products }: any) => {
                 <CustomSelect
                   label="City"
                   options={cities}
-                  onchange={(selectedOption: any) => setCity(selectedOption)}
+                  onchange={(selectedOption: any) =>
+                    setDeliveryCity(selectedOption)
+                  }
                 ></CustomSelect>
               </Grid>
 
@@ -155,18 +157,35 @@ const Checkout = ({ products }: any) => {
                 <CustomSelect
                   label="Division"
                   options={divisions}
-                  onchange={(selectedOption: any) => setCity(selectedOption)}
+                  onchange={(selectedOption: any) => {
+                    setDeliveryDivisions(selectedOption);
+                  }}
                 ></CustomSelect>
               </Grid>
             </SplitField>
           </div>
-          <div className="p-checkout__address">
+          <div className="p-checkout__orders">
             <h3 className="p-checkout__heading">Order Details</h3>
-            <div>
-              {totalProducts.prducts &&
+            <div className="p-checkout__products-content">
+              {totalProducts.products &&
                 totalProducts.products.map((product: any) => {
-                  return <div>{product.name}</div>;
+                  return (
+                    <div className="p-checkout__product">
+                      <div>{product.name}</div>
+                      <div>
+                        <span>{product.price}</span>×
+                        <span>{product.quantity}</span>
+                      </div>
+                    </div>
+                  );
                 })}
+              {console.log(totalProducts)}
+              {totalProducts && (
+                <div>
+                  <span>Sub Total : {totalProducts.subTotal}</span>
+                  <span>Total : {totalProducts.total}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -176,25 +195,14 @@ const Checkout = ({ products }: any) => {
             <h3 className="p-checkout__heading">Customer</h3>
             <SplitField>
               <Grid type="grid2">
-                <CustomInput
-                  type="text"
-                  label="Name"
-                  name="name"
-                  value={name}
-                  handleChange={(e: any) => {
-                    setName(e.target.value);
-                  }}
-                />
+                <CustomInput type="text" label="Name" name="name" readOnly />
               </Grid>
               <Grid type="grid2">
                 <CustomInput
                   type="number"
                   label="Phone Number"
                   name="phone"
-                  value={phone}
-                  handleChange={(e: any) => {
-                    setPhone(e.target.value);
-                  }}
+                  readOnly
                 />
               </Grid>
             </SplitField>
@@ -204,11 +212,8 @@ const Checkout = ({ products }: any) => {
                 <CustomInput
                   type="text"
                   label="Address"
-                  name="priaddressce"
-                  value={address}
-                  handleChange={(e: any) => {
-                    setAddress(e.target.value);
-                  }}
+                  name="address"
+                  readOnly
                 />
               </Grid>
 
@@ -217,10 +222,7 @@ const Checkout = ({ products }: any) => {
                   type="text"
                   label="street"
                   name="street"
-                  value={address}
-                  handleChange={(e: any) => {
-                    setAddress(e.target.value);
-                  }}
+                  readOnly
                 />
               </Grid>
             </SplitField>
@@ -299,8 +301,6 @@ export async function getServerSideProps() {
     props: {
       isSuccess: true,
       products: data.products,
-      //cities: optionsCities || null, // Ensure cities is not undefined
-      //divisions: optionsDivisions || null, // Ensure divisions is not undefined
     },
   };
 }
