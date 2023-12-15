@@ -41,31 +41,22 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }); // Cart items
   const [itemsCount, setItemsCount] = useState<number>(0); // Total count of items
 
-  // Define a key for local storage
-  const LOCAL_STORAGE_KEY = "cartItems";
-
-  const TOTAL_CART_ITEMS = "total_card_items";
-
-  const TOTAL_PRODUCTS = "total_products";
-
   // Load cart items from local storage when the provider initializes
   useEffect(() => {
     // Retrieve cart items from local storage or initialize as an empty array
     const storedCartItems = JSON.parse(
-      localStorage.getItem(LOCAL_STORAGE_KEY) || "[]"
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`) || "[]"
     );
 
     const totalCartItems = JSON.parse(
-      localStorage.getItem(TOTAL_CART_ITEMS) || "0"
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`) || "0"
     );
 
     const totalProducts = JSON.parse(
-      localStorage.getItem(TOTAL_PRODUCTS) || "{}"
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`) || "{}"
     );
 
     console.log("all data ", totalProducts);
-
-    const localStorageKeys = Object.keys(localStorage);
 
     if (Object.keys(totalProducts).length !== 0) {
       if (totalProducts.products.length !== 0) {
@@ -90,10 +81,19 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Save cart items to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cartItems));
-    localStorage.setItem(TOTAL_PRODUCTS, JSON.stringify(totalProducts));
-    localStorage.setItem(TOTAL_CART_ITEMS, JSON.stringify(itemsCount));
-  }, [cartItems, itemsCount]);
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`,
+      JSON.stringify(cartItems)
+    );
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`,
+      JSON.stringify(totalProducts)
+    );
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`,
+      JSON.stringify(itemsCount)
+    );
+  }, [cartItems, itemsCount, totalProducts]);
 
   // Function to add a product to the cart
   const addToCart = (productToAdd: any) => {

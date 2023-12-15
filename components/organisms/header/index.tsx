@@ -18,6 +18,19 @@ const Header = () => {
 
   const signOutHandler = async () => {
     deleteCookie("access_token");
+    // Items to be removed
+    const itemsToRemove = [
+      "user",
+      "total_card_items",
+      "total_products",
+      "cartItems",
+    ];
+
+    // Loop through each item and remove it from localStorage
+    itemsToRemove.forEach((item) => {
+      localStorage.removeItem(item);
+    });
+
     window.location.reload();
   };
 

@@ -3,7 +3,7 @@
   align-items: flex-end;
   flex-direction: row;
 
-  $base-width: 1100px;
+  $base-width: 1200px;
 
   &--grid1 {
     width: calc(($base-width - 72px) / 3);

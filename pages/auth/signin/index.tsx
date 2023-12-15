@@ -84,6 +84,7 @@ const SignIn = () => {
 
           //---------set data into local storage---------
           const userData = {
+            name: result.data.name,
             email: result.data.email,
             phone: result.data.phone,
           };

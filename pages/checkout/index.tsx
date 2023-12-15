@@ -2,19 +2,16 @@ import { useState, useContext, useEffect } from "react";
 import { CartContext } from "contexts/card/cardContext";
 import CustomInput from "@/components/atoms/custom-input";
 import Grid from "@/components/atoms/grid";
-import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
-import Heading from "@/components/atoms/heading";
-import { CustomSelect, CustomSelectOptions } from "@/components/atoms/select";
+import { CustomSelect } from "@/components/atoms/select";
 import Image from "next/image";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
-const Checkout = ({ products }: any) => {
+const Checkout = () => {
   const [message, setMessage] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [deliveryStreet, setDeliveryStreet] = useState("");
   const [cities, setCities] = useState<any>([]);
   const [divisions, setDivisions] = useState([]);
 
@@ -28,7 +25,20 @@ const Checkout = ({ products }: any) => {
   });
 
   //Context data
-  const { cartItems, totalProducts }: any = useContext(CartContext);
+  const { totalProducts }: any = useContext(CartContext);
+
+  // Initialize userData using useState hook
+  const [userData, setUserData] = useState({ name: "", phone: "", email: "" });
+
+  useEffect(() => {
+    // Retrieve user data from localStorage
+    const data = localStorage.getItem("user");
+    if (data) {
+      const user = JSON.parse(localStorage.getItem("user") || "");
+      // Set the userData state
+      setUserData({ name: user.name, phone: user.phone, email: user.email });
+    }
+  }, []); // Empty dependency array ensures the effect runs only on
 
   useEffect(() => {
     const geoNamesGenerate = async () => {
@@ -99,16 +109,44 @@ const Checkout = ({ products }: any) => {
     setQuantity(quantity - 1);
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const checkoutData = {
-      deliveryAddress,
-      deliveryStreet,
-      deliveryCity,
-      deliveryDivisions,
-    };
+  const handleSubmit = async (e: any) => {
+    try {
+      e.preventDefault();
 
-    console.log("done", checkoutData);
+      const deliveryPlace = {
+        address: deliveryAddress,
+        city: deliveryCity.value,
+        division: deliveryDivisions.value,
+      };
+
+      const checkoutData = {
+        deliveryPlace,
+        products: totalProducts,
+        customer: userData,
+      };
+      console.log("done", checkoutData);
+
+      const jsonData = JSON.stringify(checkoutData);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonData,
+      };
+      const user = await fetch(
+        `${process.env.NEXT_PUBLIC_ORDER_CREATE_API}`,
+        options
+      );
+      const result = await user.json();
+      setMessage(result.message);
+
+      if (result.success === true) {
+        //router.push("/auth/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="p-checkout">
@@ -125,18 +163,6 @@ const Checkout = ({ products }: any) => {
                   value={deliveryAddress}
                   handleChange={(e: any) => {
                     setDeliveryAddress(e.target.value);
-                  }}
-                />
-              </Grid>
-
-              <Grid type="grid1">
-                <CustomInput
-                  type="text"
-                  label="street"
-                  name="street"
-                  value={deliveryStreet}
-                  handleChange={(e: any) => {
-                    setDeliveryStreet(e.target.value);
                   }}
                 />
               </Grid>
@@ -168,9 +194,9 @@ const Checkout = ({ products }: any) => {
             <h3 className="p-checkout__heading">Order Details</h3>
             <div className="p-checkout__products-content">
               {totalProducts.products &&
-                totalProducts.products.map((product: any) => {
+                totalProducts.products.map((product: any, index: number) => {
                   return (
-                    <div className="p-checkout__product">
+                    <div className="p-checkout__product" key={index}>
                       <div>{product.name}</div>
                       <div>
                         <span>{product.price}</span>×
@@ -179,11 +205,10 @@ const Checkout = ({ products }: any) => {
                     </div>
                   );
                 })}
-              {console.log(totalProducts)}
               {totalProducts && (
                 <div>
-                  <span>Sub Total : {totalProducts.subTotal}</span>
-                  <span>Total : {totalProducts.total}</span>
+                  <div>Sub Total : {totalProducts.subTotal}</div>
+                  <div>Total : {totalProducts.total}</div>
                 </div>
               )}
             </div>
@@ -195,7 +220,13 @@ const Checkout = ({ products }: any) => {
             <h3 className="p-checkout__heading">Customer</h3>
             <SplitField>
               <Grid type="grid2">
-                <CustomInput type="text" label="Name" name="name" readOnly />
+                <CustomInput
+                  type="text"
+                  label="Name"
+                  name="name"
+                  readOnly
+                  value={userData.name}
+                />
               </Grid>
               <Grid type="grid2">
                 <CustomInput
@@ -203,11 +234,21 @@ const Checkout = ({ products }: any) => {
                   label="Phone Number"
                   name="phone"
                   readOnly
+                  value={userData.phone}
                 />
               </Grid>
             </SplitField>
 
             <SplitField>
+              <Grid type="grid2">
+                <CustomInput
+                  type="email"
+                  label="Email"
+                  name="email"
+                  readOnly
+                  value={userData.email}
+                />
+              </Grid>
               <Grid type="grid2">
                 <CustomInput
                   type="text"
@@ -216,29 +257,20 @@ const Checkout = ({ products }: any) => {
                   readOnly
                 />
               </Grid>
-
-              <Grid type="grid1">
-                <CustomInput
-                  type="text"
-                  label="street"
-                  name="street"
-                  readOnly
-                />
-              </Grid>
             </SplitField>
 
             <SplitField>
-              <Grid type="grid1">
-                <Grid type="grid1">
-                  <CustomSelect label="City" options={cities}></CustomSelect>
-                </Grid>
+              <Grid type="grid2">
+                <CustomInput type="text" label="City" name="city" readOnly />
               </Grid>
 
-              <Grid type="grid1">
-                <CustomSelect
+              <Grid type="grid2">
+                <CustomInput
+                  type="text"
                   label="Division"
-                  options={divisions}
-                ></CustomSelect>
+                  name="division"
+                  readOnly
+                />
               </Grid>
             </SplitField>
           </div>
@@ -291,16 +323,3 @@ const Checkout = ({ products }: any) => {
 };
 
 export default Checkout;
-
-export async function getServerSideProps() {
-  //-----------Fecth all products---------------
-  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
-  const data = await res.json();
-
-  return {
-    props: {
-      isSuccess: true,
-      products: data.products,
-    },
-  };
-}
