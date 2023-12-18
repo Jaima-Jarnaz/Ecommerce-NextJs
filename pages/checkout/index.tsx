@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import Swal from "sweetalert2";
 import { CartContext } from "contexts/card/cardContext";
 import CustomInput from "@/components/atoms/custom-input";
 import Grid from "@/components/atoms/grid";
@@ -25,13 +26,15 @@ const Checkout = () => {
   });
 
   //Context data
-  const { totalProducts }: any = useContext(CartContext);
+  const { totalProducts, setTotalProducts, setItemsCount, setCartItems }: any =
+    useContext(CartContext);
 
   // Initialize userData using useState hook
   const [userData, setUserData] = useState({ name: "", phone: "", email: "" });
 
   useEffect(() => {
     // Retrieve user data from localStorage
+
     const data = localStorage.getItem("user");
     if (data) {
       const user = JSON.parse(localStorage.getItem("user") || "");
@@ -109,6 +112,45 @@ const Checkout = () => {
     setQuantity(quantity - 1);
   };
 
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: "Your order placed sucessfully!",
+      timer: 2000,
+      icon: "success",
+      showConfirmButton: false,
+      padding: "3em",
+
+      showClass: {
+        popup: `
+          animate__animated
+          animate__fadeInUp
+          animate__faster
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+      willClose: () => {
+        setDeliveryAddress("");
+        setDeliveryCity({ value: "", label: "" });
+        setDeliveryDivisions({ value: "", label: "" });
+        setTotalProducts([]);
+        setCartItems([]);
+        setItemsCount(0);
+      },
+
+      // }).then((result) => {
+      //   /* Read more about handling dismissals below */
+      //   if (result.dismiss === Swal.DismissReason.timer) {
+      //     console.log("I was closed by the timer");
+      //   }
+    });
+  };
+
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
@@ -142,6 +184,8 @@ const Checkout = () => {
       setMessage(result.message);
 
       if (result.success === true) {
+        showSweetAlert();
+
         //router.push("/auth/signin");
       }
     } catch (error) {
