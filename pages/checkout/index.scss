@@ -1,8 +1,76 @@
 .p-checkout {
-  &__address {
-    width: 67%;
+  padding: 20px;
+  &__address,
+  &__orders {
+    width: 50%;
     padding: 20px;
     margin-top: 20px;
-    box-shadow: $color-box-shadow-card;
+    box-shadow: $box-shadow-container;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 20px;
+  }
+
+  &__bottom-content {
+    margin-top: 20px;
+    box-shadow: $box-shadow-container;
+    width: 50%;
+    padding: 20px 10px;
+  }
+
+  &__heading {
+    background-color: $color-purple;
+    padding: 5px;
+    color: $color-white;
+    margin-bottom: 5px;
+  }
+
+  &__payment-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    padding: 15px 10px;
+  }
+
+  &__content {
+    font-size: 14px;
+    width: 180px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: $box-shadow-card-payment;
+    text-align: center;
+    cursor: pointer;
+  }
+  &__products-content {
+    padding: 10px 30px 20px;
+    margin-top: 10px;
+    box-shadow: $box-shadow-container;
+    background-color: $color-light-cream-purple;
+  }
+
+  &__product {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $color-purple;
+    padding: 10px 0;
+  }
+
+  &__button {
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+
+    button {
+      width: 300px;
+      background-color: $color-error-red;
+    }
   }
 }

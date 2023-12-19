@@ -11,9 +11,17 @@ export interface CartItem {
   quantity: number;
 }
 
+// Define each data on a cart
+export interface TotalProducts {
+  products: any;
+  subtotal: number;
+  total: number;
+}
+
 // Define the structure of the CartContext
 export interface CartContextType {
   cartItems: CartItem[]; // Array to store cart items
+  totalProducts: TotalProducts; // Array to store total products
   addToCart: (product: any) => void; // Function to add a product to the cart
   itemsCount: number; // Total count of items in the cart
   setItemsCount: React.Dispatch<React.SetStateAction<number>>; // Function to update the items count
@@ -26,23 +34,40 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Define the state variables
   const [cartItems, setCartItems] = useState<CartItem[]>([]); // Cart items
+  const [totalProducts, setTotalProducts] = useState<TotalProducts>({
+    products: "",
+    subtotal: 0,
+    total: 0,
+  }); // Cart items
   const [itemsCount, setItemsCount] = useState<number>(0); // Total count of items
-
-  // Define a key for local storage
-  const LOCAL_STORAGE_KEY = "cartItems";
-
-  const TOTAL_CART_ITEMS = "total_card_items";
 
   // Load cart items from local storage when the provider initializes
   useEffect(() => {
     // Retrieve cart items from local storage or initialize as an empty array
     const storedCartItems = JSON.parse(
-      localStorage.getItem(LOCAL_STORAGE_KEY) || "[]"
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`) || "[]"
     );
 
     const totalCartItems = JSON.parse(
-      localStorage.getItem(TOTAL_CART_ITEMS) || "0"
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`) || "0"
     );
+
+    const totalProducts = JSON.parse(
+      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`) || "{}"
+    );
+
+    console.log("all data ", totalProducts);
+
+    if (Object.keys(totalProducts).length !== 0) {
+      if (totalProducts.products.length !== 0) {
+        console.log(
+          "cart context totalProducts typeof ",
+          totalProducts.products.length
+        );
+
+        setTotalProducts(totalProducts);
+      }
+    }
 
     if (totalCartItems > 0) {
       setItemsCount(totalCartItems);
@@ -56,9 +81,19 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Save cart items to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cartItems));
-    localStorage.setItem(TOTAL_CART_ITEMS, JSON.stringify(itemsCount));
-  }, [cartItems, itemsCount]);
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`,
+      JSON.stringify(cartItems)
+    );
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`,
+      JSON.stringify(totalProducts)
+    );
+    localStorage.setItem(
+      `${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`,
+      JSON.stringify(itemsCount)
+    );
+  }, [cartItems, itemsCount, totalProducts]);
 
   // Function to add a product to the cart
   const addToCart = (productToAdd: any) => {
@@ -102,6 +137,8 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     itemsCount,
     setItemsCount,
     updateCartItemQuantity,
+    totalProducts,
+    setTotalProducts,
   };
 
   // Provide the CartContext value to the children components

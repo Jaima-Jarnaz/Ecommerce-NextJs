@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { mapModifiers } from "../../../helpers/libs/utils";
 import { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
+import Icon from "@/components/atoms/icon";
 
 const Header = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -16,27 +17,21 @@ const Header = () => {
   }, []);
 
   const signOutHandler = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_USER_SIGNOUT_API}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    deleteCookie("access_token");
+    // Items to be removed
+    const itemsToRemove = [
+      "user",
+      "total_card_items",
+      "total_products",
+      "cartItems",
+    ];
 
-      if (!response.ok) {
-        throw new Error("Logout failed");
-      }
-      console.log("Logout successful");
-      localStorage.clear();
+    // Loop through each item and remove it from localStorage
+    itemsToRemove.forEach((item) => {
+      localStorage.removeItem(item);
+    });
 
-      setUserLoggedIn(false);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+    window.location.reload();
   };
 
   return (
@@ -67,6 +62,13 @@ const Header = () => {
                 Cart
               </Link>
             </li>
+
+            <li className="o-header__navItem">
+              <Link href="/admin" className="o-header__navLink">
+                Admin
+              </Link>
+            </li>
+
             <li className="o-header__navItem">
               {!userLoggedIn ? (
                 <Link href="/auth/signup" className="o-header__navLink">
@@ -78,10 +80,11 @@ const Header = () => {
                 </span>
               )}
             </li>
+
             <li className="o-header__navItem">
-              <Link href="/admin" className="o-header__navLink">
-                Admin
-              </Link>
+              <div className="o-header__profile-icon">
+                <Icon iconName="profile"></Icon>
+              </div>
             </li>
           </ul>
         </div>

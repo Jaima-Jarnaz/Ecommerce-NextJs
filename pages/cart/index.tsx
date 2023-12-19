@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { getCookie } from "cookies-next";
 import { CartContext } from "contexts/card/cardContext";
 import Button from "@/components/atoms/button";
 import Link from "next/link";
@@ -9,8 +10,13 @@ import { useRouter } from "next/router";
 
 const Cart = ({ products }: any) => {
   const router = useRouter();
-
   let subTotal = 0;
+  let total = 0;
+  let cartProductInfo: {
+    products: any;
+    subTotal: number;
+    total: number;
+  };
   let discountAmount = 20;
   let shippingCharge = 0;
   const {
@@ -18,12 +24,16 @@ const Cart = ({ products }: any) => {
     updateCartItemQuantity,
     setCartItems,
     setItemsCount,
+    setTotalProducts,
   }: any = useContext(CartContext);
 
   const cartProducts = products.filter((product: any) => {
     return cartItems.some((item: any) => item.productId === product._id);
   });
 
+  cartProductInfo = { products: cartProducts, subTotal, total };
+
+  //increament handler
   const incrementHandler = (productId: string, quantity: number) => {
     updateCartItemQuantity(productId, quantity);
   };
@@ -35,10 +45,18 @@ const Cart = ({ products }: any) => {
     setItemsCount(0);
   };
 
-  const proceedToCheckout = () => {
-    const token = localStorage.getItem("user") || "";
+  const proceedToCheckout = (subTotalProducts: number, total: number) => {
+    const token = getCookie("access_token");
+    console.log("subtotal", subTotalProducts);
+    cartProductInfo.subTotal = subTotalProducts;
+    cartProductInfo.total = total;
+
+    //console.log("cart page cartProductInfo", cartProductInfo);
 
     if (token) {
+      setTotalProducts(cartProductInfo);
+      console.log("cart page cartProductInfo", cartProductInfo);
+
       router.push(CHECKOUT_URL);
     } else {
       router.push(SIGNIN_URL);
@@ -139,8 +157,12 @@ const Cart = ({ products }: any) => {
             <li className="p-cart__price-contents-item ">
               <span className="p-cart__total-cost-level">Total cost</span>
               <span className="p-cart__total-cost">
-                tk
-                {subTotal - subTotal * (discountAmount / 100) + shippingCharge}
+                {
+                  (total =
+                    subTotal -
+                    subTotal * (discountAmount / 100) +
+                    shippingCharge)
+                }
               </span>
             </li>
           </ul>
@@ -161,7 +183,10 @@ const Cart = ({ products }: any) => {
           )}
         </div>
         {cartProducts.length > 0 ? (
-          <Button type="primary" onClick={proceedToCheckout}>
+          <Button
+            type="primary"
+            onClick={() => proceedToCheckout(subTotal, total)}
+          >
             Proceed to checkout
           </Button>
         ) : (

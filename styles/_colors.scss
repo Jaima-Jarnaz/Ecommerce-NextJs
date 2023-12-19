@@ -2,12 +2,14 @@ $color-primary: #6ac47e;
 $color-white: #ffffff;
 $color-purple: #7c3e9e;
 $color-deep-purple: #60317a;
+$color-light-cream-purple: #f1eefb;
 $color-light-purple: #f6f1f9;
 $color-plum: #cdaee0;
 $color-black: #080101;
 $color-gray: #504949;
 $color-red: #e96666d3;
-$color-error-red: #e21717;
+$color-pure-red: #f23333;
+$color-error-red: #f10f0f;
 $color-cream: #ddd;
 $color-romance: #fefefe;
 $color-monsoon: #888;
@@ -28,3 +30,8 @@ $color-box-shadow-secondary: rgba(60, 64, 67, 0.15);
 $color-box-shadow-tertiary: rgba(0, 0, 0, 0.08);
 $color-box-shadow-card: rgba(0, 0, 0, 0.16) 0px 3px 6px,
   rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+$box-shadow-container: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+  rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+$box-shadow-card-payment: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+  rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;

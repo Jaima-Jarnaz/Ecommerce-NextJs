@@ -6,8 +6,9 @@ export interface CustomInputProps {
   label?: string;
   id?: string;
   ref?: React.Ref<HTMLInputElement>;
+  readOnly?: boolean;
   value?: any;
-  handleChange: any;
+  handleChange?: any;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -20,6 +21,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   value,
   ref,
   handleChange,
+  readOnly,
   ...props
 }) => {
   return (
@@ -40,6 +42,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         ref={ref}
         value={value}
         onChange={handleChange}
+        readOnly={readOnly}
       />
     </div>
   );
