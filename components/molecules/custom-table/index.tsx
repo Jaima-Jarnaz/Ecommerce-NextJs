@@ -13,16 +13,10 @@ export const Table: React.FC<TableProps> = ({
   children,
   caption,
 }) => (
-  <div className="m-table">
-    {caption && <div className="m-table__caption">{caption}</div>}
-    <div className="m-table__table-container">
-      <table className={mapModifiers("m-table__table", modifiers)}>
-        {children}
-      </table>
-    </div>
-    <div className="m-table__scrollable-icon">
-      {/* <Icon name="scrollable" /> */}
-    </div>
+  <div className="m-custom-table">
+    <table className={mapModifiers("m-custom-table__table", modifiers)}>
+      {children}
+    </table>
   </div>
 );
 
@@ -32,7 +26,7 @@ interface TableHeadProps
 }
 
 export const TableHead: React.FC<TableHeadProps> = ({ children, ...props }) => (
-  <thead className="m-table__table-head" {...props}>
+  <thead className="m-custom-table__table-head" {...props}>
     {children}
   </thead>
 );
@@ -42,8 +36,13 @@ interface TableHeaderProps
   children?: React.ReactNode;
 }
 
-export const TableHeader: React.FC<TableHeaderProps> = ({ children }) => (
-  <th className="m-table__table-header">{children}</th>
+export const TableHeader: React.FC<TableHeaderProps> = ({
+  children,
+  ...props
+}) => (
+  <th className="m-custom-table__table-header" {...props}>
+    {children}
+  </th>
 );
 
 interface TableBodyProps
@@ -51,7 +50,7 @@ interface TableBodyProps
   children?: React.ReactNode;
 }
 export const TableBody: React.FC<TableBodyProps> = ({ children }) => (
-  <tbody className="m-table__table-body">{children}</tbody>
+  <tbody className="m-custom-table__table-body">{children}</tbody>
 );
 
 interface TableRowProps
@@ -60,7 +59,7 @@ interface TableRowProps
 }
 
 export const TableRow: React.FC<TableRowProps> = ({ children, ...props }) => (
-  <tr className="m-table__table-row">{children}</tr>
+  <tr className="m-custom-table__table-row">{children}</tr>
 );
 
 interface TableDataProps
@@ -69,7 +68,7 @@ interface TableDataProps
 }
 
 export const TableData: React.FC<TableDataProps> = ({ children, ...props }) => (
-  <td {...props} className="m-table__table-data">
+  <td {...props} className="m-custom-table__table-data">
     {children}
   </td>
 );
@@ -83,7 +82,7 @@ interface TableColGroupProps
 }
 
 export const TableColGroup: React.FC<TableColGroupProps> = ({ children }) => (
-  <colgroup className="m-table__table-col-group">{children}</colgroup>
+  <colgroup className="m-custom-table__table-col-group">{children}</colgroup>
 );
 
 interface TableColProps
@@ -95,5 +94,5 @@ interface TableColProps
 }
 
 export const TableCol: React.FC<TableColProps> = ({ colSpan, ...props }) => (
-  <col className="m-table__table-col" {...props} span={colSpan} />
+  <col className="m-custom-table__table-col" {...props} span={colSpan} />
 );

@@ -1,0 +1,19 @@
+.p-order {
+  &__table {
+    padding: 20px;
+  }
+  &__heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-deep-purple;
+    padding: 12px;
+    background-color: $color-light-white;
+  }
+  &__product {
+    padding-bottom: 10px;
+    &:not(:first-child) {
+      border-top: 1px solid $color-cream;
+      padding-top: 10px;
+    }
+  }
+}
