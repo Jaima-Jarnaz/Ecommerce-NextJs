@@ -14,7 +14,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="o-sidebar__navItem">
-          <Link href="/order" className="o-sidebar__navLink">
+          <Link href="/admin/orders" className="o-sidebar__navLink">
             Orders
           </Link>
         </li>

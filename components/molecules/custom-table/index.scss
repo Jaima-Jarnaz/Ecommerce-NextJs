@@ -1,0 +1,23 @@
+.m-custom-table {
+  width: 100%;
+  overflow-x: auto;
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  &__table-head {
+    text-align: left;
+    background: $color-gradient-primary;
+    color: $color-white;
+  }
+
+  &__table-header,
+  &__table-data {
+    padding: 12px;
+    border: 1px solid $color-cream;
+    min-width: 120px;
+    font-size: 15px;
+    vertical-align: baseline;
+  }
+}
