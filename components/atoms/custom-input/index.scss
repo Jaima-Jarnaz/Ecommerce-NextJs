@@ -1,4 +1,5 @@
 .a-custom-input {
+  $root: &;
   margin-bottom: $margin-14;
   @include displayFlex(column);
   padding: 14px;
@@ -18,11 +19,21 @@
     border-radius: 8px;
     margin-top: $margin-16;
     outline: none;
-    font-size: 18px;
+    font-size: 16px;
     color: $color-deep-purple;
 
     &:focus {
       border: 1px solid $color-plum;
+    }
+  }
+  &__input[readonly] {
+    background-color: $color-white-gray;
+    color: $color-black-radish;
+    border: none;
+  }
+  &--padding-10 {
+    #{$root}__input {
+      padding: 10px;
     }
   }
 }

@@ -1,6 +1,6 @@
 .p-adminLayout {
+  display: flex;
   &__content {
-    margin-left: 230px;
-    width: calc(100% - 230px);
+    flex: 1;
   }
 }
