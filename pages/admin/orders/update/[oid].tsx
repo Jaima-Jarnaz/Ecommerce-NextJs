@@ -1,7 +1,6 @@
 import AdminLayout from "templates/adminLayout";
 import CustomInput from "@/components/atoms/custom-input";
 import { ReactElement, useEffect } from "react";
-import Grid from "@/components/atoms/grid";
 import Section from "@/components/atoms/section";
 import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
@@ -12,19 +11,21 @@ import { useRouter } from "next/router";
 
 const Admin = ({ order }: any) => {
   const [message, setMessage] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState("jaima");
   const [color, setColor] = useState("");
-  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
 
   //Storing image data from database
   const [shipmentAdddres, setshipmentAdddres] = useState<string>(
-    order.deliveryPlace.address
+    order.deliveryPlace && order.deliveryPlace.address
   );
   const [division, setDivision] = useState<string>(
-    order.deliveryPlace.division
+    order.deliveryPlace && order.deliveryPlace.division
   );
-  const [city, setCity] = useState<string>(order.deliveryPlace.city);
+  const [city, setCity] = useState<string>(
+    order.deliveryPlace && order.deliveryPlace.city
+  );
 
   const router = useRouter();
   const { oid } = router.query;
@@ -61,6 +62,7 @@ const Admin = ({ order }: any) => {
       const result = await res.json();
       console.log(result);
       setMessage(result.message);
+      router.push("/admin/order");
     } catch (error) {
       console.error("here is the error", error);
     }
@@ -160,16 +162,17 @@ const Admin = ({ order }: any) => {
         </div>
         <Section margin="margin-8" padding="10">
           <h4>Product Information</h4>
-          <div>
-            {order.products.products.map((item: any) => {
-              return (
+
+          {order.products.products.map((item: any, index: number) => {
+            return (
+              <div key={index}>
                 <SplitField>
                   <CustomInput
                     padding="padding-10"
                     type="text"
                     label="Name"
                     name="name"
-                    value={item.name}
+                    value={name}
                     handleChange={(e: any) => {
                       setName(e.target.value);
                     }}
@@ -181,7 +184,7 @@ const Admin = ({ order }: any) => {
                     name="price"
                     value={item.price}
                     handleChange={(e: any) => {
-                      setDescription(e.target.value);
+                      setPrice(e.target.value);
                     }}
                   />
                   <CustomInput
@@ -191,7 +194,7 @@ const Admin = ({ order }: any) => {
                     name="quantity"
                     value={item.quantity}
                     handleChange={(e: any) => {
-                      setDescription(e.target.value);
+                      setQuantity(e.target.value);
                     }}
                   />
                   <CustomInput
@@ -201,13 +204,13 @@ const Admin = ({ order }: any) => {
                     name="color"
                     value={item.color}
                     handleChange={(e: any) => {
-                      setDescription(e.target.value);
+                      setColor(e.target.value);
                     }}
                   />
                 </SplitField>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </Section>
         <Button type="primary">Update</Button>
       </form>

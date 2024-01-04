@@ -29,10 +29,14 @@ const tableHeadings = [
 const Orders = ({ orders }: any) => {
   const router = useRouter();
 
+  const confirmDeleteHandler = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <div className="p-order">
+      <h4 className="p-order__heading">Order Deatils</h4>
       <div className="p-order__table">
-        <h4 className="p-order__heading">Order Deatils</h4>
         <div className="p-order__table-content">
           <Table>
             <TableHead>
@@ -89,15 +93,27 @@ const Orders = ({ orders }: any) => {
                     <TableData>
                       <div>
                         <span>Address : </span>
-                        <span>{item.deliveryPlace.address}</span>
+                        <span>
+                          {item.deliveryPlace && item.deliveryPlace.address
+                            ? item.deliveryPlace.address
+                            : ""}
+                        </span>
                       </div>
                       <div>
                         <span>City : </span>
-                        <span>{item.deliveryPlace.city}</span>
+                        <span>
+                          {item.deliveryPlace && item.deliveryPlace.city
+                            ? item.deliveryPlace.city
+                            : ""}
+                        </span>
                       </div>
                       <div>
                         <span>Division : </span>
-                        <span>{item.deliveryPlace.division}</span>
+                        <span>
+                          {item.deliveryPlace && item.deliveryPlace.division
+                            ? item.deliveryPlace.division
+                            : ""}
+                        </span>
                       </div>
                     </TableData>
 
@@ -138,10 +154,10 @@ const Orders = ({ orders }: any) => {
                       </span>
                       <span
                         className="m-table__action"
-                        //   onClick={() => {
-                        //     setOpenModal(!openModal);
-                        //     confirmDeleteHandler(item._id);
-                        //   }}
+                        onClick={() => {
+                          // setOpenModal(!openModal);
+                          confirmDeleteHandler(item._id);
+                        }}
                       >
                         <Icon iconName="delete" />
                       </span>

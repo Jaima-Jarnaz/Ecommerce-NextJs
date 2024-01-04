@@ -1,33 +1,44 @@
 .o-sidebar {
-  width: 230px;
-  padding-top: 150px;
+  $root: &;
+  min-width: 280px;
   background: $color-gradient-secondary;
-  &__navItem {
-    display: block;
-    margin: 50px 20px;
+  &__content {
+    margin-top: 60px;
+    text-align: center;
   }
-  &__navLink {
+  &__navItem {
+    cursor: pointer;
+    padding: 25px 20px;
+    color: $color-white;
     font-size: 16px;
     font-weight: 400;
-    color: $color-white;
+    border-bottom: 1px solid $color-cream;
     position: relative;
-    &::after {
-      content: "";
-      width: 0px;
-      height: 3px;
-      background-color: $color-white;
-      position: absolute;
-      top: 30px;
-      left: 0;
-      display: none;
-      transition: all 0.5s ease-out;
-    }
+    transition: 0.5s;
+    z-index: 1;
 
     &:hover {
-      &::after {
-        display: block;
-        width: 100%;
-      }
+      color: $color-deep-purple;
+    }
+
+    &::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-color: $color-white;
+      color: $color-deep-purple;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.5s ease;
+      transform: scaleX(0);
+      z-index: -1;
+    }
+
+    &:hover::before {
+      transform-origin: right;
+      transition: transform 0.5s ease;
+      transform: scaleX(1);
     }
   }
 }
