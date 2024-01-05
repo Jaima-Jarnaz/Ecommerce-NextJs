@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { IMAGES } from "@settings/settings";
 import React from "react";
+import Link from "next/link";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
@@ -29,19 +31,25 @@ const Categories: any = () => {
           modifier: 1,
         }}
         pagination={true}
-        modules={[EffectCoverflow]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[EffectCoverflow, Autoplay]}
         className="swiper-container"
       >
         {IMAGES.map((item, index) => {
           return (
             <SwiperSlide className="swiper-slider" key={index}>
-              <Image
-                src={item.img}
-                className="swiper-slider-img"
-                alt="images"
-                width={350}
-                height={350}
-              />
+              <Link href="#">
+                <Image
+                  src={item.img}
+                  className="swiper-slider-img"
+                  alt="images"
+                  width={220}
+                  height={220}
+                />
+              </Link>
             </SwiperSlide>
           );
         })}

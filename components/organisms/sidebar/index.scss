@@ -1,6 +1,7 @@
 .o-sidebar {
   $root: &;
   min-width: 280px;
+  height: 100vh;
   background: $color-gradient-secondary;
   &__content {
     margin-top: 60px;

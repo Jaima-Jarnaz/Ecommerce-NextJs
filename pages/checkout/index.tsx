@@ -7,9 +7,12 @@ import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
 import { CustomSelect } from "@/components/atoms/select";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
 const Checkout = () => {
+  const router = useRouter();
+
   const [message, setMessage] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
@@ -186,7 +189,7 @@ const Checkout = () => {
       if (result.success === true) {
         showSweetAlert();
 
-        //router.push("/auth/signin");
+        router.push("/cart");
       }
     } catch (error) {
       console.log(error);

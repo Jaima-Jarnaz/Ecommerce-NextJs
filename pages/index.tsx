@@ -4,7 +4,7 @@ import Container from "@/components/atoms/container";
 import Image from "next/image";
 import Heading from "@/components/atoms/heading";
 import banner1 from "@/assets/banner-6.jpg";
-import baseUrl from "helpers/baseUrl";
+import Brands from "@/components/molecules/brands";
 import Categories from "@/components/molecules/categories";
 import Button from "@/components/atoms/button";
 import { useRouter } from "next/router";
@@ -17,18 +17,20 @@ const Home = ({ products }: any) => {
   return (
     <div>
       <Carousel />
-      <Container>
-        <Heading tag="h4">Categories</Heading>
-      </Container>
-      <Container>
-        <Categories />
-      </Container>
+      <Brands />
       <Container>
         <Heading tag="h4">Top Selling Products</Heading>
       </Container>
 
       <Container>
         <Cards productData={products} />
+      </Container>
+
+      <Container>
+        <Heading tag="h4">Categories</Heading>
+      </Container>
+      <Container>
+        <Categories />
       </Container>
 
       <Container alignment="center">

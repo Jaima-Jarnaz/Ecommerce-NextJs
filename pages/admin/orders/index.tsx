@@ -5,32 +5,49 @@ import {
   TableHeader,
   TableRow,
   TableData,
-  TableColGroup,
-  TableCol,
 } from "@/components/molecules/custom-table";
 import AdminLayout from "templates/adminLayout";
-import Section from "@/components/atoms/section";
 import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Icon from "@/components/atoms/icon";
-import Heading from "@/components/atoms/heading";
-
-const tableHeadings = [
-  "Orderd date",
-  "Delivery Place",
-  "Products",
-  "Customer",
-  "Amount",
-  "Status",
-  "Action",
-];
+import Swal from "sweetalert2";
 
 const Orders = ({ orders }: any) => {
   const router = useRouter();
 
-  const confirmDeleteHandler = (id: string) => {
-    console.log(id);
+  const confirmDeleteHandler = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_ORDER_DELETE_API}/${id}`,
+            {
+              method: "DELETE",
+            }
+          );
+          const result = await res.json();
+          if (result.success === true) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your order has been deleted.",
+              icon: "success",
+            });
+            router.reload();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
   };
 
   return (

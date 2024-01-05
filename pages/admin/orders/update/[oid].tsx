@@ -62,7 +62,7 @@ const Admin = ({ order }: any) => {
       const result = await res.json();
       console.log(result);
       setMessage(result.message);
-      router.push("/admin/order");
+      router.push("/admin/orders");
     } catch (error) {
       console.error("here is the error", error);
     }
