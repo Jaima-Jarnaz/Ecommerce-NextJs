@@ -4,10 +4,7 @@ const Sidebar = () => {
     <div className="o-sidebar">
       <ul className="o-sidebar__content">
         <Link href="/">
-          <li className="o-sidebar__navItem">My profile</li>
-        </Link>
-        <Link href="/">
-          <li className="o-sidebar__navItem">Home</li>
+          <li className="o-sidebar__navItem">Website</li>
         </Link>
         <Link href="/admin">
           <li className="o-sidebar__navItem">Dashboard</li>
@@ -17,6 +14,9 @@ const Sidebar = () => {
         </Link>
         <Link href="/admin/orders">
           <li className="o-sidebar__navItem">Orders</li>
+        </Link>
+        <Link href="#">
+          <li className="o-sidebar__navItem">Banners</li>
         </Link>
         <Link href="#">
           <li className="o-sidebar__navItem">Users</li>

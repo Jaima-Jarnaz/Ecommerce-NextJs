@@ -36,4 +36,9 @@
       padding: 10px;
     }
   }
+  &--padding-12 {
+    #{$root}__input {
+      padding: 12px;
+    }
+  }
 }

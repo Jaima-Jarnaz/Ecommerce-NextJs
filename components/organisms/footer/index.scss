@@ -69,4 +69,21 @@
       background-color: $color-white;
     }
   }
+  &__subscription-container {
+    display: flex;
+    justify-content: center;
+  }
+  &__subscription-content {
+    background-color: $color-white;
+    padding: 35px;
+    width: 850px;
+    height: 200px;
+    margin-top: -100px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    border-radius: 4px;
+  }
+  &__subscription-email {
+    display: flex;
+    align-items: center;
+  }
 }

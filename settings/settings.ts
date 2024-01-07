@@ -13,9 +13,11 @@ import payment from "assets/payment.png";
 import visaPayment from "assets/credit-card.png";
 import sony from "assets/logo/sony.png";
 import apple from "assets/logo/apple.png";
-import poco from "assets/logo/poco.png";
+import huawei from "assets/logo/huawei.png";
 import samsung from "assets/logo/samsung.png";
 import xiomi from "assets/logo/xiomi.png";
+import asus from "assets/logo/asus.png";
+import google from "assets/logo/google.png";
 
 export const IMAGES_DATA = {
   bkash,
@@ -36,11 +38,14 @@ export const IMAGES = [
 ];
 
 export const IMAGES_BRANDS = [
-  { img: apple, alt: "Apple" },
-  // { img: sony, alt: "Sony" },
+  { img: sony, alt: "Sony" },
   { img: samsung, alt: "Samsung" },
+  { img: apple, alt: "Apple" },
+  { img: asus, alt: "asus" },
+
   { img: xiomi, alt: "Xiomi" },
-  { img: poco, alt: "Poco" },
+  { img: huawei, alt: "huawei" },
+  { img: google, alt: "google" },
 ];
 
 export const PRODUCT_DATA = [

@@ -11,7 +11,7 @@ export interface CustomInputProps {
   readOnly?: boolean;
   value?: any;
   handleChange?: any;
-  padding?: "padding-10";
+  padding?: "padding-10" | "padding-12";
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
