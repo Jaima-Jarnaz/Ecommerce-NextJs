@@ -3,11 +3,12 @@ import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
 import Image from "next/image";
 import Heading from "@/components/atoms/heading";
-import banner1 from "@/assets/banner-6.jpg";
-import baseUrl from "helpers/baseUrl";
+import Brands from "@/components/molecules/brands";
 import Categories from "@/components/molecules/categories";
 import Button from "@/components/atoms/button";
 import { useRouter } from "next/router";
+import Section from "@/components/atoms/section";
+import { BannerContainer } from "@/components/molecules/banner";
 
 const Home = ({ products }: any) => {
   const router = useRouter();
@@ -17,14 +18,18 @@ const Home = ({ products }: any) => {
   return (
     <div>
       <Carousel />
+      <Section>
+        <Container margin="only-top">
+          <Heading textTransform="text-transform" tag="h4" fontSize="24">
+            Top Brands
+          </Heading>
+        </Container>
+        <Brands />
+      </Section>
       <Container>
-        <Heading tag="h4">Categories</Heading>
-      </Container>
-      <Container>
-        <Categories />
-      </Container>
-      <Container>
-        <Heading tag="h4">Top Selling Products</Heading>
+        <Heading textTransform="text-transform" tag="h4" fontSize="24">
+          All Products
+        </Heading>
       </Container>
 
       <Container>
@@ -37,8 +42,17 @@ const Home = ({ products }: any) => {
         </Button>
       </Container>
 
+      <Section>
+        <Container margin="only-bottom">
+          <Heading textTransform="text-transform" tag="h4" fontSize="24">
+            Categories
+          </Heading>
+        </Container>
+        <Categories />
+      </Section>
+
       <Container>
-        <Image alt="product" src={banner1} className="o-carousel__image" />
+        <BannerContainer />
       </Container>
     </div>
   );

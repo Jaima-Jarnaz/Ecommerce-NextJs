@@ -1,9 +1,28 @@
+import Heading from "@/components/atoms/heading";
 import Text from "../../atoms/text";
 import Icon from "@/components/atoms/icon";
 import Link from "next/link";
+import CustomInput from "@/components/atoms/custom-input";
+import Button from "@/components/atoms/button";
+CustomInput;
 const Footer = () => {
   return (
     <footer className="o-footer">
+      <div className="o-footer__subscription-container">
+        <div className="o-footer__subscription-content">
+          <Heading tag="h4">GET THE LATEST UPDATES</Heading>
+          <form action="">
+            <div className="o-footer__subscription-email">
+              <CustomInput
+                padding="padding-12"
+                type="email"
+                placeholder="Enter your email"
+              />
+              <Button type="primary">Submit</Button>
+            </div>
+          </form>
+        </div>
+      </div>
       <div className="o-footer__contents">
         <div className="o-footer__contents-item">
           <h6 className="o-footer__title">Stay Connected</h6>

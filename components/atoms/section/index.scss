@@ -1,12 +1,34 @@
 .a-section {
-  padding: 40px;
-  margin: 35px;
+  padding: 30px;
+  margin: 15px;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
-
+  background-color: $color-white;
   border-radius: 8px;
 
   &--30 {
     padding: 10px 20px;
+  }
+
+  &--10 {
+    padding: 10px;
+  }
+  &--margin-8 {
+    margin: 8px;
+  }
+  &--width-60 {
+    width: 60%;
+  }
+  &--width-70 {
+    width: 70%;
+  }
+  &--width-80 {
+    width: 80%;
+  }
+  &--width-40 {
+    width: 40%;
+  }
+  &--width-50 {
+    width: 50%;
   }
 }

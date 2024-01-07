@@ -1,13 +1,15 @@
 .p-order {
   &__table {
-    padding: 20px;
+    max-width: 1100px;
+    background-color: $color-white;
   }
   &__heading {
     font-size: 18px;
     font-weight: 600;
     color: $color-deep-purple;
     padding: 12px;
-    background-color: $color-light-white;
+    background-color: $color-white;
+    width: 100%;
   }
   &__product {
     padding-bottom: 10px;
@@ -15,5 +17,15 @@
       border-top: 1px solid $color-cream;
       padding-top: 10px;
     }
+  }
+  &__table-content {
+    border: 1px solid $color-deep-purple;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-height: 600px;
   }
 }

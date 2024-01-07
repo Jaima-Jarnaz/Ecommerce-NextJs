@@ -6,6 +6,7 @@ export interface HeadingProps {
   fontSize?: "28" | "24" | "20" | "16";
   children: React.ReactNode;
   alignment?: "left";
+  textTransform?: "text-transform";
 }
 
 const Heading: React.FC<HeadingProps> = ({
@@ -13,8 +14,9 @@ const Heading: React.FC<HeadingProps> = ({
   children,
   fontSize,
   alignment,
+  textTransform,
 }) => {
-  const classes = mapModifiers("a-heading", fontSize, alignment);
+  const classes = mapModifiers("a-heading", fontSize, alignment, textTransform);
   switch (tag) {
     case "h1":
       return <h1 className={classes}>{children}</h1>;

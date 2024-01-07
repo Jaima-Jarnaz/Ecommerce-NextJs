@@ -3,26 +3,30 @@ const Sidebar = () => {
   return (
     <div className="o-sidebar">
       <ul className="o-sidebar__content">
-        <li className="o-sidebar__navItem">
-          <Link href="/admin" className="o-sidebar__navLink">
-            Dashboard
-          </Link>
-        </li>
-        <li className="o-sidebar__navItem">
-          <Link href="/admin/products" className="o-sidebar__navLink">
-            Product
-          </Link>
-        </li>
-        <li className="o-sidebar__navItem">
-          <Link href="/admin/orders" className="o-sidebar__navLink">
-            Orders
-          </Link>
-        </li>
-        <li className="o-sidebar__navItem">
-          <Link href="/report" className="o-sidebar__navLink">
-            Report
-          </Link>
-        </li>
+        <Link href="/">
+          <li className="o-sidebar__navItem">Website</li>
+        </Link>
+        <Link href="/admin">
+          <li className="o-sidebar__navItem">Dashboard</li>
+        </Link>
+        <Link href="/admin/products">
+          <li className="o-sidebar__navItem">Product</li>
+        </Link>
+        <Link href="/admin/orders">
+          <li className="o-sidebar__navItem">Orders</li>
+        </Link>
+        <Link href="#">
+          <li className="o-sidebar__navItem">Banners</li>
+        </Link>
+        <Link href="#">
+          <li className="o-sidebar__navItem">Users</li>
+        </Link>
+        <Link href="#">
+          <li className="o-sidebar__navItem">Employee</li>
+        </Link>
+        <Link href="#">
+          <li className="o-sidebar__navItem">Report</li>
+        </Link>
       </ul>
     </div>
   );

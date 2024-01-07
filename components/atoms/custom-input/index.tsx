@@ -1,3 +1,5 @@
+import { mapModifiers } from "helpers/libs/utils";
+
 export interface CustomInputProps {
   type: string;
   placeholder?: string;
@@ -9,6 +11,7 @@ export interface CustomInputProps {
   readOnly?: boolean;
   value?: any;
   handleChange?: any;
+  padding?: "padding-10" | "padding-12";
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -22,10 +25,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
   ref,
   handleChange,
   readOnly,
+  padding,
   ...props
 }) => {
   return (
-    <div className="a-custom-input">
+    <div className={mapModifiers("a-custom-input", padding)}>
       {label ? (
         <label className="a-custom-input__label" htmlFor={id}>
           {label}

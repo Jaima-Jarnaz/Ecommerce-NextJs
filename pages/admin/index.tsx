@@ -71,60 +71,50 @@ const Admin = () => {
       <form onSubmit={handleSubmit}>
         <Section>
           <SplitField>
-            <Grid type="grid2">
-              <CustomInput
-                type="text"
-                label="Product Name"
-                name="name"
-                value={name}
-                handleChange={(e: any) => {
-                  setName(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid type="grid2">
-              <CustomInput
-                type="text"
-                label="Description"
-                name="description"
-                value={description}
-                handleChange={(e: any) => {
-                  setDescription(e.target.value);
-                }}
-              />
-            </Grid>
+            <CustomInput
+              type="text"
+              label="Product Name"
+              name="name"
+              value={name}
+              handleChange={(e: any) => {
+                setName(e.target.value);
+              }}
+            />
+            <CustomInput
+              type="text"
+              label="Description"
+              name="description"
+              value={description}
+              handleChange={(e: any) => {
+                setDescription(e.target.value);
+              }}
+            />
           </SplitField>
           <SplitField>
-            <Grid type="grid1">
-              <CustomInput
-                type="text"
-                label="Color"
-                name="color"
-                value={color}
-                handleChange={(e: any) => {
-                  setColor(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid type="grid1">
-              <CustomInput
-                type="number"
-                label="Price"
-                name="price"
-                value={price}
-                handleChange={(e: any) => {
-                  setPrice(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid type="grid1">
-              <CustomInput
-                type="file"
-                label="Image"
-                name="imageUrl"
-                handleChange={handleImage}
-              />
-            </Grid>
+            <CustomInput
+              type="text"
+              label="Color"
+              name="color"
+              value={color}
+              handleChange={(e: any) => {
+                setColor(e.target.value);
+              }}
+            />
+            <CustomInput
+              type="number"
+              label="Price"
+              name="price"
+              value={price}
+              handleChange={(e: any) => {
+                setPrice(e.target.value);
+              }}
+            />
+            <CustomInput
+              type="file"
+              label="Image"
+              name="imageUrl"
+              handleChange={handleImage}
+            />
           </SplitField>
           <Button type="primary">SUBMIT</Button>
         </Section>

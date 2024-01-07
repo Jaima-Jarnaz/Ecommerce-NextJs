@@ -6,7 +6,7 @@ export interface ContainerProps {
   alignment?: "center" | "left";
   display?: "flex";
   children: React.ReactNode;
-  margin?: "auto" | "middle";
+  margin?: "auto" | "middle" | "only-top" | "only-bottom";
 }
 const Container: React.FC<ContainerProps> = ({
   children,

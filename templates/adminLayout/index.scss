@@ -1,6 +1,8 @@
 .p-adminLayout {
+  display: flex;
+  height: auto;
   &__content {
-    margin-left: 230px;
-    width: calc(100% - 230px);
+    flex: 1;
+    background-color: #f7f7f7;
   }
 }
