@@ -49,6 +49,14 @@
     background-color: $color-plum;
     border: none;
   }
+  &__quantity-btn {
+    padding: 6px 8px;
+    background-color: $color-purple;
+    color: $color-white;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 8px;
+  }
 
   &__content {
     width: 100px;

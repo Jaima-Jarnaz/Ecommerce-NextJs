@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { CartContext } from "contexts/card/cardContext";
 import Button from "@/components/atoms/button";
@@ -27,15 +27,45 @@ const Cart = ({ products }: any) => {
     setTotalProducts,
   }: any = useContext(CartContext);
 
-  const cartProducts = products.filter((product: any) => {
-    return cartItems.some((item: any) => item.productId === product._id);
-  });
+  const [addToCartProducts, setAddToCartProducts] = useState([]);
 
-  cartProductInfo = { products: cartProducts, subTotal, total };
+  useEffect(() => {
+    const cartProducts = products.filter((product: any) => {
+      return cartItems.some((item: any) => item.productId === product._id);
+    });
 
-  //increament handler
-  const incrementHandler = (productId: string, quantity: number) => {
-    updateCartItemQuantity(productId, quantity);
+    let filteredProducts = cartProducts.map((cartProduct: any) => {
+      // Find the corresponding item in cartItems
+      const cartItem = cartItems.find(
+        (item: any) => item.productId === cartProduct._id
+      );
+
+      // Return a new object with updated quantity
+      return {
+        ...cartProduct,
+        quantity: cartItem.quantity,
+      };
+    });
+
+    // Update state with the filtered products
+    setAddToCartProducts(filteredProducts);
+  }, [cartItems]);
+
+  cartProductInfo = { products: addToCartProducts, subTotal, total };
+
+  // Increment handler
+  const incrementHandler = (productId: string) => {
+    setCartItems((prevProducts: any) => {
+      return prevProducts.map((item: any) => {
+        if (item.productId === productId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+    });
   };
 
   const decrementHandler = () => {};
@@ -43,6 +73,7 @@ const Cart = ({ products }: any) => {
   const removeAllCartItems = () => {
     setCartItems([]);
     setItemsCount(0);
+    setAddToCartProducts([]);
   };
 
   const proceedToCheckout = (subTotalProducts: number, total: number) => {
@@ -65,7 +96,7 @@ const Cart = ({ products }: any) => {
   return (
     <div className="p-cart">
       <h3 className="p-cart__heading">Cart Information</h3>
-      {cartProducts.length > 0 ? (
+      {addToCartProducts.length > 0 ? (
         <table className="p-cart__table">
           <thead className="p-cart__heading">
             <tr>
@@ -78,8 +109,8 @@ const Cart = ({ products }: any) => {
             </tr>
           </thead>
           <tbody>
-            {cartProducts &&
-              cartProducts.map((item: any, index: number) => {
+            {addToCartProducts &&
+              addToCartProducts.map((item: any, index: number) => {
                 {
                   subTotal = subTotal + item.quantity * item.price;
                 }
@@ -94,14 +125,20 @@ const Cart = ({ products }: any) => {
                     <td>{item.price}</td>
                     <td>
                       <button
+                        className="p-cart__quantity-btn"
                         onClick={() => {
-                          incrementHandler(item._id, item.quantity);
+                          incrementHandler(item._id);
                         }}
                       >
                         +
                       </button>
                       {item.quantity}
-                      <button onClick={decrementHandler}>-</button>
+                      <button
+                        className="p-cart__quantity-btn"
+                        onClick={decrementHandler}
+                      >
+                        -
+                      </button>
                     </td>
                     <td>{item.quantity * item.price}</td>
                   </tr>
@@ -121,7 +158,7 @@ const Cart = ({ products }: any) => {
         </div>
       )}
 
-      {cartProducts.length > 0 && (
+      {addToCartProducts.length > 0 && (
         <div className="p-cart__bottom-content">
           <ul className="p-cart__price-contents">
             <li>
@@ -174,7 +211,7 @@ const Cart = ({ products }: any) => {
           <Link href={PRODUCTS_URL}>
             <Button type="primary">Continue shopping</Button>
           </Link>
-          {cartProducts.length > 0 ? (
+          {addToCartProducts.length > 0 ? (
             <Button onClick={removeAllCartItems} type="primary">
               Clear Cart
             </Button>
@@ -182,7 +219,7 @@ const Cart = ({ products }: any) => {
             ""
           )}
         </div>
-        {cartProducts.length > 0 ? (
+        {addToCartProducts.length > 0 ? (
           <Button
             type="primary"
             onClick={() => proceedToCheckout(subTotal, total)}
