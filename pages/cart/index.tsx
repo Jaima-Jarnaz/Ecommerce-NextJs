@@ -68,7 +68,21 @@ const Cart = ({ products }: any) => {
     });
   };
 
-  const decrementHandler = () => {};
+  const decrementHandler = (productId: string) => {
+    setCartItems((prevProducts: any) => {
+      return prevProducts.map((item: any) => {
+        if (item.productId === productId) {
+          // Prevent quantity from going below 1
+          const newQuantity = Math.max(item.quantity - 1, 1);
+          return {
+            ...item,
+            quantity: newQuantity,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   const removeAllCartItems = () => {
     setCartItems([]);
@@ -78,16 +92,11 @@ const Cart = ({ products }: any) => {
 
   const proceedToCheckout = (subTotalProducts: number, total: number) => {
     const token = getCookie("access_token");
-    console.log("subtotal", subTotalProducts);
     cartProductInfo.subTotal = subTotalProducts;
     cartProductInfo.total = total;
 
-    //console.log("cart page cartProductInfo", cartProductInfo);
-
     if (token) {
       setTotalProducts(cartProductInfo);
-      console.log("cart page cartProductInfo", cartProductInfo);
-
       router.push(CHECKOUT_URL);
     } else {
       router.push(SIGNIN_URL);
@@ -135,7 +144,7 @@ const Cart = ({ products }: any) => {
                       {item.quantity}
                       <button
                         className="p-cart__quantity-btn"
-                        onClick={decrementHandler}
+                        onClick={() => decrementHandler(item._id)}
                       >
                         -
                       </button>

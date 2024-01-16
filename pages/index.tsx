@@ -19,7 +19,7 @@ const Home = ({ products }: any) => {
     <div>
       <Carousel />
       <Section>
-        <Container margin="only-top">
+        <Container margin="no-margin">
           <Heading textTransform="text-transform" tag="h4" fontSize="24">
             Top Brands
           </Heading>
