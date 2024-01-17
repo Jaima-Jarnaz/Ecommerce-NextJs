@@ -18,12 +18,14 @@ import samsung from "assets/logo/samsung.png";
 import xiomi from "assets/logo/xiomi.png";
 import asus from "assets/logo/asus.png";
 import google from "assets/logo/google.png";
+import close from "assets/icons/cross.svg";
 
 export const IMAGES_DATA = {
   bkash,
   cod,
   payment,
   visaPayment,
+  close,
 };
 
 export const EMPTY_CART_IMAGE = emptyCart;

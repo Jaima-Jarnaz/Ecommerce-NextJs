@@ -4,7 +4,7 @@ import { CartContext } from "contexts/card/cardContext";
 import Button from "@/components/atoms/button";
 import Link from "next/link";
 import { PRODUCTS_URL, SIGNIN_URL, CHECKOUT_URL } from "helpers/constants";
-import { EMPTY_CART_IMAGE } from "settings/settings";
+import { EMPTY_CART_IMAGE, IMAGES_DATA } from "settings/settings";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -23,6 +23,7 @@ const Cart = ({ products }: any) => {
     cartItems,
     updateCartItemQuantity,
     setCartItems,
+    itemsCount,
     setItemsCount,
     setTotalProducts,
   }: any = useContext(CartContext);
@@ -90,6 +91,21 @@ const Cart = ({ products }: any) => {
     setAddToCartProducts([]);
   };
 
+  const removeSingleCartItem = (id: string) => {
+    setCartItems((prevCartItems: any) =>
+      prevCartItems
+        .map((item: any) => {
+          return item.productId !== id ? item : null;
+        })
+        .filter(Boolean)
+    );
+    setItemsCount(itemsCount - 1);
+    let addedButtonState = localStorage.getItem(`buttonState_${id}`);
+    if (addedButtonState) {
+      localStorage.removeItem(`buttonState_${id}`);
+    }
+  };
+
   const proceedToCheckout = (subTotalProducts: number, total: number) => {
     const token = getCookie("access_token");
     cartProductInfo.subTotal = subTotalProducts;
@@ -149,7 +165,15 @@ const Cart = ({ products }: any) => {
                         -
                       </button>
                     </td>
-                    <td>{item.quantity * item.price}</td>
+                    <td className="p-cart__unit-price">
+                      {item.quantity * item.price}
+                      <span
+                        className="p-cart__close-icon"
+                        onClick={() => removeSingleCartItem(item._id)}
+                      >
+                        &times;
+                      </span>
+                    </td>
                   </tr>
                 );
               })}

@@ -24,17 +24,18 @@ export const Table: React.FC<TableProps> = ({ body }) => {
 
   const deleteHandler = async () => {
     try {
-      console.log(`${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`, {
-        method: "DELETE",
-      });
-     const result= await res.json();
+      console.log(`${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const result = await res.json();
       setOpenModal(false);
-      if(result.success==='true'){
-        router.reload()
+      if (result.success === "true") {
+        router.reload();
         setIsSuccess(true);
-
-
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +66,6 @@ export const Table: React.FC<TableProps> = ({ body }) => {
             <th>Description</th>
             <th>Price</th>
             <th>Colors</th>
-            <td className="m-table__content">order</td>
             <th className="m-table__content">Actions</th>
           </tr>
         </thead>
@@ -79,8 +79,6 @@ export const Table: React.FC<TableProps> = ({ body }) => {
                   <td className="m-table__content">{item.description}</td>
                   <td className="m-table__content">{item.price}</td>
                   <td className="m-table__content">{item.color}</td>
-                  <td className="m-table__content">OD-{index+2}</td>
-
                   <td>
                     <span
                       className="m-table__action"

@@ -15,7 +15,8 @@ const Admin = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<any>();
+  const [promoCode, setPromoCode] = useState<any>("");
+  const [brand, setBrand] = useState<any>("");
   const [message, setMessage] = useState("");
 
   // Image handler
@@ -37,6 +38,8 @@ const Admin = () => {
       price,
       color,
       imageUrl: { public_id: imageFile.public_id, url: imageFile.secure_url },
+      promoCode,
+      brand,
     };
 
     //Create new product
@@ -114,6 +117,21 @@ const Admin = () => {
               label="Image"
               name="imageUrl"
               handleChange={handleImage}
+            />
+          </SplitField>
+          <SplitField>
+            <CustomInput
+              type="text"
+              label="Promo Code"
+              name="promo_code"
+              placeholder="PROMO-60"
+              handleChange={(e: any) => setPromoCode(e.target.value)}
+            />
+            <CustomInput
+              type="text"
+              label="Brand"
+              name="brand"
+              handleChange={(e: any) => setBrand(e.target.value)}
             />
           </SplitField>
           <Button type="primary">SUBMIT</Button>
