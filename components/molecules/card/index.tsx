@@ -23,16 +23,16 @@ export const Card: React.FC<CardProps> = ({
   price,
   id,
 }) => {
-  const cartContext = useContext(CartContext);
+  // const cartContext = useContext(CartContext);
 
-  if (!cartContext) {
-    // Handle the case where the context is undefined (optional)
-    return (
-      <div className="m-card">
-        <p>Cart context is not available.</p>
-      </div>
-    );
-  }
+  // if (!cartContext) {
+  //   // Handle the case where the context is undefined (optional)
+  //   return (
+  //     <div className="m-card">
+  //       <p>Cart context is not available.</p>
+  //     </div>
+  //   );
+  // }
 
   const TOTAL_CART_ITEMS = "total_card_items";
 

@@ -88,7 +88,12 @@ const Cart = ({ products }: any) => {
                   <tr key={index} className="p-cart__content">
                     <td>{++index}</td>
                     <td>
-                      <img src={item.imageUrl.url} />
+                      <Image
+                        width={200}
+                        height={200}
+                        src={item.imageUrl.url}
+                        alt="image"
+                      />
                     </td>
                     <td>{item.name}</td>
                     <td>{item.price}</td>
