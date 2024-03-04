@@ -18,6 +18,7 @@ const Brands: any = () => {
         grabCursor={true}
         centeredSlides={true}
         loop={true}
+        autoplay
         slidesPerView={4}
         spaceBetween={80}
         navigation={true}
