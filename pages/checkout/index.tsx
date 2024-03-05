@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
+import { ClearButtonState } from "helpers/libs/helpers";
 const Checkout = () => {
   const router = useRouter();
 
@@ -188,7 +189,7 @@ const Checkout = () => {
 
       if (result.success === true) {
         showSweetAlert();
-
+        ClearButtonState();
         router.push("/cart");
       }
     } catch (error) {

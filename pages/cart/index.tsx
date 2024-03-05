@@ -7,6 +7,7 @@ import { PRODUCTS_URL, SIGNIN_URL, CHECKOUT_URL } from "helpers/constants";
 import { EMPTY_CART_IMAGE, IMAGES_DATA } from "settings/settings";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { ClearButtonState } from "helpers/libs/helpers";
 
 const Cart = ({ products }: any) => {
   const router = useRouter();
@@ -86,15 +87,7 @@ const Cart = ({ products }: any) => {
   };
 
   const removeAllCartItems = () => {
-    // Loop through localStorage keys
-    for (let i = 0; i < localStorage.length; i++) {
-      // Check if the key matches the pattern buttonState_${id}
-      const key = localStorage.key(i);
-      if (key && key.startsWith("buttonState_")) {
-        localStorage.removeItem(key);
-      }
-    }
-
+    ClearButtonState();
     setCartItems([]);
     setItemsCount(0);
     setAddToCartProducts([]);

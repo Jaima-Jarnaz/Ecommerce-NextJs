@@ -87,3 +87,8 @@ export const PRODUCT_DATA = [
     description: "Good product",
   },
 ];
+
+export const STATIC_TEXTS = {
+  product_created_success: "Successfully added new product information",
+  product_created_fail: "Sorry! something went wrong",
+};
