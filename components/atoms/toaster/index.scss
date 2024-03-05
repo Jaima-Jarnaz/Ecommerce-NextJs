@@ -1,0 +1,75 @@
+.a-toaster {
+  $root: &;
+  max-width: 250px;
+  padding: 10px;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  z-index: 10001;
+  border-radius: 5px;
+
+  &--bgGreen {
+    background-color: $color-toaster-green;
+  }
+
+  &--bgRed {
+    background-color: $color-pure-red;
+  }
+
+  &__container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__icon.checkGreen::after {
+    content: " \221A";
+    color: $color-white;
+    font-size: 20px;
+  }
+
+  &__icon.closeRed::after {
+    content: " \00D7";
+    color: $color-white;
+    font-size: 20px;
+  }
+
+  &__message {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  &__message--success {
+    color: $color-white;
+  }
+  &__message--fail {
+    color: $color-white;
+  }
+
+  &__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    animation: toast 2s linear;
+  }
+
+  &__progress--success {
+    background-color: $color-green-deep;
+  }
+  &__progress--fail {
+    background-color: $color-toaster-red-progress;
+  }
+
+  @keyframes toast {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0%;
+    }
+  }
+}

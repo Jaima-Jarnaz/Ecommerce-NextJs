@@ -3,11 +3,23 @@ export interface ButtonProps {
   children: React.ReactNode;
   type: "primary" | "secondary" | "ternary" | "small";
   onClick?: () => void;
+  isDisabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, type, onClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  type,
+  onClick,
+  isDisabled,
+  ...props
+}) => {
   return (
-    <button className={mapModifiers("a-button", type)} onClick={onClick}>
+    <button
+      className={mapModifiers("a-button", type)}
+      onClick={onClick}
+      disabled={isDisabled}
+      {...props}
+    >
       {children}
     </button>
   );

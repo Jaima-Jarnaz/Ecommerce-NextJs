@@ -1,12 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { CartContext } from "contexts/card/cardContext";
 import Button from "@/components/atoms/button";
 import Link from "next/link";
 import { PRODUCTS_URL, SIGNIN_URL, CHECKOUT_URL } from "helpers/constants";
-import { EMPTY_CART_IMAGE } from "settings/settings";
+import { EMPTY_CART_IMAGE, IMAGES_DATA } from "settings/settings";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { ClearButtonState } from "helpers/libs/helpers";
 
 const Cart = ({ products }: any) => {
   const router = useRouter();
@@ -23,40 +24,97 @@ const Cart = ({ products }: any) => {
     cartItems,
     updateCartItemQuantity,
     setCartItems,
+    itemsCount,
     setItemsCount,
     setTotalProducts,
   }: any = useContext(CartContext);
 
-  const cartProducts = products.filter((product: any) => {
-    return cartItems.some((item: any) => item.productId === product._id);
-  });
+  const [addToCartProducts, setAddToCartProducts] = useState([]);
 
-  cartProductInfo = { products: cartProducts, subTotal, total };
+  useEffect(() => {
+    const cartProducts = products.filter((product: any) => {
+      return cartItems.some((item: any) => item.productId === product._id);
+    });
 
-  //increament handler
-  const incrementHandler = (productId: string, quantity: number) => {
-    updateCartItemQuantity(productId, quantity);
+    let filteredProducts = cartProducts.map((cartProduct: any) => {
+      // Find the corresponding item in cartItems
+      const cartItem = cartItems.find(
+        (item: any) => item.productId === cartProduct._id
+      );
+
+      // Return a new object with updated quantity
+      return {
+        ...cartProduct,
+        quantity: cartItem.quantity,
+      };
+    });
+
+    // Update state with the filtered products
+    setAddToCartProducts(filteredProducts);
+  }, [cartItems]);
+
+  cartProductInfo = { products: addToCartProducts, subTotal, total };
+
+  // Increment handler
+  const incrementHandler = (productId: string) => {
+    setCartItems((prevProducts: any) => {
+      return prevProducts.map((item: any) => {
+        if (item.productId === productId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+    });
   };
 
-  const decrementHandler = () => {};
+  const decrementHandler = (productId: string) => {
+    setCartItems((prevProducts: any) => {
+      return prevProducts.map((item: any) => {
+        if (item.productId === productId) {
+          // Prevent quantity from going below 1
+          const newQuantity = Math.max(item.quantity - 1, 1);
+          return {
+            ...item,
+            quantity: newQuantity,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   const removeAllCartItems = () => {
+    ClearButtonState();
     setCartItems([]);
     setItemsCount(0);
+    setAddToCartProducts([]);
+  };
+
+  const removeSingleCartItem = (id: string) => {
+    setCartItems((prevCartItems: any) =>
+      prevCartItems
+        .map((item: any) => {
+          return item.productId !== id ? item : null;
+        })
+        .filter(Boolean)
+    );
+    setItemsCount(itemsCount - 1);
+    let addedButtonState = localStorage.getItem(`buttonState_${id}`);
+    if (addedButtonState) {
+      localStorage.removeItem(`buttonState_${id}`);
+    }
   };
 
   const proceedToCheckout = (subTotalProducts: number, total: number) => {
     const token = getCookie("access_token");
-    console.log("subtotal", subTotalProducts);
     cartProductInfo.subTotal = subTotalProducts;
     cartProductInfo.total = total;
 
-    //console.log("cart page cartProductInfo", cartProductInfo);
-
     if (token) {
       setTotalProducts(cartProductInfo);
-      console.log("cart page cartProductInfo", cartProductInfo);
-
       router.push(CHECKOUT_URL);
     } else {
       router.push(SIGNIN_URL);
@@ -65,7 +123,7 @@ const Cart = ({ products }: any) => {
   return (
     <div className="p-cart">
       <h3 className="p-cart__heading">Cart Information</h3>
-      {cartProducts.length > 0 ? (
+      {addToCartProducts.length > 0 ? (
         <table className="p-cart__table">
           <thead className="p-cart__heading">
             <tr>
@@ -78,8 +136,8 @@ const Cart = ({ products }: any) => {
             </tr>
           </thead>
           <tbody>
-            {cartProducts &&
-              cartProducts.map((item: any, index: number) => {
+            {addToCartProducts &&
+              addToCartProducts.map((item: any, index: number) => {
                 {
                   subTotal = subTotal + item.quantity * item.price;
                 }
@@ -99,16 +157,30 @@ const Cart = ({ products }: any) => {
                     <td>{item.price}</td>
                     <td>
                       <button
+                        className="p-cart__quantity-btn"
                         onClick={() => {
-                          incrementHandler(item._id, item.quantity);
+                          incrementHandler(item._id);
                         }}
                       >
                         +
                       </button>
                       {item.quantity}
-                      <button onClick={decrementHandler}>-</button>
+                      <button
+                        className="p-cart__quantity-btn"
+                        onClick={() => decrementHandler(item._id)}
+                      >
+                        -
+                      </button>
                     </td>
-                    <td>{item.quantity * item.price}</td>
+                    <td className="p-cart__unit-price">
+                      {item.quantity * item.price}
+                      <span
+                        className="p-cart__close-icon"
+                        onClick={() => removeSingleCartItem(item._id)}
+                      >
+                        &times;
+                      </span>
+                    </td>
                   </tr>
                 );
               })}
@@ -126,7 +198,7 @@ const Cart = ({ products }: any) => {
         </div>
       )}
 
-      {cartProducts.length > 0 && (
+      {addToCartProducts.length > 0 && (
         <div className="p-cart__bottom-content">
           <ul className="p-cart__price-contents">
             <li>
@@ -179,7 +251,7 @@ const Cart = ({ products }: any) => {
           <Link href={PRODUCTS_URL}>
             <Button type="primary">Continue shopping</Button>
           </Link>
-          {cartProducts.length > 0 ? (
+          {addToCartProducts.length > 0 ? (
             <Button onClick={removeAllCartItems} type="primary">
               Clear Cart
             </Button>
@@ -187,7 +259,7 @@ const Cart = ({ products }: any) => {
             ""
           )}
         </div>
-        {cartProducts.length > 0 ? (
+        {addToCartProducts.length > 0 ? (
           <Button
             type="primary"
             onClick={() => proceedToCheckout(subTotal, total)}

@@ -4,7 +4,8 @@ import Button from "@/components/atoms/button";
 import Heading from "@/components/atoms/heading";
 import Link from "next/link";
 import { CartContext } from "../../../contexts/card/cardContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import { mapModifiers } from "helpers/libs/utils";
 
 export type CardProps = {
   id: string;
@@ -23,6 +24,16 @@ export const Card: React.FC<CardProps> = ({
   price,
   id,
 }) => {
+  const cartContext = useContext(CartContext);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  // Retrieve the button state from localStorage on component mount
+  useEffect(() => {
+    const storedButtonState = localStorage.getItem(`buttonState_${id}`);
+    if (storedButtonState) {
+      setButtonClicked(JSON.parse(storedButtonState));
+    }
+  }, [id]);
   // const cartContext = useContext(CartContext);
 
   // if (!cartContext) {
@@ -36,12 +47,16 @@ export const Card: React.FC<CardProps> = ({
 
   const TOTAL_CART_ITEMS = "total_card_items";
 
-  const { setItemsCount, itemsCount, addToCart }: any = useContext(CartContext);
+  const { setItemsCount, itemsCount, addToCart, cartItems }: any =
+    useContext(CartContext);
   const handleClick = (id: string) => {
     addToCart(id);
+    // Save the button state to localStorage whenever it changes
+    localStorage.setItem(`buttonState_${id}`, JSON.stringify(!buttonClicked));
+    setButtonClicked(true);
   };
   return (
-    <div className="m-card">
+    <div className={mapModifiers("m-card", buttonClicked && "disabled")}>
       <div className="m-card__img">
         <Link href={`product/${id}`}>
           <Image src={src} alt={alt} width={250} height={250} />
@@ -55,8 +70,12 @@ export const Card: React.FC<CardProps> = ({
         {price}
       </Text>
       <div className="m-card__button">
-        <Button type="primary" onClick={() => handleClick(id)}>
-          Add To Card
+        <Button
+          type="primary"
+          onClick={() => handleClick(id)}
+          isDisabled={buttonClicked}
+        >
+          {!buttonClicked ? "Add To Cart" : "Added to cart"}
         </Button>
       </div>
     </div>

@@ -9,52 +9,69 @@ import Button from "@/components/atoms/button";
 import { useRouter } from "next/router";
 import Section from "@/components/atoms/section";
 import { BannerContainer } from "@/components/molecules/banner";
+import Loader from "@/components/atoms/loader";
+import { useState, useEffect } from "react";
 
 const Home = ({ products }: any) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (products) {
+      setIsLoading(false);
+    }
+  }, products);
+
   const router = useRouter();
   const browseMoreHandler = () => {
     router.push("/products/filters");
   };
+
   return (
-    <div>
-      <Carousel />
-      <Section>
-        <Container margin="only-top">
-          <Heading textTransform="text-transform" tag="h4" fontSize="24">
-            Top Brands
-          </Heading>
-        </Container>
-        <Brands />
-      </Section>
-      <Container>
-        <Heading textTransform="text-transform" tag="h4" fontSize="24">
-          All Products
-        </Heading>
-      </Container>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          <Carousel />
+          <Section>
+            <Container margin="no-margin">
+              <Heading textTransform="text-transform" tag="h4" fontSize="24">
+                Top Brands
+              </Heading>
+            </Container>
+            <Brands />
+          </Section>
+          <Container>
+            <Heading textTransform="text-transform" tag="h4" fontSize="24">
+              All Products
+            </Heading>
+          </Container>
 
-      <Container>
-        <Cards productData={products} />
-      </Container>
+          <Container>
+            <Cards productData={products} />
+          </Container>
 
-      <Container alignment="center">
-        <Button type="primary" onClick={browseMoreHandler}>
-          Browse more
-        </Button>
-      </Container>
+          <Container alignment="center">
+            <Button type="primary" onClick={browseMoreHandler}>
+              Browse more
+            </Button>
+          </Container>
 
-      <Section>
-        <Container margin="only-bottom">
-          <Heading textTransform="text-transform" tag="h4" fontSize="24">
-            Categories
-          </Heading>
-        </Container>
-        <Categories />
-      </Section>
+          <Section>
+            <Container margin="only-bottom">
+              <Heading textTransform="text-transform" tag="h4" fontSize="24">
+                Categories
+              </Heading>
+            </Container>
+            <Categories />
+          </Section>
 
-      <Container>
-        <BannerContainer />
-      </Container>
-    </div>
+          <Container>
+            <BannerContainer />
+          </Container>
+        </div>
+      )}
+    </>
   );
 };
 

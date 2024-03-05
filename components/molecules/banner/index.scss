@@ -1,12 +1,11 @@
 .m-banner-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 150px;
   &__img {
-    border-radius: 8px;
+    border-radius: 4px;
   }
   &__left-banner {
-    width: 50%;
+    // width: 50%;
   }
   &__right-banners {
   }

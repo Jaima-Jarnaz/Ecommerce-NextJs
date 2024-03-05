@@ -46,8 +46,16 @@
     margin-left: 5px;
     padding: 6px;
     color: $color-white;
-    background-color: $color-plum;
+    background-color: $color-purple;
     border: none;
+  }
+  &__quantity-btn {
+    padding: 6px 8px;
+    background-color: $color-purple;
+    color: $color-white;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 8px;
   }
 
   &__content {
@@ -125,5 +133,17 @@
     font-weight: 500;
     color: $color-monsoon;
     padding-bottom: 30px;
+  }
+  &__unit-price {
+    position: relative;
+  }
+  &__close-icon {
+    display: inline-block;
+    font-size: 30px;
+    color: red;
+    position: absolute;
+    top: 52px;
+    right: 36px;
+    cursor: pointer;
   }
 }

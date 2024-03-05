@@ -56,7 +56,7 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`) || "{}"
     );
 
-    console.log("all data ", totalProducts);
+    // console.log("all data ", totalProducts);
 
     if (Object.keys(totalProducts).length !== 0) {
       if (totalProducts.products.length !== 0) {
@@ -116,6 +116,8 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Function to update the quantity of a cart item
   const updateCartItemQuantity = (productId: string, quantity: number) => {
+    console.log("productId context", productId, quantity, "quantity");
+
     if (quantity < 0) {
       quantity = 0;
     }
@@ -123,7 +125,10 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) => {
         console.log("productId", productId, "quantity", quantity);
-
+        console.log(
+          "data",
+          item.productId === productId ? { ...item, quantity } : item
+        );
         return item.productId === productId ? { ...item, quantity } : item;
       })
     );

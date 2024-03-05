@@ -6,17 +6,23 @@ import SplitField from "@/components/atoms/splitField";
 import Button from "@/components/atoms/button";
 import { useState } from "react";
 import Heading from "@/components/atoms/heading";
-import { Note } from "@/components/atoms/note/index.";
 import imageUpload from "helpers/imageUpload";
 import CustomInput from "@/components/atoms/custom-input";
+import Toaster from "@/components/atoms/toaster";
+import { STATIC_TEXTS } from "@settings/settings";
+import Loader from "@/components/atoms/loader";
 const Admin = () => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<any>();
+  const [promoCode, setPromoCode] = useState<any>("");
+  const [brand, setBrand] = useState<any>("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState("");
+  const [toasterType, setToasterType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Image handler
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +32,7 @@ const Admin = () => {
 
   const handleSubmit: any = async (e: Event) => {
     e.preventDefault();
+    setIsLoading(true);
 
     //Image uploading in cloudinary
     const imageFile = await imageUpload(image);
@@ -37,6 +44,8 @@ const Admin = () => {
       price,
       color,
       imageUrl: { public_id: imageFile.public_id, url: imageFile.secure_url },
+      promoCode,
+      brand,
     };
 
     //Create new product
@@ -54,20 +63,49 @@ const Admin = () => {
         options
       );
       const result = await product.json();
-      setMessage(result.message);
+      console.log(result);
+      // if(result){
+      //   setIsLoading(false);
+
+      // }
+      setIsSubmitted(true);
+      setToasterType("success");
+      setMessage(STATIC_TEXTS.product_created_success);
+      setName("");
+      setDescription("");
+      setPrice("");
+      setColor("");
+      setBrand("");
+      setPromoCode("");
+      setImage("");
+      setTimeout(() => {
+        setToasterType("");
+      }, 2000);
     } catch (error) {
-      console.log(error);
+      setToasterType("fail");
+      setMessage(STATIC_TEXTS.product_created_fail);
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 2000);
     }
   };
 
   return (
     <>
-      {message ? <Note color="green">{message}</Note> : ""}
+      {isSubmitted && toasterType ? (
+        <Toaster type={toasterType} message={message} />
+      ) : (
+        ""
+      )}
+
       <Section>
         <Heading tag="h1" fontSize="28" alignment="left">
           Create Single Product
         </Heading>
       </Section>
+
+      {isLoading ? <Loader type="half" /> : ""}
+
       <form onSubmit={handleSubmit}>
         <Section>
           <SplitField>
@@ -114,6 +152,21 @@ const Admin = () => {
               label="Image"
               name="imageUrl"
               handleChange={handleImage}
+            />
+          </SplitField>
+          <SplitField>
+            <CustomInput
+              type="text"
+              label="Promo Code"
+              name="promo_code"
+              placeholder="PROMO-60"
+              handleChange={(e: any) => setPromoCode(e.target.value)}
+            />
+            <CustomInput
+              type="text"
+              label="Brand"
+              name="brand"
+              handleChange={(e: any) => setBrand(e.target.value)}
             />
           </SplitField>
           <Button type="primary">SUBMIT</Button>
