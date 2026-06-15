@@ -5,4 +5,17 @@
     flex: 1;
     background-color: #f7f7f7;
   }
+
+  @include tab() {
+    flex-direction: column;
+
+    &__content {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  @include sp() {
+    flex-direction: column;
+  }
 }

@@ -7,4 +7,19 @@
     bottom: -15px;
     right: 0;
   }
+
+  @include tab() {
+    padding: 0 20px;
+  }
+
+  @include sp() {
+    padding: 0 12px;
+
+    &__forgot-password {
+      position: static;
+      display: block;
+      margin-top: 8px;
+      text-align: right;
+    }
+  }
 }

@@ -49,4 +49,34 @@
       }
     }
   }
+
+  @include tab() {
+    flex: 1 1 calc(50% - 16px);
+    max-width: 280px;
+
+    &__img {
+      width: 100%;
+      max-width: 220px;
+    }
+
+    & > :nth-child(3) {
+      width: 100%;
+    }
+  }
+
+  @include sp() {
+    flex: 1 1 100%;
+    max-width: 100%;
+    padding: 12px;
+
+    &__img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    & > :nth-child(3) {
+      width: 100%;
+    }
+  }
 }

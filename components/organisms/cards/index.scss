@@ -3,4 +3,16 @@
   column-gap: 25px;
   flex-wrap: wrap;
   row-gap: 25px;
+
+  @include tab() {
+    column-gap: 16px;
+    row-gap: 16px;
+    justify-content: center;
+  }
+
+  @include sp() {
+    column-gap: 12px;
+    row-gap: 12px;
+    padding: 0 8px;
+  }
 }

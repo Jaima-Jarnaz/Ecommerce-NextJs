@@ -12,4 +12,21 @@
   &--grid2 {
     width: calc(($base-width - 42px) / 2);
   }
+
+  @include tab() {
+    &--grid1,
+    &--grid2 {
+      width: 100%;
+    }
+  }
+
+  @include sp() {
+    flex-direction: column;
+    align-items: stretch;
+
+    &--grid1,
+    &--grid2 {
+      width: 100%;
+    }
+  }
 }

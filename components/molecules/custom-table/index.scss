@@ -20,4 +20,22 @@
     font-size: 15px;
     vertical-align: baseline;
   }
+
+  @include tab() {
+    &__table-header,
+    &__table-data {
+      padding: 8px;
+      font-size: 14px;
+      min-width: 70px;
+    }
+  }
+
+  @include sp() {
+    &__table-header,
+    &__table-data {
+      padding: 6px;
+      font-size: 12px;
+      min-width: 60px;
+    }
+  }
 }

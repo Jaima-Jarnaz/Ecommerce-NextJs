@@ -10,4 +10,21 @@
     display: flex;
     gap: 10px;
   }
+
+  @include tab() {
+    padding: 16px;
+
+    &__top-content,
+    &__main-content {
+      flex-direction: column;
+    }
+  }
+
+  @include sp() {
+    padding: 12px;
+
+    &__top-content {
+      margin: 10px 0;
+    }
+  }
 }

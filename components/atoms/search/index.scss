@@ -30,4 +30,24 @@
     right: 15px;
     cursor: pointer;
   }
+
+  @include tab() {
+    &__content {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    &__input:focus {
+      #{$root}__content {
+        width: 100%;
+      }
+    }
+  }
+
+  @include sp() {
+    &__content {
+      width: 100%;
+      padding: 8px 14px;
+    }
+  }
 }

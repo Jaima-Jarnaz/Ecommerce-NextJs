@@ -8,4 +8,38 @@
   .m-brand-filter {
     margin-top: 20px;
   }
+
+  @include tab() {
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
+
+    &__filter-nav {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .m-price-range,
+      .m-brand-filter {
+        flex: 1;
+        min-width: 220px;
+      }
+    }
+  }
+
+  @include sp() {
+    padding: 12px;
+    gap: 16px;
+
+    &__filter-nav {
+      flex-direction: column;
+
+      .m-price-range,
+      .m-brand-filter {
+        min-width: unset;
+        width: 100%;
+      }
+    }
+  }
 }

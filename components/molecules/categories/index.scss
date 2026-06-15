@@ -11,3 +11,26 @@
   border-radius: 2rem;
   object-fit: cover;
 }
+
+@include tab() {
+  .m-categories {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+  }
+
+  .swiper-slider-img {
+    border-radius: 1.2rem;
+  }
+}
+
+@include sp() {
+  .m-categories {
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .swiper-slider-img {
+    border-radius: 0.8rem;
+  }
+}

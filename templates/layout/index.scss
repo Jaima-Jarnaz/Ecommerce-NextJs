@@ -1,6 +1,12 @@
 .t-layout {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+
   &__main {
     position: relative;
+    width: 100%;
+    max-width: 100%;
   }
 
   &__add-to-card-icon {
@@ -29,5 +35,36 @@
     padding-bottom: 6px;
     color: $color-deep-purple;
     font-weight: 700;
+  }
+
+  @include tab() {
+    &__main {
+      padding-top: 80px;
+    }
+
+    &__add-to-card-icon {
+      top: 90px;
+      width: 56px;
+      height: 52px;
+    }
+  }
+
+  @include sp() {
+    &__main {
+      padding-top: 70px;
+    }
+
+    &__add-to-card-icon {
+      top: 78px;
+      right: 8px;
+      width: 48px;
+      height: 44px;
+    }
+
+    &__add-to-card-content {
+      width: 20px;
+      height: 18px;
+      font-size: 12px;
+    }
   }
 }

@@ -146,4 +146,81 @@
     right: 36px;
     cursor: pointer;
   }
+
+  @include tab() {
+    padding: 20px;
+
+    &__table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    &__bottom-content,
+    &__button-container {
+      width: 100%;
+    }
+
+    &__button-container {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    &__double-buttons {
+      flex-direction: column;
+    }
+
+    &__promo-code {
+      margin-right: 0;
+    }
+  }
+
+  @include sp() {
+    padding: 12px;
+
+    &__heading {
+      font-size: 15px;
+    }
+
+    &__table {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    td img {
+      width: 70px;
+      height: 70px;
+    }
+
+    tr th {
+      width: auto;
+      min-width: 60px;
+    }
+
+    &__bottom-content::before {
+      width: 100%;
+    }
+
+    &__price-contents-item {
+      min-width: unset;
+      width: 100%;
+    }
+
+    &__button-container {
+      padding: 12px;
+    }
+
+    &__close-icon {
+      top: 8px;
+      right: 8px;
+      font-size: 22px;
+    }
+
+    &__quantity-btn {
+      padding: 4px 6px;
+      font-size: 14px;
+      margin: 4px;
+    }
+  }
 }

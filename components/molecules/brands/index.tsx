@@ -19,13 +19,19 @@ const Brands: any = () => {
         centeredSlides={true}
         loop={true}
         autoplay
-        slidesPerView={4}
-        spaceBetween={80}
+        slidesPerView={2}
+        spaceBetween={30}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+          1056: {
+            slidesPerView: 4,
+            spaceBetween: 80,
+          },
+        }}
         navigation={true}
-        // autoplay={{
-        //   delay: 2500,
-        //   disableOnInteraction: false,
-        // }}
         modules={[Autoplay, Navigation]}
         className="swiper-container"
       >

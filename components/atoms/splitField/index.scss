@@ -4,4 +4,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+
+  @include tab() {
+    flex-wrap: wrap;
+  }
+
+  @include sp() {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

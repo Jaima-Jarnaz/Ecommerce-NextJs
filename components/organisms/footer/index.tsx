@@ -23,48 +23,50 @@ const Footer = () => {
           </form>
         </div>
       </div>
-      <div className="o-footer__contents">
-        <div className="o-footer__contents-item">
-          <h6 className="o-footer__title">Stay Connected</h6>
-          <div className="o-footer__text-contents">
-            <p>Fashionava</p>
-            <p>Shop-2,2nd floor, Kazi Tower, Dhanmundi-27, Dhaka 1212</p>
-            <p>Email : fasionava@gmail.com</p>
+      <div className="o-footer__main">
+        <div className="o-footer__contents">
+          <div className="o-footer__contents-item">
+            <h6 className="o-footer__title">Stay Connected</h6>
+            <div className="o-footer__text-contents">
+              <p>Fashionava</p>
+              <p>Shop-2,2nd floor, Kazi Tower, Dhanmundi-27, Dhaka 1212</p>
+              <p>Email : fasionava@gmail.com</p>
+            </div>
+          </div>
+
+          <div className="o-footer__contents-item">
+            <h6 className="o-footer__title">About Us</h6>
+            <div className="o-footer__text-contents">
+              <p>Blog</p>
+              <p>Careers</p>
+              <p>Join Our Community</p>
+              <p>Order Tracking</p>
+            </div>
+          </div>
+
+          <div className="o-footer__contents-item">
+            <h6 className="o-footer__title">Help</h6>
+            <div className="o-footer__text-contents">
+              <Link href="#">
+                <p>EMI Policy</p>
+              </Link>
+              <Link href="#">
+                <p>Refund Policy</p>
+              </Link>
+              <Link href="#">
+                <p>Warranty Policy</p>
+              </Link>
+              <Link href="#">
+                <p>Privacy Policy</p>
+              </Link>
+              <Link href="#">
+                <p>Complain Policy</p>
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="o-footer__contents-item">
-          <h6 className="o-footer__title">About Us</h6>
-          <div className="o-footer__text-contents">
-            <p>Blog</p>
-            <p>Careers</p>
-            <p>Join Our Community</p>
-            <p>Order Tracking</p>
-          </div>
-        </div>
-
-        <div className="o-footer__contents-item">
-          <h6 className="o-footer__title">Help</h6>
-          <div className="o-footer__text-contents">
-            <Link href="#">
-              <p>EMI Policy</p>
-            </Link>
-            <Link href="#">
-              <p>Refund Policy</p>
-            </Link>
-            <Link href="#">
-              <p>Warranty Policy</p>
-            </Link>
-            <Link href="#">
-              <p>Privacy Policy</p>
-            </Link>
-            <Link href="#">
-              <p>Complain Policy</p>
-            </Link>
-          </div>
-        </div>
-
-        <div className="o-footer__contents-item">
+        <div className="o-footer__support">
           <h6 className="o-footer__title">Support</h6>
           <div className="o-footer__button-container">
             <button className="o-footer__button" type="button">

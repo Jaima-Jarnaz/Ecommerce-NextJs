@@ -6,6 +6,8 @@ import Icon from "@/components/atoms/icon";
 
 const Header = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const token = getCookie("access_token");
 
@@ -18,7 +20,6 @@ const Header = () => {
 
   const signOutHandler = async () => {
     deleteCookie("access_token");
-    // Items to be removed
     const itemsToRemove = [
       "user",
       "total_card_items",
@@ -26,7 +27,6 @@ const Header = () => {
       "cartItems",
     ];
 
-    // Loop through each item and remove it from localStorage
     itemsToRemove.forEach((item) => {
       localStorage.removeItem(item);
     });
@@ -34,44 +34,69 @@ const Header = () => {
     window.location.reload();
   };
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <header className={mapModifiers("o-header")}>
+    <header className={mapModifiers("o-header", menuOpen && "menu-open")}>
       <nav className="o-header__navbar">
-        <Link className="o-header__brand" href="/">
+        <Link className="o-header__brand" href="/" onClick={closeMenu}>
           Fashionava
         </Link>
+        <button
+          type="button"
+          className="o-header__menu-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
         <div className="o-header__navbarCollapse">
           <ul className="o-header__navbarNav">
             <li className="o-header__navItem">
-              <Link href="/" className="o-header__navLink">
+              <Link href="/" className="o-header__navLink" onClick={closeMenu}>
                 Home
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/products" className="o-header__navLink">
+              <Link
+                href="/products"
+                className="o-header__navLink"
+                onClick={closeMenu}
+              >
                 Products
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/categories" className="o-header__navLink">
+              <Link
+                href="/categories"
+                className="o-header__navLink"
+                onClick={closeMenu}
+              >
                 Categories
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link href="/cart" className="o-header__navLink">
+              <Link href="/cart" className="o-header__navLink" onClick={closeMenu}>
                 Cart
               </Link>
             </li>
 
             <li className="o-header__navItem">
-              <Link href="/admin" className="o-header__navLink">
+              <Link href="/admin" className="o-header__navLink" onClick={closeMenu}>
                 Admin
               </Link>
             </li>
 
             <li className="o-header__navItem">
               {!userLoggedIn ? (
-                <Link href="/auth/signup" className="o-header__navLink">
+                <Link
+                  href="/auth/signup"
+                  className="o-header__navLink"
+                  onClick={closeMenu}
+                >
                   Sign Up
                 </Link>
               ) : (

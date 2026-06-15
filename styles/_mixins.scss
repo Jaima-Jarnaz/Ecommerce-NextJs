@@ -21,7 +21,13 @@
 }
 
 @mixin sp() {
-  @media only screen and (max-width: ($WIDTH-TAB - 1)) and (min-width: $WIDTH-SPL) {
+  @media only screen and (max-width: ($WIDTH-TAB - 1)) {
+    @content;
+  }
+}
+
+@mixin sps() {
+  @media only screen and (max-width: ($WIDTH-SPL - 1)) {
     @content;
   }
 }

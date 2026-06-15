@@ -12,4 +12,11 @@
     color: $color-error-red;
     font-size: 12px;
   }
+
+  @include sp() {
+    &__input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
 }
