@@ -1,6 +1,10 @@
 import { cloudinary } from "./config";
 
 const imageUpload = async (imageData) => {
+  if (!imageData) {
+    return { error: true, message: "No image file provided." };
+  }
+
   try {
     const image = new FormData();
     image.append("file", imageData);
@@ -10,9 +14,19 @@ const imageUpload = async (imageData) => {
       method: "POST",
       body: image,
     });
-    return await res.json();
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        error: true,
+        message: data?.error?.message || "Image upload failed.",
+      };
+    }
+
+    return data;
   } catch (error) {
-    console.log("Something went wrong from cloudinary.", error);
+    console.error("Something went wrong from cloudinary.", error);
+    return { error: true, message: "Image upload failed." };
   }
 };
 export default imageUpload;

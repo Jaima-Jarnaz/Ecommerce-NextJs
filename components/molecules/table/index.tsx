@@ -2,6 +2,7 @@ import { BODY } from "./tables";
 import Icon from "@/components/atoms/icon";
 import { useRouter } from "next/router";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/molecules/modal";
 import { Note } from "@/components/atoms/note/index.";
@@ -14,6 +15,7 @@ export const Table: React.FC<TableProps> = ({ body }) => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [deleteId, setDeleteId] = useState<string>("");
 
@@ -24,19 +26,21 @@ export const Table: React.FC<TableProps> = ({ body }) => {
 
   const deleteHandler = async () => {
     try {
-      console.log(apiRoutes.products.delete(deleteId));
-      const res = await fetch(apiRoutes.products.delete(deleteId), {
-          method: "DELETE",
-        }
-      );
-      const result = await res.json();
+      const result = await fetchJson(apiRoutes.products.delete(deleteId), {
+        method: "DELETE",
+      });
       setOpenModal(false);
-      if (result.success === "true") {
-        router.reload();
+
+      if (result.success === true || result.success === "true") {
         setIsSuccess(true);
+        setErrorMessage("");
+        router.reload();
+      } else {
+        setErrorMessage(getResponseMessage(result, "Failed to delete product."));
       }
     } catch (error) {
-      console.log(error);
+      setOpenModal(false);
+      setErrorMessage(getErrorMessage(error));
     }
   };
 
@@ -46,7 +50,8 @@ export const Table: React.FC<TableProps> = ({ body }) => {
 
   return (
     <div className="m-table">
-      {isSuccess ? <Note color="danger">Product has been deleted</Note> : ""}
+      {isSuccess ? <Note color="green">Product has been deleted</Note> : ""}
+      {errorMessage ? <Note color="danger">{errorMessage}</Note> : ""}
 
       {openModal ? (
         <Modal cancelHandler={cancelHandler} deleteHandler={deleteHandler}>

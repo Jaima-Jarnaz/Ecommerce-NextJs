@@ -12,6 +12,7 @@ import Toaster from "@/components/atoms/toaster";
 import { STATIC_TEXTS } from "@settings/settings";
 import Loader from "@/components/atoms/loader";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 const Admin = () => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -35,22 +36,23 @@ const Admin = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    //Image uploading in cloudinary
-    const imageFile = await imageUpload(image);
-
-    //form data
-    const formData: any = {
-      name,
-      description,
-      price,
-      color,
-      imageUrl: { public_id: imageFile.public_id, url: imageFile.secure_url },
-      promoCode,
-      brand,
-    };
-
-    //Create new product
     try {
+      const imageFile = await imageUpload(image);
+
+      if (imageFile?.error) {
+        throw new Error(imageFile.message || STATIC_TEXTS.product_created_fail);
+      }
+
+      const formData: any = {
+        name,
+        description,
+        price,
+        color,
+        imageUrl: { public_id: imageFile.public_id, url: imageFile.secure_url },
+        promoCode,
+        brand,
+      };
+
       const jsonData = JSON.stringify(formData);
       const options = {
         method: "POST",
@@ -59,32 +61,37 @@ const Admin = () => {
         },
         body: jsonData,
       };
-      const product = await fetch(apiRoutes.products.create, options);
-      const result = await product.json();
-      console.log(result);
-      // if(result){
-      //   setIsLoading(false);
+      const result = await fetchJson(apiRoutes.products.create, options);
 
-      // }
       setIsSubmitted(true);
-      setToasterType("success");
-      setMessage(STATIC_TEXTS.product_created_success);
-      setName("");
-      setDescription("");
-      setPrice("");
-      setColor("");
-      setBrand("");
-      setPromoCode("");
-      setImage("");
+
+      if (result.success === true) {
+        setToasterType("success");
+        setMessage(STATIC_TEXTS.product_created_success);
+        setName("");
+        setDescription("");
+        setPrice("");
+        setColor("");
+        setBrand("");
+        setPromoCode("");
+        setImage("");
+      } else {
+        setToasterType("fail");
+        setMessage(getResponseMessage(result, STATIC_TEXTS.product_created_fail));
+      }
+
       setTimeout(() => {
         setToasterType("");
       }, 2000);
     } catch (error) {
+      setIsSubmitted(true);
       setToasterType("fail");
-      setMessage(STATIC_TEXTS.product_created_fail);
+      setMessage(getErrorMessage(error, STATIC_TEXTS.product_created_fail));
       setTimeout(() => {
         setIsSubmitted(false);
       }, 2000);
+    } finally {
+      setIsLoading(false);
     }
   };
 

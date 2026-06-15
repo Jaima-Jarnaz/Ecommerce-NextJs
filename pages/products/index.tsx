@@ -1,6 +1,7 @@
 import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson } from "helpers/apiClient";
 
 const ProductsList = ({ products }: any) => {
   return (
@@ -13,14 +14,24 @@ const ProductsList = ({ products }: any) => {
 export default ProductsList;
 
 export async function getServerSideProps() {
-  const res = await fetch(apiRoutes.products.all);
-  const data = await res.json();
+  try {
+    const data = await fetchJson(apiRoutes.products.all);
 
-  return {
-    props: {
-      isSuccess: true,
-      message: "Successfully found data",
-      products: data.products,
-    },
-  };
+    return {
+      props: {
+        isSuccess: true,
+        message: "Successfully found data",
+        products: data.products ?? [],
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return {
+      props: {
+        isSuccess: false,
+        message: "Failed to load products",
+        products: [],
+      },
+    };
+  }
 }

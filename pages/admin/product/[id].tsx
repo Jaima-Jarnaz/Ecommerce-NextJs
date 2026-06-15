@@ -3,6 +3,7 @@ import AdminLayout from "templates/adminLayout";
 import Section from "@/components/atoms/section";
 import { ReactElement } from "react";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage } from "helpers/apiClient";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -19,29 +20,34 @@ const SingleProductView = ({ product }: any) => {
 
   //Storing image data from database
   const [image, setImage] = useState<any>();
+  const [fetchError, setFetchError] = useState("");
 
-  // Fetch single product details
   useEffect(() => {
-    const fetchData = async (pid: any) => {
-      const res = await fetch(apiRoutes.products.byId(id));
-      const { product } = await res.json();
-      if (product) {
-        setName(product.name);
-        setDescription(product.description);
-        setPrice(product.price);
-        setColor(product.color);
+    const fetchData = async () => {
+      try {
+        const data = await fetchJson(apiRoutes.products.byId(id as string));
+        const product = data.product as any;
 
-        setImage(product.imageUrl.url);
+        if (product) {
+          setName(product.name);
+          setDescription(product.description);
+          setPrice(product.price);
+          setColor(product.color);
+          setImage(product.imageUrl.url);
+        }
+      } catch (error) {
+        setFetchError(getErrorMessage(error));
       }
     };
 
     if (id) {
-      fetchData(id);
+      fetchData();
     }
   }, [id]);
 
   return (
     <Section>
+      {fetchError ? <div>{fetchError}</div> : ""}
       {id !== "0" ? (
         <>
           <ul>

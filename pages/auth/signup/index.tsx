@@ -8,6 +8,7 @@ import { FORM_DATA_TYPES } from "helpers/types";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 
 const SignUp = () => {
   const router = useRouter();
@@ -60,7 +61,6 @@ const SignUp = () => {
     } else {
       //Create new user registration logic
       try {
-        console.log(formData);
         const jsonData = JSON.stringify(formData);
         const options = {
           method: "POST",
@@ -69,9 +69,8 @@ const SignUp = () => {
           },
           body: jsonData,
         };
-        const user = await fetch(apiRoutes.users.register, options);
-        const result = await user.json();
-        setMessage(result.message);
+        const result = await fetchJson(apiRoutes.users.register, options);
+        setMessage(getResponseMessage(result, "Registration failed."));
 
         if (result.success === true) {
           setError(false);
@@ -84,7 +83,8 @@ const SignUp = () => {
           setError(true);
         }
       } catch (error) {
-        console.log(error);
+        setError(true);
+        setMessage(getErrorMessage(error));
       }
     }
   };

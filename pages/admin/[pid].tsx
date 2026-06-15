@@ -13,9 +13,11 @@ import Image from "next/image";
 import camera from "public/camera.jpg";
 import imageUpload from "helpers/imageUpload";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 
 const Admin = () => {
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
@@ -32,19 +34,25 @@ const Admin = () => {
   const router = useRouter();
   const { pid } = router.query;
   useEffect(() => {
-    let isMounted = true; // Flag to track if the component is still mounted
+    let isMounted = true;
     const imageUploadData = async () => {
-      const imageView = await imageUpload(updatedImageUrl);
-      if (isMounted) {
-        setDataUrl(imageView);
+      if (!updatedImageUrl) {
+        return;
+      }
+
+      try {
+        const imageView = await imageUpload(updatedImageUrl);
+        if (isMounted) {
+          setDataUrl(imageView);
+        }
+      } catch (error) {
+        console.error("Image upload failed:", error);
       }
     };
     imageUploadData();
 
-    // Cleanup function
     return () => {
       isMounted = false;
-      // Update the flag to indicate the component is unmounted
     };
   }, [updatedImageUrl]);
 
@@ -54,8 +62,7 @@ const Admin = () => {
 
     let imageFile;
 
-    //Checking image file updated or not
-    if (dataUrl.error) {
+    if (dataUrl?.error || !dataUrl) {
       imageFile = {
         public_id: imagePublicId,
         url: image,
@@ -88,29 +95,38 @@ const Admin = () => {
 
     //API for update product details
     try {
-      const res = await fetch(apiRoutes.products.update(pid), options);
-      const result = await res.json();
-      console.log(result);
-      setMessage(result.message);
+      const result = await fetchJson(apiRoutes.products.update(pid), options);
+      setMessage(getResponseMessage(result, "Product updated successfully."));
+      setIsError(result.success !== true);
     } catch (error) {
-      console.error("here is the error", error);
+      setIsError(true);
+      setMessage(getErrorMessage(error));
     }
   };
 
   // Fetch single product details
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(apiRoutes.products.byId(pid));
-      const { product } = await res.json();
-      console.log("product", product);
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setColor(product.color);
+      try {
+        const data = await fetchJson(apiRoutes.products.byId(pid));
+        const product = data.product as any;
 
-      if (product.imageUrl) {
-        setImage(product.imageUrl.url);
-        setImagePublicId(product.imageUrl.public_id);
+        if (!product) {
+          throw new Error("Product not found.");
+        }
+
+        setName(product.name);
+        setDescription(product.description);
+        setPrice(product.price);
+        setColor(product.color);
+
+        if (product.imageUrl) {
+          setImage(product.imageUrl.url);
+          setImagePublicId(product.imageUrl.public_id);
+        }
+      } catch (error) {
+        setIsError(true);
+        setMessage(getErrorMessage(error));
       }
     };
 
@@ -121,7 +137,11 @@ const Admin = () => {
 
   return (
     <>
-      {message ? <Note color="green">{message}</Note> : ""}
+      {message ? (
+        <Note color={isError ? "danger" : "green"}>{message}</Note>
+      ) : (
+        ""
+      )}
       <Section>
         <Heading tag="h1" fontSize="28" alignment="left">
           Update Product

@@ -10,13 +10,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
+import { Note } from "@/components/atoms/note/index.";
 import { ClearButtonState } from "helpers/libs/helpers";
 import apiRoutes from "helpers/apiRoutes";
 import { geonames } from "helpers/config";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 const Checkout = () => {
   const router = useRouter();
 
   const [message, setMessage] = useState("");
+  const [orderError, setOrderError] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [cities, setCities] = useState<any>([]);
@@ -43,42 +46,49 @@ const Checkout = () => {
 
     const data = localStorage.getItem("user");
     if (data) {
-      const user = JSON.parse(localStorage.getItem("user") || "");
-      // Set the userData state
-      setUserData({ name: user.name, phone: user.phone, email: user.email });
+      try {
+        const user = JSON.parse(data);
+        setUserData({ name: user.name, phone: user.phone, email: user.email });
+      } catch (error) {
+        console.error("Failed to parse user data from local storage:", error);
+        localStorage.removeItem("user");
+      }
     }
   }, []); // Empty dependency array ensures the effect runs only on
 
   useEffect(() => {
     const geoNamesGenerate = async () => {
-      // Geonames API endpoint for searching cities in Bangladesh
-      const geonamesApiUrl = "http://api.geonames.org/searchJSON";
+      try {
+        const geonamesApiUrl = "http://api.geonames.org/searchJSON";
+        const geonamesUsername = geonames.username;
+        const countryCode = "BD";
 
-      // Set your Geonames username and the country code for Bangladesh
-      const geonamesUsername = geonames.username;
-      const countryCode = "BD"; // ISO 3166-1 country code for Bangladesh
+        const queryParams = new URLSearchParams({
+          q: "*",
+          country: countryCode,
+          username: geonamesUsername,
+        });
 
-      // Define your query parameters
-      const queryParams = new URLSearchParams({
-        q: "*", // Query string (empty to get all cities)
-        country: countryCode,
-        username: geonamesUsername,
-      });
+        const fullUrl = `${geonamesApiUrl}?${queryParams.toString()}`;
+        const geonamesResponse = await fetch(fullUrl);
 
-      // Construct the full URL with query parameters
+        if (!geonamesResponse.ok) {
+          throw new Error("Failed to load cities and divisions.");
+        }
 
-      const fullUrl = `${geonamesApiUrl}?${queryParams.toString()}`;
-
-      // Make the Geonames API request
-      const geonamesResponse = await fetch(fullUrl);
-      const geonamesData = await geonamesResponse.json();
-
-      // Handle the response data, which contains information about cities in Bangladesh
-      const responseData = geonamesData.geonames;
-
-      return responseData;
+        const geonamesData = await geonamesResponse.json();
+        return geonamesData.geonames || [];
+      } catch (error) {
+        console.error("Failed to fetch geonames data:", error);
+        return [];
+      }
     };
+
     geoNamesGenerate().then((data) => {
+      if (!data.length) {
+        return;
+      }
+
       const optionsCities: any = [];
       const optionsDivisions: any = [];
 
@@ -86,7 +96,6 @@ const Checkout = () => {
       const dublicateCities = new Set();
 
       data.forEach((item: any) => {
-        //---------Removing dublicate division values----------
         if (!dublicateDivisions.has(item.adminName1)) {
           optionsDivisions.push({
             value: item.adminName1,
@@ -95,7 +104,6 @@ const Checkout = () => {
           dublicateDivisions.add(item.adminName1);
         }
 
-        //---------Removing dublicate cities values---------
         if (!dublicateCities.has(item.name)) {
           optionsCities.push({
             value: item.name,
@@ -158,9 +166,9 @@ const Checkout = () => {
   };
 
   const handleSubmit = async (e: any) => {
-    try {
-      e.preventDefault();
+    e.preventDefault();
 
+    try {
       const deliveryPlace = {
         address: deliveryAddress,
         city: deliveryCity.value,
@@ -172,7 +180,6 @@ const Checkout = () => {
         products: totalProducts,
         customer: userData,
       };
-      console.log("done", checkoutData);
 
       const jsonData = JSON.stringify(checkoutData);
       const options = {
@@ -182,21 +189,29 @@ const Checkout = () => {
         },
         body: jsonData,
       };
-      const user = await fetch(apiRoutes.orders.create, options);
-      const result = await user.json();
-      setMessage(result.message);
+      const result = await fetchJson(apiRoutes.orders.create, options);
+      setMessage(getResponseMessage(result, "Failed to place order."));
 
       if (result.success === true) {
+        setOrderError(false);
         showSweetAlert();
         ClearButtonState();
         router.push("/cart");
+      } else {
+        setOrderError(true);
       }
     } catch (error) {
-      console.log(error);
+      setOrderError(true);
+      setMessage(getErrorMessage(error));
     }
   };
   return (
     <div className="p-checkout">
+      {message ? (
+        <Note color={orderError ? "danger" : "green"}>{message}</Note>
+      ) : (
+        ""
+      )}
       <form onSubmit={handleSubmit}>
         <div className="p-checkout__wrapper">
           <div className="p-checkout__address">

@@ -48,39 +48,37 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Load cart items from local storage when the provider initializes
   useEffect(() => {
-    // Retrieve cart items from local storage or initialize as an empty array
-    const storedCartItems = JSON.parse(
-      localStorage.getItem(CART_ITEMS_KEY) || "[]"
-    );
+    try {
+      const storedCartItems = JSON.parse(
+        localStorage.getItem(CART_ITEMS_KEY) || "[]"
+      );
 
-    const totalCartItems = JSON.parse(
-      localStorage.getItem(TOTAL_CART_ITEMS_KEY) || "0"
-    );
+      const totalCartItems = JSON.parse(
+        localStorage.getItem(TOTAL_CART_ITEMS_KEY) || "0"
+      );
 
-    const totalProducts = JSON.parse(
-      localStorage.getItem(TOTAL_PRODUCTS_KEY) || "{}"
-    );
+      const totalProducts = JSON.parse(
+        localStorage.getItem(TOTAL_PRODUCTS_KEY) || "{}"
+      );
 
-    // console.log("all data ", totalProducts);
-
-    if (Object.keys(totalProducts).length !== 0) {
-      if (totalProducts.products.length !== 0) {
-        console.log(
-          "cart context totalProducts typeof ",
-          totalProducts.products.length
-        );
-
-        setTotalProducts(totalProducts);
+      if (Object.keys(totalProducts).length !== 0) {
+        if (totalProducts.products.length !== 0) {
+          setTotalProducts(totalProducts);
+        }
       }
-    }
 
-    if (totalCartItems > 0) {
-      setItemsCount(totalCartItems);
-    }
+      if (totalCartItems > 0) {
+        setItemsCount(totalCartItems);
+      }
 
-    // Check if there are stored cart items
-    if (storedCartItems.length > 0) {
-      setCartItems(storedCartItems);
+      if (storedCartItems.length > 0) {
+        setCartItems(storedCartItems);
+      }
+    } catch (error) {
+      console.error("Failed to load cart from local storage:", error);
+      localStorage.removeItem(CART_ITEMS_KEY);
+      localStorage.removeItem(TOTAL_CART_ITEMS_KEY);
+      localStorage.removeItem(TOTAL_PRODUCTS_KEY);
     }
   }, []);
 

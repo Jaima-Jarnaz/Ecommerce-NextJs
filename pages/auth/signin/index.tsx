@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { SIGNUP_URL } from "helpers/constants";
 import apiRoutes from "helpers/apiRoutes";
+import { DEFAULT_ERROR_MESSAGE, fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 const SignIn = () => {
   const router = useRouter();
 
@@ -71,20 +72,25 @@ const SignIn = () => {
           },
           body: jsonData,
         };
-        const user = await fetch(apiRoutes.users.signin, options);
-        const result = await user.json();
-        setMessage(result.message);
+        const result = await fetchJson(apiRoutes.users.signin, options);
+        setMessage(getResponseMessage(result, DEFAULT_ERROR_MESSAGE));
 
         if (result.success === true) {
           setError(false);
 
           setValidationErrors(initialState);
 
-          //---------set data into local storage---------
+          const user = result.data as {
+            name: string;
+            email: string;
+            phone: string;
+            token: string;
+          };
+
           const userData = {
-            name: result.data.name,
-            email: result.data.email,
-            phone: result.data.phone,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
           };
 
           localStorage.setItem(
@@ -92,16 +98,15 @@ const SignIn = () => {
             JSON.stringify(userData)
           );
 
-          //--------set token into localstorage----------
-          const token = result.data.token;
-          setCookie("access_token", token);
+          setCookie("access_token", user.token);
 
           window.location.reload();
         } else {
           setError(true);
         }
       } catch (error) {
-        console.log(error);
+        setError(true);
+        setMessage(getErrorMessage(error));
       }
     }
   };

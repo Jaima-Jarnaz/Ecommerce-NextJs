@@ -12,6 +12,7 @@ import { BannerContainer } from "@/components/molecules/banner";
 import Loader from "@/components/atoms/loader";
 import { useState, useEffect } from "react";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson } from "helpers/apiClient";
 
 const Home = ({ products }: any) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,11 +91,19 @@ export default Home;
 // }
 
 export async function getServerSideProps() {
-  const res = await fetch(apiRoutes.products.all);
-  const data = await res.json();
-  return {
-    props: {
-      products: data.products,
-    },
-  };
+  try {
+    const data = await fetchJson(apiRoutes.products.all);
+    return {
+      props: {
+        products: data.products ?? [],
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
 }

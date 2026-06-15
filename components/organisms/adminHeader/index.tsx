@@ -3,24 +3,28 @@ import { useEffect, useState, useRef } from "react";
 import { SearchList } from "@/components/molecules/search-list";
 import { useRouter } from "next/router";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson } from "helpers/apiClient";
 
 const AdminHeader = () => {
   const router = useRouter();
-  const [productsAll, setProductsAll] = useState([]);
+  const [productsAll, setProductsAll] = useState<any[]>([]);
 
   //Get all products
   useEffect(() => {
     const fetchData = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const product = await fetch(apiRoutes.products.all, options);
-      const result = await product.json();
-      if (result.success === true) {
-        setProductsAll(result.products);
+      try {
+        const result = await fetchJson(apiRoutes.products.all, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (result.success === true && Array.isArray(result.products)) {
+          setProductsAll(result.products);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products for search:", error);
       }
     };
     fetchData();

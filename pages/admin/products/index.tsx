@@ -4,6 +4,7 @@ import Section from "@/components/atoms/section";
 import { ReactElement } from "react";
 import apiRoutes from "helpers/apiRoutes";
 import { GetServerSideProps } from "next";
+import { fetchJson } from "helpers/apiClient";
 import { useRouter } from "next/router";
 
 const ViewProducts = ({ products }: any) => {
@@ -22,13 +23,20 @@ ViewProducts.getLayout = function getLayout(page: ReactElement) {
 export default ViewProducts;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  //get all products
-  const res = await fetch(apiRoutes.products.all);
-  const data = await res.json();
+  try {
+    const data = await fetchJson(apiRoutes.products.all);
 
-  return {
-    props: {
-      products: data.products,
-    },
-  };
+    return {
+      props: {
+        products: data.products ?? [],
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
 };

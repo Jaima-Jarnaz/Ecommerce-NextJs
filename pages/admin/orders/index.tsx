@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import Icon from "@/components/atoms/icon";
 import Swal from "sweetalert2";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 
 const Orders = ({ orders }: any) => {
   const router = useRouter();
@@ -29,21 +30,30 @@ const Orders = ({ orders }: any) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(apiRoutes.orders.delete(id), {
-              method: "DELETE",
-            }
-          );
-          const result = await res.json();
-          if (result.success === true) {
+          const deleteResult = await fetchJson(apiRoutes.orders.delete(id), {
+            method: "DELETE",
+          });
+
+          if (deleteResult.success === true) {
             Swal.fire({
               title: "Deleted!",
               text: "Your order has been deleted.",
               icon: "success",
             });
             router.reload();
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: getResponseMessage(deleteResult, "Failed to delete order."),
+              icon: "error",
+            });
           }
         } catch (error) {
-          console.log(error);
+          Swal.fire({
+            title: "Error!",
+            text: getErrorMessage(error),
+            icon: "error",
+          });
         }
       }
     });
@@ -195,13 +205,20 @@ Orders.getLayout = function getLayout(page: ReactElement) {
 export default Orders;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  //----------Get all orders----------
-  const res = await fetch(apiRoutes.orders.all);
-  const data = await res.json();
+  try {
+    const data = await fetchJson(apiRoutes.orders.all);
 
-  return {
-    props: {
-      orders: data.orders,
-    },
-  };
+    return {
+      props: {
+        orders: data.orders ?? [],
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch orders:", error);
+    return {
+      props: {
+        orders: [],
+      },
+    };
+  }
 };

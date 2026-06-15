@@ -9,9 +9,11 @@ import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 import { useRouter } from "next/router";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson, getErrorMessage, getResponseMessage } from "helpers/apiClient";
 
 const Admin = ({ order }: any) => {
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const [name, setName] = useState("jaima");
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -56,19 +58,26 @@ const Admin = ({ order }: any) => {
 
     //API for update order details
     try {
-      const res = await fetch(apiRoutes.orders.update(oid), options);
-      const result = await res.json();
-      console.log(result);
-      setMessage(result.message);
-      router.push("/admin/orders");
+      const result = await fetchJson(apiRoutes.orders.update(oid), options);
+      setMessage(getResponseMessage(result, "Order updated successfully."));
+      setIsError(result.success !== true);
+
+      if (result.success === true) {
+        router.push("/admin/orders");
+      }
     } catch (error) {
-      console.error("here is the error", error);
+      setIsError(true);
+      setMessage(getErrorMessage(error));
     }
   };
 
   return (
     <div className="p-order">
-      {message ? <Note color="green">{message}</Note> : ""}
+      {message ? (
+        <Note color={isError ? "danger" : "green"}>{message}</Note>
+      ) : (
+        ""
+      )}
       <Heading tag="h5" fontSize="28" alignment="left">
         Update order details
       </Heading>
@@ -223,17 +232,20 @@ Admin.getLayout = function getLayout(page: ReactElement) {
 export default Admin;
 
 export async function getServerSideProps(context: any) {
-  // Fetch the product data based on the productId from the context
   const { oid } = context.query;
 
-  // Make an API call to fetch the product data using the orderId
-  const res = await fetch(apiRoutes.orders.byId(oid));
-  const orderData = await res.json();
+  try {
+    const orderData = await fetchJson(apiRoutes.orders.byId(oid));
 
-  // Pass fetched data to the page component as props
-  return {
-    props: {
-      order: orderData.orders,
-    },
-  };
+    return {
+      props: {
+        order: orderData.orders,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch order:", error);
+    return {
+      notFound: true,
+    };
+  }
 }

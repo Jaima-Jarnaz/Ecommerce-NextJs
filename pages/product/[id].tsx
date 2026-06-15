@@ -5,6 +5,7 @@ import Text from "@/components/atoms/text";
 import Button from "@/components/atoms/button";
 import Image from "next/image";
 import apiRoutes from "helpers/apiRoutes";
+import { fetchJson } from "helpers/apiClient";
 import Heading from "@/components/atoms/heading";
 import Sliders from "@/components/organisms/slider";
 import "slick-carousel/slick/slick.css";
@@ -130,19 +131,25 @@ export default Product;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
 
-  //Get single product details
-  const res = await fetch(apiRoutes.products.byId(params?.id as string));
-  const data = await res.json();
+  try {
+    const data = await fetchJson(
+      apiRoutes.products.byId(params?.id as string)
+    );
+    const products = await fetchJson(apiRoutes.products.all);
 
-  //Get all products
-  const response = await fetch(apiRoutes.products.all);
-  const products = await response.json();
+    if (!data.product) {
+      return { notFound: true };
+    }
 
-  return {
-    props: {
-      message: "Successfully found requested product data",
-      product: data.product,
-      products: products.products,
-    },
-  };
+    return {
+      props: {
+        message: "Successfully found requested product data",
+        product: data.product,
+        products: products.products ?? [],
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    return { notFound: true };
+  }
 };
