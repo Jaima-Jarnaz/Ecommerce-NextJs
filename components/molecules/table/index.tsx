@@ -1,7 +1,7 @@
 import { BODY } from "./tables";
 import Icon from "@/components/atoms/icon";
 import { useRouter } from "next/router";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/molecules/modal";
 import { Note } from "@/components/atoms/note/index.";
@@ -24,10 +24,8 @@ export const Table: React.FC<TableProps> = ({ body }) => {
 
   const deleteHandler = async () => {
     try {
-      console.log(`${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_DELETE_API}/${deleteId}`,
-        {
+      console.log(apiRoutes.products.delete(deleteId));
+      const res = await fetch(apiRoutes.products.delete(deleteId), {
           method: "DELETE",
         }
       );

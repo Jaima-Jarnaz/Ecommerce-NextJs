@@ -1,6 +1,6 @@
 import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 
 const ProductsList = ({ products }: any) => {
   return (
@@ -13,7 +13,7 @@ const ProductsList = ({ products }: any) => {
 export default ProductsList;
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
+  const res = await fetch(apiRoutes.products.all);
   const data = await res.json();
 
   return {

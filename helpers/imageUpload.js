@@ -1,17 +1,12 @@
-// image upload ......
+import { cloudinary } from "./config";
+
 const imageUpload = async (imageData) => {
   try {
     const image = new FormData();
     image.append("file", imageData);
-    image.append(
-      "upload_preset",
-      `${process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}`
-    );
-    image.append(
-      "cloud_name",
-      `${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}`
-    );
-    const res = await fetch(`${process.env.NEXT_PUBLIC_CLOUDINARY_API}`, {
+    image.append("upload_preset", cloudinary.uploadPreset);
+    image.append("cloud_name", cloudinary.cloudName);
+    const res = await fetch(cloudinary.api, {
       method: "POST",
       body: image,
     });

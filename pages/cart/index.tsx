@@ -8,6 +8,7 @@ import { EMPTY_CART_IMAGE, IMAGES_DATA } from "settings/settings";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ClearButtonState } from "helpers/libs/helpers";
+import apiRoutes from "helpers/apiRoutes";
 
 const Cart = ({ products }: any) => {
   const router = useRouter();
@@ -277,7 +278,7 @@ const Cart = ({ products }: any) => {
 export default Cart;
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
+  const res = await fetch(apiRoutes.products.all);
   const data = await res.json();
 
   return {

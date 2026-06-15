@@ -1,4 +1,9 @@
 import React, { useState, createContext, useEffect } from "react";
+import {
+  CART_ITEMS_KEY,
+  TOTAL_CART_ITEMS_KEY,
+  TOTAL_PRODUCTS_KEY,
+} from "helpers/constants";
 
 // Define the props for the CartProvider component
 export interface CartProviderProps {
@@ -45,15 +50,15 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   useEffect(() => {
     // Retrieve cart items from local storage or initialize as an empty array
     const storedCartItems = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`) || "[]"
+      localStorage.getItem(CART_ITEMS_KEY) || "[]"
     );
 
     const totalCartItems = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`) || "0"
+      localStorage.getItem(TOTAL_CART_ITEMS_KEY) || "0"
     );
 
     const totalProducts = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`) || "{}"
+      localStorage.getItem(TOTAL_PRODUCTS_KEY) || "{}"
     );
 
     // console.log("all data ", totalProducts);
@@ -81,18 +86,9 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Save cart items to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem(
-      `${process.env.NEXT_PUBLIC_CART_ITEMS_KEY}`,
-      JSON.stringify(cartItems)
-    );
-    localStorage.setItem(
-      `${process.env.NEXT_PUBLIC_TOTAL_PRODUCTS}`,
-      JSON.stringify(totalProducts)
-    );
-    localStorage.setItem(
-      `${process.env.NEXT_PUBLIC_TOTAL_CART_ITEMS}`,
-      JSON.stringify(itemsCount)
-    );
+    localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(cartItems));
+    localStorage.setItem(TOTAL_PRODUCTS_KEY, JSON.stringify(totalProducts));
+    localStorage.setItem(TOTAL_CART_ITEMS_KEY, JSON.stringify(itemsCount));
   }, [cartItems, itemsCount, totalProducts]);
 
   // Function to add a product to the cart

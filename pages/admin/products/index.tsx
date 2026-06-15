@@ -2,7 +2,7 @@ import { Table } from "@/components/molecules/table";
 import AdminLayout from "templates/adminLayout";
 import Section from "@/components/atoms/section";
 import { ReactElement } from "react";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
@@ -23,7 +23,7 @@ export default ViewProducts;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   //get all products
-  const res = await fetch(`${baseUrl}/products/all`);
+  const res = await fetch(apiRoutes.products.all);
   const data = await res.json();
 
   return {

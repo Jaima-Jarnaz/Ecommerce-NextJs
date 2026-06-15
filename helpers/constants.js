@@ -6,3 +6,7 @@ export const PRODUCTS_URL = "/products";
 export const SIGNIN_URL = "/auth/signin";
 export const SIGNUP_URL = "/auth/signup";
 export const CHECKOUT_URL = "/checkout";
+
+export const CART_ITEMS_KEY = "cartItems";
+export const TOTAL_CART_ITEMS_KEY = "total_card_items";
+export const TOTAL_PRODUCTS_KEY = "total_products";

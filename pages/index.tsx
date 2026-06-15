@@ -11,6 +11,7 @@ import Section from "@/components/atoms/section";
 import { BannerContainer } from "@/components/molecules/banner";
 import Loader from "@/components/atoms/loader";
 import { useState, useEffect } from "react";
+import apiRoutes from "helpers/apiRoutes";
 
 const Home = ({ products }: any) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -89,7 +90,7 @@ export default Home;
 // }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
+  const res = await fetch(apiRoutes.products.all);
   const data = await res.json();
   return {
     props: {

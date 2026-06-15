@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 import Text from "@/components/atoms/text";
 import Button from "@/components/atoms/button";
 import Image from "next/image";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 import Heading from "@/components/atoms/heading";
 import Sliders from "@/components/organisms/slider";
 import "slick-carousel/slick/slick.css";
@@ -131,15 +131,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
 
   //Get single product details
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${params?.id}`
-  );
+  const res = await fetch(apiRoutes.products.byId(params?.id as string));
   const data = await res.json();
 
   //Get all products
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`
-  );
+  const response = await fetch(apiRoutes.products.all);
   const products = await response.json();
 
   return {

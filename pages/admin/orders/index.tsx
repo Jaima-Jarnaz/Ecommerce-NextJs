@@ -12,6 +12,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Icon from "@/components/atoms/icon";
 import Swal from "sweetalert2";
+import apiRoutes from "helpers/apiRoutes";
 
 const Orders = ({ orders }: any) => {
   const router = useRouter();
@@ -28,9 +29,7 @@ const Orders = ({ orders }: any) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_ORDER_DELETE_API}/${id}`,
-            {
+          const res = await fetch(apiRoutes.orders.delete(id), {
               method: "DELETE",
             }
           );
@@ -197,7 +196,7 @@ export default Orders;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   //----------Get all orders----------
-  const res = await fetch(`${process.env.NEXT_PUBLIC_ORDER_GET_ALL_API}`);
+  const res = await fetch(apiRoutes.orders.all);
   const data = await res.json();
 
   return {

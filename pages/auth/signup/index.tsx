@@ -7,6 +7,7 @@ import Heading from "@/components/atoms/heading";
 import { FORM_DATA_TYPES } from "helpers/types";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import apiRoutes from "helpers/apiRoutes";
 
 const SignUp = () => {
   const router = useRouter();
@@ -68,10 +69,7 @@ const SignUp = () => {
           },
           body: jsonData,
         };
-        const user = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_CREATE_API}`,
-          options
-        );
+        const user = await fetch(apiRoutes.users.register, options);
         const result = await user.json();
         setMessage(result.message);
 

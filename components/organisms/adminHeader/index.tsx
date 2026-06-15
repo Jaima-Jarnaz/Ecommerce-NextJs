@@ -2,6 +2,7 @@ import Search from "@/components/atoms/search";
 import { useEffect, useState, useRef } from "react";
 import { SearchList } from "@/components/molecules/search-list";
 import { useRouter } from "next/router";
+import apiRoutes from "helpers/apiRoutes";
 
 const AdminHeader = () => {
   const router = useRouter();
@@ -16,10 +17,7 @@ const AdminHeader = () => {
           "Content-Type": "application/json",
         },
       };
-      const product = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`,
-        options
-      );
+      const product = await fetch(apiRoutes.products.all, options);
       const result = await product.json();
       if (result.success === true) {
         setProductsAll(result.products);

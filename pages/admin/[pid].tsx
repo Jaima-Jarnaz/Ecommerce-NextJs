@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import camera from "public/camera.jpg";
 import imageUpload from "helpers/imageUpload";
+import apiRoutes from "helpers/apiRoutes";
 
 const Admin = () => {
   const [message, setMessage] = useState("");
@@ -87,10 +88,7 @@ const Admin = () => {
 
     //API for update product details
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_UPDATE_API}/${pid}`,
-        options
-      );
+      const res = await fetch(apiRoutes.products.update(pid), options);
       const result = await res.json();
       console.log(result);
       setMessage(result.message);
@@ -102,9 +100,7 @@ const Admin = () => {
   // Fetch single product details
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${pid}`
-      );
+      const res = await fetch(apiRoutes.products.byId(pid));
       const { product } = await res.json();
       console.log("product", product);
       setName(product.name);

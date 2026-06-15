@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import { IMAGES_DATA } from "@settings/settings";
 import Link from "next/link";
 import { ClearButtonState } from "helpers/libs/helpers";
+import apiRoutes from "helpers/apiRoutes";
+import { geonames } from "helpers/config";
 const Checkout = () => {
   const router = useRouter();
 
@@ -53,7 +55,7 @@ const Checkout = () => {
       const geonamesApiUrl = "http://api.geonames.org/searchJSON";
 
       // Set your Geonames username and the country code for Bangladesh
-      const geonamesUsername = `${process.env.NEXT_PUBLIC_GEO_NAMES_USERNAME}`;
+      const geonamesUsername = geonames.username;
       const countryCode = "BD"; // ISO 3166-1 country code for Bangladesh
 
       // Define your query parameters
@@ -180,10 +182,7 @@ const Checkout = () => {
         },
         body: jsonData,
       };
-      const user = await fetch(
-        `${process.env.NEXT_PUBLIC_ORDER_CREATE_API}`,
-        options
-      );
+      const user = await fetch(apiRoutes.orders.create, options);
       const result = await user.json();
       setMessage(result.message);
 

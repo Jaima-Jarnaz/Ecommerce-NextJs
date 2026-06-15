@@ -2,7 +2,7 @@ import { Table } from "@/components/molecules/table";
 import AdminLayout from "templates/adminLayout";
 import Section from "@/components/atoms/section";
 import { ReactElement } from "react";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -23,9 +23,7 @@ const SingleProductView = ({ product }: any) => {
   // Fetch single product details
   useEffect(() => {
     const fetchData = async (pid: any) => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_GET_SINGLE_API}/${id}`
-      );
+      const res = await fetch(apiRoutes.products.byId(id));
       const { product } = await res.json();
       if (product) {
         setName(product.name);

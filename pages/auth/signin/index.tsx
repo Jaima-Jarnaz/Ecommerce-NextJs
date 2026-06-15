@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { SIGNUP_URL } from "helpers/constants";
+import apiRoutes from "helpers/apiRoutes";
 const SignIn = () => {
   const router = useRouter();
 
@@ -70,10 +71,7 @@ const SignIn = () => {
           },
           body: jsonData,
         };
-        const user = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_LOGIN_API}`,
-          options
-        );
+        const user = await fetch(apiRoutes.users.signin, options);
         const result = await user.json();
         setMessage(result.message);
 

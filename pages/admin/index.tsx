@@ -11,6 +11,7 @@ import CustomInput from "@/components/atoms/custom-input";
 import Toaster from "@/components/atoms/toaster";
 import { STATIC_TEXTS } from "@settings/settings";
 import Loader from "@/components/atoms/loader";
+import apiRoutes from "helpers/apiRoutes";
 const Admin = () => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -58,10 +59,7 @@ const Admin = () => {
         },
         body: jsonData,
       };
-      const product = await fetch(
-        `${process.env.NEXT_PUBLIC_PRODUCT_CREATE_API}`,
-        options
-      );
+      const product = await fetch(apiRoutes.products.create, options);
       const result = await product.json();
       console.log(result);
       // if(result){

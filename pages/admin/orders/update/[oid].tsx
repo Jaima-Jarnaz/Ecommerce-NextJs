@@ -8,6 +8,7 @@ import { useState } from "react";
 import Heading from "@/components/atoms/heading";
 import { Note } from "@/components/atoms/note/index.";
 import { useRouter } from "next/router";
+import apiRoutes from "helpers/apiRoutes";
 
 const Admin = ({ order }: any) => {
   const [message, setMessage] = useState("");
@@ -18,13 +19,13 @@ const Admin = ({ order }: any) => {
 
   //Storing image data from database
   const [shipmentAdddres, setshipmentAdddres] = useState<string>(
-    order.deliveryPlace && order.deliveryPlace.address
+    order.deliveryPlace && order.deliveryPlace.address,
   );
   const [division, setDivision] = useState<string>(
-    order.deliveryPlace && order.deliveryPlace.division
+    order.deliveryPlace && order.deliveryPlace.division,
   );
   const [city, setCity] = useState<string>(
-    order.deliveryPlace && order.deliveryPlace.city
+    order.deliveryPlace && order.deliveryPlace.city,
   );
 
   const router = useRouter();
@@ -55,10 +56,7 @@ const Admin = ({ order }: any) => {
 
     //API for update order details
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_ORDER_UPDATE_API}/${oid}`,
-        options
-      );
+      const res = await fetch(apiRoutes.orders.update(oid), options);
       const result = await res.json();
       console.log(result);
       setMessage(result.message);
@@ -229,7 +227,7 @@ export async function getServerSideProps(context: any) {
   const { oid } = context.query;
 
   // Make an API call to fetch the product data using the orderId
-  const res = await fetch(`${process.env.NEXT_PUBLIC_ORDER_COMMON_API}/${oid}`);
+  const res = await fetch(apiRoutes.orders.byId(oid));
   const orderData = await res.json();
 
   // Pass fetched data to the page component as props

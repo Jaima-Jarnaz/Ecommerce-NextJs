@@ -1,6 +1,6 @@
 import Cards from "@/components/organisms/cards";
 import Container from "@/components/atoms/container";
-import baseUrl from "helpers/baseUrl";
+import apiRoutes from "helpers/apiRoutes";
 import PriceRange from "@/components/molecules/price-range";
 import { BrandFilter, Option } from "@/components/molecules/brand-filter";
 import { useState } from "react";
@@ -62,7 +62,7 @@ const FilteredProductsList = ({ products }: any) => {
 export default FilteredProductsList;
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_GET_ALL_API}`);
+  const res = await fetch(apiRoutes.products.all);
   const data = await res.json();
 
   return {
