@@ -54,24 +54,9 @@ cd Ecommerce-NextJs
 npm install
 ```
 
-Create `.env.local` in the root:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
-
-# only needed if you're using the mongoose helper directly
-DATABASE_URL=mongodb://localhost:27017/your-database
-
-# needed for admin image uploads
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-NEXT_PUBLIC_CLOUDINARY_API=https://api.cloudinary.com/v1_1/your_cloud_name/image/upload
-NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
-
-# optional — checkout city/division dropdowns (defaults to "jaima")
-NEXT_PUBLIC_GEO_NAMES_USERNAME=your_geonames_username
-```
-
 If you skip `NEXT_PUBLIC_API_URL`, dev falls back to `http://localhost:4000` and production uses the Render backend at `https://backend-api-ecommerce-l46n.onrender.com`.
+
+**Backend:** Here is the repo link for this frontend backedn https://github.com/Jaima-Jarnaz/Backend-Api-Ecommerce
 
 **Start the backend first** on port 4000. Without it, products, auth, and orders won't load.
 
@@ -113,21 +98,21 @@ API calls go through `helpers/apiClient.ts` (`fetchJson`) and endpoint paths in 
 
 ## Routes
 
-| Path | What |
-|------|------|
-| `/` | Home |
-| `/products` | All products |
-| `/products/filters` | Filtered list |
-| `/product/[id]` | Product detail |
-| `/cart` | Cart |
-| `/checkout` | Place order |
-| `/auth/signin` | Login |
-| `/auth/signup` | Register |
-| `/admin` | Add product |
-| `/admin/products` | Product list |
-| `/admin/[pid]` | Edit product |
-| `/admin/orders` | Order list |
-| `/admin/orders/update/[oid]` | Edit order |
+| Path                         | What           |
+| ---------------------------- | -------------- |
+| `/`                          | Home           |
+| `/products`                  | All products   |
+| `/products/filters`          | Filtered list  |
+| `/product/[id]`              | Product detail |
+| `/cart`                      | Cart           |
+| `/checkout`                  | Place order    |
+| `/auth/signin`               | Login          |
+| `/auth/signup`               | Register       |
+| `/admin`                     | Add product    |
+| `/admin/products`            | Product list   |
+| `/admin/[pid]`               | Edit product   |
+| `/admin/orders`              | Order list     |
+| `/admin/orders/update/[oid]` | Edit order     |
 
 ## Troubleshooting
 
@@ -145,7 +130,7 @@ On Mac, `node-gyp` errors often mean Xcode CLI tools are missing: `xcode-select 
 
 **Pages are empty / fetch errors in console**
 
-The backend isn't running or the URL is wrong. Check it's up on `:4000`, confirm `NEXT_PUBLIC_API_URL` in `.env.local`, restart the dev server. If you're hitting the Render API, give it a minute on first load — free tier goes to sleep.
+The backend isn't running or the URL is wrong. Check it's up on `:4000`, restart the dev server. If you're hitting the Render API, give it a minute on first load — free tier goes to sleep.
 
 **Port 3000 taken**
 
@@ -172,9 +157,9 @@ That's intentional. Cart → checkout checks for the `access_token` cookie. Log 
 Sign out clears everything, or manually clear in DevTools:
 
 ```js
-localStorage.removeItem('cartItems');
-localStorage.removeItem('total_card_items');
-localStorage.removeItem('total_products');
+localStorage.removeItem("cartItems");
+localStorage.removeItem("total_card_items");
+localStorage.removeItem("total_products");
 ```
 
 **Autoprefixer warnings in the terminal**
@@ -189,12 +174,6 @@ Run `npm run lint`, fix what's reported, try `npm run build` again.
 
 Check DevTools → Application → Cookies for `access_token`. If it's not there, the backend response might be the issue. Middleware will bounce you off `/auth/signin` once the cookie is set — that's working as expected.
 
-**Mongoose / database errors**
-
-Set `DATABASE_URL` if you're using `helpers/db/database.js`. Most pages just hit the REST API though, so you might not need Mongo at all on the frontend.
-
 ## Deploy
-
-Vercel works fine — add your `NEXT_PUBLIC_*` vars and point `NEXT_PUBLIC_API_URL` at your production backend.
 
 There's a GitHub Actions workflow at `.github/workflows/gh-pages.yml` that builds on push to `main`. Bump `node-version` to `20.27.0` in there if you're using it.
