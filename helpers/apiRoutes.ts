@@ -24,6 +24,9 @@ const apiRoutes = {
     update: (id: RouteId) => `${baseUrl}/orders/update/${toRouteId(id)}`,
     delete: (id: RouteId) => `${baseUrl}/orders/delete/${toRouteId(id)}`,
   },
+  subscriptions: {
+    subscribe: `${baseUrl}/subscriptions/subscribe`,
+  },
 } as const;
 
 export default apiRoutes;

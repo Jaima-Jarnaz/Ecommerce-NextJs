@@ -17,6 +17,7 @@ Built with atomic design (atoms → molecules → organisms), SCSS, and TypeScri
 - `/cart` — add, remove, update quantities (persisted in localStorage)
 - `/checkout` — delivery address, city/division pickers (Bangladesh, via GeoNames), order summary, payment options (COD, bKash, card)
 - `/auth/signin` and `/auth/signup` — you need to be logged in to go from cart → checkout
+- Footer newsletter subscription — email signup on every storefront page (no login required)
 
 **Admin** (`/admin`)
 
@@ -58,7 +59,7 @@ If you skip `NEXT_PUBLIC_API_URL`, dev falls back to `http://localhost:4000` and
 
 **Backend:** Here is the repo link for this frontend backedn https://github.com/Jaima-Jarnaz/Backend-Api-Ecommerce
 
-**Start the backend first** on port 4000. Without it, products, auth, and orders won't load.
+**Start the backend first** on port 4000. Without it, products, auth, orders, and newsletter signup won't work.
 
 ```bash
 npm run dev
@@ -95,6 +96,16 @@ middleware.ts   redirects logged-in users away from auth pages
 ```
 
 API calls go through `helpers/apiClient.ts` (`fetchJson`) and endpoint paths in `helpers/apiRoutes.ts`.
+
+### Newsletter subscription
+
+The footer form in `components/organisms/footer` posts to the backend subscription endpoint:
+
+| Method | Endpoint                      | Body              |
+| ------ | ----------------------------- | ----------------- |
+| POST   | `/subscriptions/subscribe`    | `{ "email": "" }` |
+
+Route key: `apiRoutes.subscriptions.subscribe`. Success and error messages from the API are shown inline above the email field.
 
 ## Routes
 
