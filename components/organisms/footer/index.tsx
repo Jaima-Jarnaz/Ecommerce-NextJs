@@ -4,7 +4,7 @@ import Icon from "@/components/atoms/icon";
 import Link from "next/link";
 import CustomInput from "@/components/atoms/custom-input";
 import Button from "@/components/atoms/button";
-CustomInput;
+
 const Footer = () => {
   return (
     <footer className="o-footer">
@@ -28,12 +28,11 @@ const Footer = () => {
           <div className="o-footer__contents-item">
             <h6 className="o-footer__title">Stay Connected</h6>
             <div className="o-footer__text-contents">
-              <p>Fashionava</p>
-              <p>Shop-2,2nd floor, Kazi Tower, Dhanmundi-27, Dhaka 1212</p>
-              <p>Email : fasionava@gmail.com</p>
+              <p>Fashionova</p>
+              <p>Shop-2, 2nd floor, Kazi Tower, Dhanmundi-27, Dhaka 1212</p>
+              <p>Email: fashionova@gmail.com</p>
             </div>
           </div>
-
           <div className="o-footer__contents-item">
             <h6 className="o-footer__title">About Us</h6>
             <div className="o-footer__text-contents">
@@ -43,7 +42,6 @@ const Footer = () => {
               <p>Order Tracking</p>
             </div>
           </div>
-
           <div className="o-footer__contents-item">
             <h6 className="o-footer__title">Help</h6>
             <div className="o-footer__text-contents">
@@ -65,7 +63,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <div className="o-footer__support">
           <h6 className="o-footer__title">Support</h6>
           <div className="o-footer__button-container">
@@ -81,7 +78,7 @@ const Footer = () => {
         </div>
       </div>
       <Text>
-        © 2023 Thanks From Fasionava™. | All rights reserved by Jaima Jarnaz
+        © 2023 Thanks From Fashionova™. | All rights reserved.
       </Text>
     </footer>
   );

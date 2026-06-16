@@ -1,10 +1,8 @@
-import Text from "@/components/atoms/text";
 import Image, { StaticImageData } from "next/image";
 import Button from "@/components/atoms/button";
-import Heading from "@/components/atoms/heading";
 import Link from "next/link";
 import { CartContext } from "../../../contexts/card/cardContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { mapModifiers } from "helpers/libs/utils";
 
 export type CardProps = {
@@ -15,6 +13,9 @@ export type CardProps = {
   src: string | StaticImageData;
   price: number;
 };
+
+const getImageUrl = (src: string | StaticImageData) =>
+  typeof src === "string" ? src : src.src;
 
 export const Card: React.FC<CardProps> = ({
   src,
@@ -27,57 +28,65 @@ export const Card: React.FC<CardProps> = ({
   const cartContext = useContext(CartContext);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  // Retrieve the button state from localStorage on component mount
   useEffect(() => {
     const storedButtonState = localStorage.getItem(`buttonState_${id}`);
     if (storedButtonState) {
       setButtonClicked(JSON.parse(storedButtonState));
     }
   }, [id]);
-  // const cartContext = useContext(CartContext);
 
-  // if (!cartContext) {
-  //   // Handle the case where the context is undefined (optional)
-  //   return (
-  //     <div className="m-card">
-  //       <p>Cart context is not available.</p>
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    if (!cartContext?.cartItems) return;
+    const inCart = cartContext.cartItems.some((item) => {
+      const productId = item.productId;
+      return (
+        productId === id ||
+        productId?._id === id ||
+        (typeof productId === "object" && productId?._id === id)
+      );
+    });
+    if (inCart) setButtonClicked(true);
+  }, [cartContext?.cartItems, id]);
 
-  const TOTAL_CART_ITEMS = "total_card_items";
+  const handleClick = () => {
+    if (!cartContext) return;
 
-  const { setItemsCount, itemsCount, addToCart, cartItems }: any =
-    useContext(CartContext);
-  const handleClick = (id: string) => {
-    addToCart(id);
-    // Save the button state to localStorage whenever it changes
-    localStorage.setItem(`buttonState_${id}`, JSON.stringify(!buttonClicked));
+    cartContext.addToCart({
+      _id: id,
+      name: title,
+      title,
+      price,
+      imageUrl: { url: getImageUrl(src) },
+    });
+    localStorage.setItem(`buttonState_${id}`, JSON.stringify(true));
     setButtonClicked(true);
   };
+
   return (
     <div className={mapModifiers("m-card", buttonClicked && "disabled")}>
-      <div className="m-card__img">
-        <Link href={`product/${id}`}>
-          <Image src={src} alt={alt} width={250} height={250} />
-        </Link>
-      </div>
-      <Heading tag="h5" fontSize="16" alignment="left">
-        {title}
-      </Heading>
-      <Text fontSize="14">{description}</Text>
-      <Text fontSize="16" fontWeight="bold">
-        {price}
-      </Text>
-      <div className="m-card__button">
-        <Button
-          type="primary"
-          onClick={() => handleClick(id)}
-          isDisabled={buttonClicked}
-        >
-          {!buttonClicked ? "Add To Cart" : "Added to cart"}
-        </Button>
+      <Link href={`/product/${id}`}>
+        <div className="m-card__img-wrapper">
+          <Image
+            className="m-card__img"
+            src={src}
+            alt={alt}
+            fill
+            sizes="(max-width: 768px) 50vw, 270px"
+          />
+        </div>
+      </Link>
+      <div className="m-card__body">
+        <p className="m-card__name">{title}</p>
+        <p className="m-card__desc">{description}</p>
+        <p className="m-card__price">{price.toLocaleString()}</p>
+        <div className="m-card__button">
+          <Button type="primary" onClick={handleClick} isDisabled={buttonClicked}>
+            {!buttonClicked ? "Add To Cart" : "Added ✓"}
+          </Button>
+        </div>
       </div>
     </div>
   );
 };
+
+export default Card;

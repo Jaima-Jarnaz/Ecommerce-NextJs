@@ -36,15 +36,15 @@ const Home = ({ products }: any) => {
         <div>
           <Carousel />
           <Section>
-            <Container margin="no-margin">
-              <Heading textTransform="text-transform" tag="h4" fontSize="24">
+            <Container margin="only-bottom">
+              <Heading textTransform tag="h4" fontSize="24">
                 Top Brands
               </Heading>
             </Container>
             <Brands />
           </Section>
           <Container>
-            <Heading textTransform="text-transform" tag="h4" fontSize="24">
+            <Heading textTransform tag="h4" fontSize="24">
               All Products
             </Heading>
           </Container>
@@ -53,7 +53,7 @@ const Home = ({ products }: any) => {
             <Cards productData={products} />
           </Container>
 
-          <Container alignment="center">
+          <Container display="flex">
             <Button type="primary" onClick={browseMoreHandler}>
               Browse more
             </Button>
@@ -61,7 +61,7 @@ const Home = ({ products }: any) => {
 
           <Section>
             <Container margin="only-bottom">
-              <Heading textTransform="text-transform" tag="h4" fontSize="24">
+              <Heading textTransform tag="h4" fontSize="24">
                 Categories
               </Heading>
             </Container>

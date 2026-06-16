@@ -1,36 +1,119 @@
 .m-categories {
-  margin: auto;
-  width: 650px;
-}
-.swiper-slider {
-  position: relative;
-  flex-shrink: unset !important;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48px;
+  gap: 16px;
+  overflow: hidden;
 
-.swiper-slider-img {
-  border-radius: 2rem;
-  object-fit: cover;
-}
-
-@include tab() {
-  .m-categories {
-    width: 100%;
-    max-width: 600px;
-    padding: 0 20px;
+  &__track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 760px;
+    position: relative;
+    height: 280px;
   }
 
-  .swiper-slider-img {
-    border-radius: 1.2rem;
+  &__slide {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
-}
 
-@include sp() {
-  .m-categories {
-    width: 100%;
-    padding: 0 12px;
+  &__img-wrapper {
+    position: relative;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, $color-deep-purple, $color-plum, $color-purple);
+    box-shadow: 0 8px 24px rgba(96, 49, 122, 0.2);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 12px 32px rgba(96, 49, 122, 0.32);
+      transform: translateY(-4px);
+    }
   }
 
-  .swiper-slider-img {
-    border-radius: 0.8rem;
+  &__img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    display: block;
+    border: 3px solid $color-white;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $color-deep-purple;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  &__btn {
+    background: $color-white;
+    border: 1.5px solid $color-plum;
+    font-size: 20px;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    color: $color-deep-purple;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(96, 49, 122, 0.1);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background: $color-light-purple;
+      box-shadow: 0 6px 20px rgba(96, 49, 122, 0.18);
+      transform: scale(1.06);
+    }
+  }
+
+  @include tab() {
+    padding: 0 24px;
+
+    &__track {
+      width: 540px;
+      height: 240px;
+      gap: 16px;
+    }
+
+    &__img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  @include sp() {
+    padding: 0 16px;
+
+    &__track {
+      width: 320px;
+      height: 200px;
+      gap: 14px;
+    }
+
+    &__img {
+      width: 130px;
+      height: 130px;
+    }
+
+    &__btn {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
   }
 }

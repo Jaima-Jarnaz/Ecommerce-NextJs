@@ -7,20 +7,27 @@
     position: relative;
     width: 100%;
     max-width: 100%;
+    padding-top: 90px;
+  }
+
+  &__add-to-card-link {
+    text-decoration: none;
+    color: inherit;
   }
 
   &__add-to-card-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     background-color: $color-purple;
-    top: 55px;
+    top: 90px;
     right: 0;
     width: 70px;
     height: 65px;
-    z-index: $z-index-add-to-card;
+    z-index: $z-index-medium;
     cursor: pointer;
+    box-shadow: -4px 4px 16px rgba(96, 49, 122, 0.2);
   }
 
   &__add-to-card-content {

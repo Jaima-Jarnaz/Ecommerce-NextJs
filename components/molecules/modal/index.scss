@@ -1,7 +1,7 @@
 .m-modal {
   display: block;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   padding-top: 100px;
   padding-left: 100px;
   left: 0;
@@ -9,8 +9,8 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: $color-black;
   background-color: $color-primary-rgba;
+
   &__contents {
     background-color: $color-romance;
     margin: auto;
@@ -29,15 +29,12 @@
     cursor: pointer;
   }
 
-  &__visible {
-    display: none;
-  }
-
   &__comboButtons {
     margin-top: 20px;
   }
 
   &__button {
     margin: 8px;
+    display: inline-block;
   }
 }

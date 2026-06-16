@@ -1,123 +1,201 @@
 .p-cart {
-  padding: 30px;
+  padding: 40px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   &__heading {
-    font-size: 16px;
-    font-weight: bold;
-    color: $color-purple;
-    padding-bottom: 20px;
-  }
-  &__table {
-    border-collapse: collapse;
-    width: 95%;
-    padding: 20px;
-    background-color: $color-white;
-    box-shadow: $color-box-shadow-card;
-  }
-  td img {
-    width: 120px;
-    height: 120px;
-  }
-
-  tr th {
-    width: 100px;
-  }
-
-  th,
-  td {
-    text-align: center;
-    padding: 8px;
-  }
-
-  th {
-    background-color: $color-light-white;
-  }
-
-  tr:nth-child(even) {
-    background-color: $color-light-white;
-  }
-
-  &__coupon-input {
-    padding: 6px;
-    border: 1px solid $color-purple;
-  }
-
-  &__coupon-button {
-    margin-left: 5px;
-    padding: 6px;
-    color: $color-white;
-    background-color: $color-purple;
-    border: none;
-  }
-  &__quantity-btn {
-    padding: 6px 8px;
-    background-color: $color-purple;
-    color: $color-white;
-    border-radius: 4px;
-    font-size: 16px;
-    margin: 8px;
-  }
-
-  &__content {
-    width: 100px;
-  }
-
-  &__bottom-content {
-    margin-top: 20px;
-    width: 93%;
-    padding: 12px;
-    border: 1px solid $color-purple;
-    align-items: end;
+    font-size: 22px;
+    font-weight: 700;
+    color: $color-deep-purple;
+    padding-bottom: 24px;
+    letter-spacing: 0.3px;
     display: flex;
-    flex-direction: column;
-    position: relative;
+    align-items: center;
+    gap: 10px;
 
-    &::before {
+    &::after {
       content: "";
-      width: 70%;
+      flex: 1;
       height: 1px;
-      background-color: $color-purple;
-      position: absolute;
-      bottom: 40px;
+      background: linear-gradient(90deg, $color-plum, transparent);
+      border-radius: 2px;
     }
   }
 
-  &__price-contents {
-    font-size: 16px;
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: $color-white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(96, 49, 122, 0.08);
+    border: 1px solid rgba(205, 174, 224, 0.2);
   }
+
+  td img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(205, 174, 224, 0.3);
+  }
+
+  tr th {
+    width: auto;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 14px 16px;
+  }
+
+  th {
+    background: linear-gradient(135deg, #f8f4fc, #ede5f7);
+    color: $color-deep-purple;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(205, 174, 224, 0.3);
+  }
+
+  tr:not(:first-child):hover td {
+    background-color: #faf7fd;
+  }
+
+  tr td {
+    border-bottom: 1px solid rgba(205, 174, 224, 0.15);
+    font-size: 14px;
+    color: $color-gray;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  &__coupon-input {
+    padding: 8px 12px;
+    border: 1.5px solid $color-plum;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $color-purple;
+    }
+  }
+
+  &__coupon-button {
+    margin-left: 8px;
+    padding: 8px 16px;
+    color: $color-white;
+    background: linear-gradient(135deg, $color-deep-purple, $color-purple);
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.88;
+    }
+  }
+
+  &__quantity-btn {
+    padding: 5px 12px;
+    background: linear-gradient(135deg, $color-deep-purple, $color-purple);
+    color: $color-white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 4px;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    line-height: 1;
+
+    &:hover {
+      opacity: 0.88;
+      transform: scale(1.08);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__content {
+    min-width: 80px;
+  }
+
+  &__bottom-content {
+    margin-top: 24px;
+    padding: 24px 28px;
+    background: $color-white;
+    border-radius: 16px;
+    border: 1px solid rgba(205, 174, 224, 0.25);
+    box-shadow: 0 4px 24px rgba(96, 49, 122, 0.07);
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__price-contents {
+    font-size: 15px;
+    width: 100%;
+    max-width: 340px;
+  }
+
   &__price-contents-item {
     display: flex;
     gap: 20px;
-    min-width: 240px;
     justify-content: space-between;
-    padding: 4px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(205, 174, 224, 0.3);
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   &__price-contents-item-title {
     flex: 1;
+    color: $color-gray;
   }
 
   &__total-cost-level,
   &__total-cost {
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
+    color: $color-deep-purple;
   }
 
   &__button-container {
-    margin-top: 30px;
-    width: 93%;
-    padding: 18px;
-    background-color: $color-light-white;
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #f8f4fc, #ede5f7);
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(205, 174, 224, 0.2);
   }
 
   &__double-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-shrink: 0;
   }
+
   &__promo-code {
-    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   &__empty-cart-container {
@@ -125,30 +203,64 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    padding: 60px 20px;
+    background: $color-white;
+    border-radius: 20px;
+    border: 1px dashed rgba(205, 174, 224, 0.4);
+
+    svg {
+      opacity: 0.4;
+    }
   }
 
   &__cart-empty-text {
     font-size: 18px;
     font-weight: 500;
     color: $color-monsoon;
-    padding-bottom: 30px;
+    padding-bottom: 8px;
   }
+
   &__unit-price {
-    position: relative;
+    font-weight: 600;
+    color: $color-deep-purple;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+    overflow: visible;
+    vertical-align: middle;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
+
   &__close-icon {
-    display: inline-block;
-    font-size: 30px;
-    color: red;
-    position: absolute;
-    top: 52px;
-    right: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    font-size: 13px;
+    line-height: 1;
+    color: $color-white;
+    background: $color-pure-red;
+    border-radius: 50%;
     cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 4px;
+    padding-top: 1px;
+    transition: background 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+      background: #c41f1f;
+      transform: scale(1.08);
+    }
   }
 
   @include tab() {
-    padding: 20px;
+    padding: 24px 20px;
 
     &__table {
       display: block;
@@ -158,69 +270,142 @@
 
     &__bottom-content,
     &__button-container {
-      width: 100%;
+      max-width: 100%;
     }
 
     &__button-container {
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       align-items: stretch;
+      padding: 18px 20px;
+
+      .a-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     &__double-buttons {
       flex-direction: column;
+      flex-shrink: unset;
+      width: 100%;
+      gap: 10px;
+
+      .a-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     &__promo-code {
-      margin-right: 0;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    &__coupon-input {
+      flex: 1;
+      min-width: 0;
     }
   }
 
   @include sp() {
-    padding: 12px;
+    padding: 14px 12px;
 
     &__heading {
-      font-size: 15px;
+      font-size: 18px;
+      padding-bottom: 14px;
     }
 
     &__table {
-      width: 100%;
-      font-size: 13px;
+      font-size: 12px;
+      border-radius: 12px;
+    }
+
+    th, td {
+      padding: 10px 8px;
     }
 
     td img {
-      width: 70px;
-      height: 70px;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
     }
 
-    tr th {
-      width: auto;
-      min-width: 60px;
+    &__bottom-content {
+      padding: 14px 16px;
+      border-radius: 12px;
     }
 
-    &__bottom-content::before {
-      width: 100%;
-    }
-
-    &__price-contents-item {
-      min-width: unset;
-      width: 100%;
+    &__price-contents {
+      max-width: 100%;
     }
 
     &__button-container {
-      padding: 12px;
+      border-radius: 12px;
+      padding: 14px 16px;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+
+      .a-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
-    &__close-icon {
-      top: 8px;
-      right: 8px;
-      font-size: 22px;
+    &__double-buttons {
+      flex-direction: column;
+      flex-shrink: unset;
+      width: 100%;
+      gap: 10px;
+
+      .a-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     &__quantity-btn {
-      padding: 4px 6px;
+      padding: 4px 10px;
       font-size: 14px;
-      margin: 4px;
+      margin: 2px;
+    }
+
+    &__unit-price {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      white-space: normal;
+    }
+
+    &__close-icon {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      font-size: 12px;
+      margin-top: 0;
+    }
+
+    &__coupon-input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    &__coupon-button {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 6px;
+    }
+
+    &__promo-code {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 6px;
     }
   }
 }

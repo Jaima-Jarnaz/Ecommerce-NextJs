@@ -93,37 +93,31 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const addToCart = (productToAdd: any) => {
     setItemsCount(itemsCount + 1);
     const existingCartItem = cartItems.find(
-      (item) => item.productId === productToAdd._id
+      (item) =>
+        (typeof item.productId === "string"
+          ? item.productId
+          : item.productId?._id) === productToAdd._id
     );
 
     if (existingCartItem) {
-      // If the product is already in the cart, update its quantity
-      updateCartItemQuantity(
-        existingCartItem.productId,
-        existingCartItem.quantity + 1
-      );
+      updateCartItemQuantity(productToAdd._id, existingCartItem.quantity + 1);
     } else {
-      // If the product is not in the cart, add it as a new item
       setCartItems([...cartItems, { productId: productToAdd, quantity: 1 }]);
     }
   };
 
-  // Function to update the quantity of a cart item
   const updateCartItemQuantity = (productId: string, quantity: number) => {
-    console.log("productId context", productId, quantity, "quantity");
-
     if (quantity < 0) {
       quantity = 0;
     }
 
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) => {
-        console.log("productId", productId, "quantity", quantity);
-        console.log(
-          "data",
-          item.productId === productId ? { ...item, quantity } : item
-        );
-        return item.productId === productId ? { ...item, quantity } : item;
+        const itemId =
+          typeof item.productId === "string"
+            ? item.productId
+            : item.productId?._id;
+        return itemId === productId ? { ...item, quantity } : item;
       })
     );
   };

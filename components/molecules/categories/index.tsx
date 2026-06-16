@@ -1,59 +1,75 @@
 import Image from "next/image";
 import { IMAGES } from "@settings/settings";
-import React from "react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper";
+const Categories = () => {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % IMAGES.length);
+    }, 2500);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
 
-// import required modules
-import { EffectCoverflow } from "swiper";
+  const prev = () =>
+    setCurrent((c) => (c - 1 + IMAGES.length) % IMAGES.length);
+  const next = () => setCurrent((c) => (c + 1) % IMAGES.length);
 
-const Categories: any = () => {
+  const getVisible = () => {
+    const result = [];
+    for (let i = -1; i <= 1; i++) {
+      const idx = (current + i + IMAGES.length) % IMAGES.length;
+      result.push({ ...IMAGES[idx], idx, offset: i });
+    }
+    return result;
+  };
+
   return (
     <div className="m-categories">
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        loop={true}
-        slidesPerView={"auto"}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 200,
-          modifier: 1,
-        }}
-        pagination={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        modules={[EffectCoverflow, Autoplay]}
-        className="swiper-container"
+      <button
+        type="button"
+        className="m-categories__btn m-categories__btn--prev"
+        onClick={prev}
+        aria-label="Previous"
       >
-        {IMAGES.map((item, index) => {
-          return (
-            <SwiperSlide className="swiper-slider" key={index}>
-              <Link href="#">
-                <Image
-                  src={item.img}
-                  className="swiper-slider-img"
-                  alt="images"
-                  width={220}
-                  height={220}
-                />
-              </Link>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+        &#8249;
+      </button>
+      <div className="m-categories__track">
+        {getVisible().map((item, i) => (
+          <div
+            key={i}
+            className={`m-categories__slide${item.offset === 0 ? " m-categories__slide--active" : ""}`}
+            style={{
+              transform: `scale(${item.offset === 0 ? 1.1 : 0.85}) translateX(${item.offset * 30}px)`,
+              zIndex: item.offset === 0 ? 2 : 1,
+              opacity: item.offset === 0 ? 1 : 0.7,
+            }}
+          >
+            <Link href="#">
+              <Image
+                src={item.img}
+                className="m-categories__img"
+                alt={item.title}
+                width={220}
+                height={220}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        className="m-categories__btn m-categories__btn--next"
+        onClick={next}
+        aria-label="Next"
+      >
+        &#8250;
+      </button>
     </div>
   );
 };

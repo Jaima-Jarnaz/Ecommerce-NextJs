@@ -1,32 +1,52 @@
 .m-banner-container {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
+
   &__img {
-    border-radius: 4px;
+    border-radius: 16px;
     width: 100%;
     height: auto;
+    display: block;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+    }
   }
+
   &__left-banner {
-    // width: 50%;
+    flex: 1.2;
+    min-width: 0;
   }
+
   &__right-banners,
   .m-banner__right-banners {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
   }
 
   @include tab() {
     flex-direction: column;
     align-items: center;
     padding: 0 20px;
+    gap: 16px;
 
     &__left-banner,
     &__right-banners,
     .m-banner__right-banners {
       width: 100%;
       max-width: 600px;
+    }
+
+    &__right-banners,
+    .m-banner__right-banners {
+      flex-direction: row;
     }
   }
 
@@ -38,6 +58,15 @@
     &__right-banners,
     .m-banner__right-banners {
       max-width: 100%;
+    }
+
+    &__right-banners,
+    .m-banner__right-banners {
+      flex-direction: column;
+    }
+
+    &__img:hover {
+      transform: none;
     }
   }
 }

@@ -1,0 +1,45 @@
+.p-filters {
+  display: flex;
+  padding: 30px;
+  gap: 40px;
+  &__filter-nav {
+    width: 25%;
+  }
+  .m-brand-filter {
+    margin-top: 20px;
+  }
+
+  @media only screen and (max-width: 1056px) {
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
+
+    &__filter-nav {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .m-price-range,
+      .m-brand-filter {
+        flex: 1;
+        min-width: 220px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 12px;
+    gap: 16px;
+
+    &__filter-nav {
+      flex-direction: column;
+
+      .m-price-range,
+      .m-brand-filter {
+        min-width: unset;
+        width: 100%;
+      }
+    }
+  }
+}

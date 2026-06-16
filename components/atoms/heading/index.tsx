@@ -2,35 +2,32 @@ import React from "react";
 import { mapModifiers } from "helpers/libs/utils";
 
 export interface HeadingProps {
-  tag: "h1" | "h2" | "h3" | "h4" | "h5";
+  tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   fontSize?: "28" | "24" | "20" | "16";
   children: React.ReactNode;
-  alignment?: "left";
-  textTransform?: "text-transform";
+  alignment?: "left" | "center";
+  textTransform?: boolean | "text-transform";
+  className?: string;
 }
 
 const Heading: React.FC<HeadingProps> = ({
-  tag,
+  tag: Tag = "h2",
   children,
   fontSize,
   alignment,
   textTransform,
+  className,
 }) => {
-  const classes = mapModifiers("a-heading", fontSize, alignment, textTransform);
-  switch (tag) {
-    case "h1":
-      return <h1 className={classes}>{children}</h1>;
-    case "h2":
-      return <h2 className={classes}>{children}</h2>;
-    case "h3":
-      return <h3 className={classes}>{children}</h3>;
-    case "h4":
-      return <h4 className={classes}>{children}</h4>;
-    case "h5":
-      return <h5 className={classes}>{children}</h5>;
-    default:
-      return <div className={classes}>{children}</div>;
-  }
+  const classes = `${mapModifiers(
+    "a-heading",
+    fontSize,
+    alignment,
+    textTransform === true || textTransform === "text-transform"
+      ? "text-transform"
+      : undefined
+  )} ${className || ""}`.trim();
+
+  return <Tag className={classes}>{children}</Tag>;
 };
 
 export default Heading;

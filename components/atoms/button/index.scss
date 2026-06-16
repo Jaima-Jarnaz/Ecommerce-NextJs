@@ -1,39 +1,49 @@
 .a-button {
   border: none;
-  background: $color-deep-purple;
+  background: linear-gradient(135deg, $color-deep-purple, $color-purple);
   color: $color-white;
-  border-radius: 3px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 10px;
+  padding: 10px 20px;
+  overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 
   &--primary {
-    height: 40px;
+    height: 44px;
+    padding: 0 24px;
   }
 
   &--small {
-    height: 30px;
-    font-size: 14px;
-    padding: 0 12px;
+    height: 34px;
+    font-size: 13px;
+    padding: 0 14px;
+    border-radius: 8px;
   }
 
-  &::before {
-    position: absolute;
-    content: "";
-    right: 0;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background-color: $color-button-hover;
-    transition: transform 0.2s ease-in-out;
-    transform: scaleY(0);
-    transform-origin: bottom;
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(96, 49, 122, 0.35);
   }
-  &:hover::before {
-    transform: scaleY(1);
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #9b8aaa, #a87ec0);
   }
 }

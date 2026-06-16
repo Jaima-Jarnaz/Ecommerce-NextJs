@@ -20,6 +20,7 @@
   &__action {
     cursor: pointer;
     margin: 3px;
+    display: inline-block;
   }
 
   @include tab() {

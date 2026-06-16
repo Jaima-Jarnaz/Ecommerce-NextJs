@@ -1,87 +1,73 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import banner2 from "@/assets/banner-2.jpg";
 import banner3 from "@/assets/banner.png";
-import { useEffect } from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
-// Import Swiper styles
-import 'swiper/css';
-import { Autoplay, Pagination, Navigation } from "swiper";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import { useEffect, useRef, useState } from "react";
 
-
+const slides: StaticImageData[] = [banner2, banner3];
 
 const Carousel = () => {
-  // let imgIndex = 1;
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // const slideIndex = (n: number) => {
-  //   showSlides((imgIndex += n));
-  // };
+  const goTo = (idx: number) => {
+    setCurrent((idx + slides.length) % slides.length);
+  };
 
-  // const showSlides = (index: number) => {
-  //   const slide: NodeListOf<HTMLDivElement> = document.querySelectorAll(
-  //     ".o-carousel__slides"
-  //   );
-  //   if (index > slide.length) {
-  //     imgIndex = 1;
-  //   }
-
-  //   if (index < 1) {
-  //     imgIndex = slide.length;
-  //   }
-
-  //   console.log(slide);
-
-  //   for (let i = 0; i < slide.length; i++) {
-  //     slide[i].style.display = "none";
-  //   }
-
-  //   slide[imgIndex - 1].style.display = "block";
-  // };
-
-  // useEffect(() => {
-  //   showSlides(imgIndex);
-  // });
+  useEffect(() => {
+    timerRef.current = setTimeout(() => goTo(current + 1), 2500);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [current]);
 
   return (
-    // <div className="o-carousel">
-    //   <div className="o-carousel__slides">
-    //     <Image alt="product" src={banner3} className="o-carousel__image" />
-    //   </div>
-
-    //   <div className="o-carousel__slides">
-    //     <Image alt="product" src={banner2} className="o-carousel__image" />
-    //   </div>
-
-    //   <div className="o-carousel__slides">
-    //     <Image alt="product" src={banner3} className="o-carousel__image" />
-    //   </div>
-
-    //   <button
-    //     onClick={() => {
-    //       slideIndex(1);
-    //     }}
-    //   >
-    //     click
-    //   </button>
-    // </div>
-    <Swiper
-    spaceBetween={30}
-    centeredSlides={true}
-    autoplay={{
-      delay: 2500,
-      disableOnInteraction: false,
-    }}
-    pagination={{
-      clickable: true,
-    }}
-    navigation={true}
-    modules={[Autoplay, Pagination, Navigation]}
-    className="mySwiper"
-    >
-      <SwiperSlide> <Image alt="product" src={banner2}  className="o-carousel__image"/></SwiperSlide>
-      <SwiperSlide><Image alt="product" className="o-carousel__image" src={banner3}  /></SwiperSlide>
-    </Swiper>
+    <div className="o-carousel">
+      <div
+        className="o-carousel__track"
+        style={{ transform: `translateX(-${current * 100}%)` }}
+      >
+        {slides.map((src, i) => (
+          <Image
+            key={i}
+            src={src}
+            alt={`slide-${i}`}
+            className="o-carousel__image"
+            priority={i === 0}
+          />
+        ))}
+      </div>
+      <button
+        type="button"
+        className="o-carousel__btn o-carousel__btn--prev"
+        onClick={() => goTo(current - 1)}
+        aria-label="Previous"
+      >
+        &#8249;
+      </button>
+      <button
+        type="button"
+        className="o-carousel__btn o-carousel__btn--next"
+        onClick={() => goTo(current + 1)}
+        aria-label="Next"
+      >
+        &#8250;
+      </button>
+      <div className="o-carousel__dots">
+        {slides.map((_, i) => (
+          <span
+            key={i}
+            role="button"
+            tabIndex={0}
+            className={`o-carousel__dot${i === current ? " o-carousel__dot--active" : ""}`}
+            onClick={() => goTo(i)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") goTo(i);
+            }}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

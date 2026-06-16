@@ -15,13 +15,6 @@
     outline: none;
     border: none;
     background: none;
-
-    &:focus {
-      #{$root}__content {
-        width: 350px;
-        border: 1px solid $color-plum;
-      }
-    }
   }
 
   &__icon {
@@ -35,12 +28,6 @@
     &__content {
       width: 100%;
       max-width: 400px;
-    }
-
-    &__input:focus {
-      #{$root}__content {
-        width: 100%;
-      }
     }
   }
 

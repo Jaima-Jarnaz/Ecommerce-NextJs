@@ -1,21 +1,19 @@
 import Link from "next/link";
 import { mapModifiers } from "../../../helpers/libs/utils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import Icon from "@/components/atoms/icon";
+import { CartContext } from "../../../contexts/card/cardContext";
 
 const Header = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartContext = useContext(CartContext);
+  const itemsCount = cartContext?.itemsCount ?? 0;
 
   useEffect(() => {
     const token = getCookie("access_token");
-
-    if (token) {
-      setUserLoggedIn(true);
-    } else {
-      setUserLoggedIn(false);
-    }
+    setUserLoggedIn(!!token);
   }, []);
 
   const signOutHandler = async () => {
@@ -40,7 +38,7 @@ const Header = () => {
     <header className={mapModifiers("o-header", menuOpen && "menu-open")}>
       <nav className="o-header__navbar">
         <Link className="o-header__brand" href="/" onClick={closeMenu}>
-          Fashionava
+          Fashionova
         </Link>
         <button
           type="button"
@@ -70,26 +68,15 @@ const Header = () => {
               </Link>
             </li>
             <li className="o-header__navItem">
-              <Link
-                href="/categories"
-                className="o-header__navLink"
-                onClick={closeMenu}
-              >
-                Categories
-              </Link>
-            </li>
-            <li className="o-header__navItem">
               <Link href="/cart" className="o-header__navLink" onClick={closeMenu}>
-                Cart
+                Cart{itemsCount > 0 ? ` (${itemsCount})` : ""}
               </Link>
             </li>
-
             <li className="o-header__navItem">
               <Link href="/admin" className="o-header__navLink" onClick={closeMenu}>
                 Admin
               </Link>
             </li>
-
             <li className="o-header__navItem">
               {!userLoggedIn ? (
                 <Link
@@ -105,10 +92,9 @@ const Header = () => {
                 </span>
               )}
             </li>
-
             <li className="o-header__navItem">
               <div className="o-header__profile-icon">
-                <Icon iconName="profile"></Icon>
+                <Icon iconName="profile" />
               </div>
             </li>
           </ul>

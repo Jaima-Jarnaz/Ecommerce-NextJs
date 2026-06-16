@@ -67,10 +67,10 @@
     display: flex;
     align-items: flex-end;
     justify-content: right;
+    margin-top: 20px;
 
     button {
       width: 300px;
-      background-color: $color-error-red;
     }
   }
 
@@ -102,10 +102,6 @@
     &__orders,
     &__bottom-content {
       padding: 12px;
-    }
-
-    &__products-content {
-      padding: 10px 12px 16px;
     }
 
     &__payment-wrapper {

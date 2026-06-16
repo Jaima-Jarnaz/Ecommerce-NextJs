@@ -1,58 +1,84 @@
 import Image from "next/image";
 import { IMAGES_BRANDS } from "@settings/settings";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper";
+const Brands = () => {
+  const [offset, setOffset] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
+  const visibleCount = 4;
+  const total = IMAGES_BRANDS.length;
 
-const Brands: any = () => {
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setOffset((prev) => (prev + 1) % total);
+    }, 2500);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [total]);
+
+  const prev = () => setOffset((o) => (o - 1 + total) % total);
+  const next = () => setOffset((o) => (o + 1) % total);
+
+  const getVisible = () => {
+    const items = [];
+    for (let i = 0; i < visibleCount; i++) {
+      items.push(IMAGES_BRANDS[(offset + i) % total]);
+    }
+    return items;
+  };
+
   return (
     <div className="m-brands">
-      <Swiper
-        grabCursor={true}
-        centeredSlides={true}
-        loop={true}
-        autoplay
-        slidesPerView={2}
-        spaceBetween={30}
-        breakpoints={{
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 50,
-          },
-          1056: {
-            slidesPerView: 4,
-            spaceBetween: 80,
-          },
-        }}
-        navigation={true}
-        modules={[Autoplay, Navigation]}
-        className="swiper-container"
+      <button
+        type="button"
+        className="m-brands__btn m-brands__btn--prev"
+        onClick={prev}
+        aria-label="Previous"
       >
-        {IMAGES_BRANDS.map((item, index) => {
-          return (
-            <SwiperSlide className="swiper-slider" key={index}>
-              <div style={{ width: "240px" }}>
-                <Link href="#">
-                  <Image
-                    src={item.img}
-                    className="swiper-slider-img"
-                    alt="images"
-                    width={220}
-                    height={175}
-                  />
-                </Link>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+        &#8249;
+      </button>
+      <div className="m-brands__track">
+        {getVisible().map((item, index) => (
+          <div className="m-brands__slide" key={index}>
+            <Link href="#">
+              <Image
+                src={item.img}
+                className="m-brands__img"
+                alt={item.alt}
+                width={220}
+                height={175}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        className="m-brands__btn m-brands__btn--next"
+        onClick={next}
+        aria-label="Next"
+      >
+        &#8250;
+      </button>
+
+      <div className="m-brands__mobile-grid">
+        {IMAGES_BRANDS.map((item, index) => (
+          <div className="m-brands__slide" key={index}>
+            <Link href="#">
+              <Image
+                src={item.img}
+                className="m-brands__img"
+                alt={item.alt}
+                width={120}
+                height={80}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
